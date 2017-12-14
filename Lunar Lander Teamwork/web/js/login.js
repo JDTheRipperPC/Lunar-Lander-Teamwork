@@ -5,15 +5,60 @@
  */
 
 
-$(document).ready(function(){
-    $("#btnSignIn").click(function(){
-        signInUser();
+$(document).ready(function () {
+    $("#btnSignIn").click(function () {
+        if (checkSignInFields()) {
+            signInUser();
+        }
     });
-    
-    $("#btnSignUp").click(function(){
-        signUpUser();
+
+    $("#btnSignUp").click(function () {
+        if (checkSignUpFields()) {
+            signUpUser();
+        }
     });
 });
+
+function checkSignInFields() {
+    if ($("#inpUserName").val() === "") {
+        alert("Insert a UserName");
+        $("#inpUserName").focus();
+        return false;
+    }
+
+    if ($("#inpPass").val() === "") {
+        alert("Insert a Password");
+        $("#inpPass").focus();
+        return false;
+    }
+    return true;
+}
+
+function checkSignUpFields() {
+    if ($("#inpUserName").val() === "") {
+        alert("Insert a UserName");
+        $("#inpUserName").focus();
+        return false;
+    }
+
+    if ($("#inpPass").val() === "") {
+        alert("Insert a Password");
+        $("#inpPass").focus();
+        return false;
+    }
+    if ($("#inpName").val() === "") {
+        alert("Insert a Name");
+        $("#inpName").focus();
+        return false;
+    }
+
+    if ($("#inpEmail").val() === "") {
+        alert("Insert a Email");
+        $("#inpEmail").focus();
+        return false;
+    }
+    return true;
+}
 
 /**
  * Sign up for the user
@@ -22,7 +67,7 @@ $(document).ready(function(){
  * 
  * @returns {undefined}
  */
-function signInUser(){
+function signInUser() {
     var url = "loginServlet";
     var u = $("#inpUserName").val();
     var p = $("#inpPass").val();
@@ -50,7 +95,7 @@ function signInUser(){
  * 
  * @returns {undefined}
  */
-function signUpUser(){
+function signUpUser() {
     var url = "createUserServlet";
     var u = $("#inpUserName").val();
     var n = $("#inpName").val();
