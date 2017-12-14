@@ -1,0 +1,9 @@
+body,html{height:100%;padding:0px;margin:0px;}
+.a{background-color:#00bcd4;width:100%;height:90px;overflow:hidden;position:fixed;top:0px}
+.b{background-color:red;width:100%;height:100%;overflow:hidden;}
+.c{background-color:#cddc39;position:fixed;top:0px;bottom:0px;left:0px;right:0px;display:none;z-index:1}
+.d{background-color:pink;position:fixed;bottom:0px;height:10%;width:100%;}
+#nave{text-align:center;position:fixed;top:10%;width:100%;height:20%}
+#nave img{height:100%;}
+#cpanel{}
+#hidem,#showm{float:right}
