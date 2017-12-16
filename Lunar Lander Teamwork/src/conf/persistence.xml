@@ -8,10 +8,6 @@
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <non-jta-data-source>java:/comp/env/jdbc/MysqlDB</non-jta-data-source>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/lunarlander"/>
-      <property name="javax.persistence.jdbc.user" value="backend"/>
-      <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-      <property name="javax.persistence.jdbc.password" value="qwerty"/>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>
   </persistence-unit>
