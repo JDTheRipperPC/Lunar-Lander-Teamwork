@@ -12,20 +12,40 @@ and open the template in the editor.
         <!--Jquery-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="js/login.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/login.css" />
     </head>
     <body>
-        <h4>Username</h4>
-        <input id="inpUserName" type="text"/>
-        <h4>Password</h4>
-        <input id="inpPass" type="password"/>
-        <h4>Name</h4>
-        <input id="inpName" type="text"/>
-        <h4>E-mail</h4>
-        <input id="inpEmail" type="email"/>
-        <br>
-        <br>
-        <button id="btnSignIn" type="button">SING IN</button>
-        <button id="btnSignUp" type="button">SIGN UP</button>
+        <!-- Login div -->
+        <div id="log_div" class="text-center">
+            <label for="log_inpUserName">USERNAME</label>
+            <input id="log_inpUserName" class="form-control" type="text"/>
+            <label for="log_inpPass">PASSWORD</label>
+            <input id="log_inpPass" class="form-control" type="password"/>
+            <br>
+            <div class="divButtons">
+                <button id="log_btnSignIn" class="btn btn-success" type="button">SING IN</button>
+                <button id="log_btnSignUp" class="btn btn-success" type="button">SIGN UP</button>
+            </div>
+        </div>
+        <!-- Register div -->
+        <div id="reg_div" class="text-center">
+            <label for="reg_inpUserName">USERNAME</label>
+            <input id="reg_inpUserName" class="form-control" type="text"/>
+            <label for="reg_inpPass">PASSWORD</label>
+            <input id="reg_inpPass" class="form-control" type="password"/>
+            <label for="reg_inpPass2">REPEAT PASSWORD</label>
+            <input id="reg_inpPass2" class="form-control" type="password"/>
+            <label for="reg_inpName">NAME</label>
+            <input id="reg_inpName" class="form-control" type="text"/>
+            <label for="reg_inpEmail">E-MAIL</label>
+            <input id="reg_inpEmail" class="form-control" type="email"/>
+            <br>
+            <div class="divButtons">
+                <button id="reg_btnSignUp" class="btn btn-success" type="button">SING IN</button>
+                <button id="reg_btnGoBack" class="btn btn-success" type="button">GO BACK</button>
+            </div>
+        </div>
     </body>
 </html>

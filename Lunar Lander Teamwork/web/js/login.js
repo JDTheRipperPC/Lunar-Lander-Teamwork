@@ -6,55 +6,80 @@
 
 
 $(document).ready(function () {
-    $("#btnSignIn").click(function () {
+    $("#log_btnSignIn").click(function () {
         if (checkSignInFields()) {
             signInUser();
         }
     });
 
-    $("#btnSignUp").click(function () {
+    $("#log_btnSignUp").click(function () {
+        $("#reg_div").fadeIn(700);
+        $("#log_div").fadeOut(700);
+    });
+
+    $("#reg_btnSignUp").click(function () {
         if (checkSignUpFields()) {
             signUpUser();
         }
     });
+
+    $("#reg_btnGoBack").click(function () {
+        $("#reg_div").fadeOut(700);
+        $("#log_div").fadeIn(700);
+    });
 });
 
+/**
+ * Check values of the sign Up fields before send any information
+ * @returns {Boolean}
+ */
 function checkSignInFields() {
-    if ($("#inpUserName").val() === "") {
+    if ($("#log_inpUserName").val() === "") {
         alert("Insert a UserName");
-        $("#inpUserName").focus();
+        $("#log_inpUserName").focus();
         return false;
     }
 
-    if ($("#inpPass").val() === "") {
+    if ($("#log_inpPass").val() === "") {
         alert("Insert a Password");
-        $("#inpPass").focus();
+        $("#log_inpPass").focus();
         return false;
     }
     return true;
 }
 
+/**
+ * Check values of the sign Up fields before send any information
+ * @returns {Boolean}
+ */
 function checkSignUpFields() {
-    if ($("#inpUserName").val() === "") {
+    if ($("#reg_inpUserName").val() === "") {
         alert("Insert a UserName");
-        $("#inpUserName").focus();
+        $("#reg_inpUserName").focus();
         return false;
     }
 
-    if ($("#inpPass").val() === "") {
+    if ($("#reg_inpPass").val() === "") {
         alert("Insert a Password");
-        $("#inpPass").focus();
-        return false;
-    }
-    if ($("#inpName").val() === "") {
-        alert("Insert a Name");
-        $("#inpName").focus();
+        $("#reg_inpPass").focus();
         return false;
     }
 
-    if ($("#inpEmail").val() === "") {
-        alert("Insert a Email");
-        $("#inpEmail").focus();
+    if ($("#reg_inpPass2").val() === "") {
+        alert("Repeat your password");
+        $("#reg_inpPass2").focus();
+        return false;
+    }
+
+    if ($("#reg_inpName").val() === "") {
+        alert("Insert a Name");
+        $("#reg_inpName").focus();
+        return false;
+    }
+
+    if ($("#reg_inpEmail").val() === "") {
+        alert("Insert an Email");
+        $("#reg_inpEmail").focus();
         return false;
     }
     return true;
@@ -69,8 +94,9 @@ function checkSignUpFields() {
  */
 function signInUser() {
     var url = "loginServlet";
-    var u = $("#inpUserName").val();
-    var p = $("#inpPass").val();
+    var u = $("#log_inpUserName").val();
+    var p = $("#log_inpPass").val();
+    alert(u+p);
     $.ajax({
         method: "POST",
         url: url,
@@ -97,10 +123,10 @@ function signInUser() {
  */
 function signUpUser() {
     var url = "createUserServlet";
-    var u = $("#inpUserName").val();
-    var n = $("#inpName").val();
-    var p = $("#inpPass").val();
-    var e = $("#inpEmail").val();
+    var u = $("#reg_inpUserName").val();
+    var n = $("#reg_inpName").val();
+    var p = $("#reg_inpPass").val();
+    var e = $("#reg_inpEmail").val();
     $.ajax({
         method: "POST",
         url: url,
