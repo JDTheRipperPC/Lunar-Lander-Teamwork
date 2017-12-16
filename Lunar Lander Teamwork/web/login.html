@@ -14,15 +14,17 @@ and open the template in the editor.
         <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="js/login.js"></script>
+        <script src="js/jquery.toast.min.js"></script>
         <link rel="stylesheet" type="text/css" href="css/login.css" />
+        <link rel="stylesheet" type="text/css" href="css/jquery.toast.min.css" />
     </head>
     <body>
         <!-- Login div -->
         <div id="log_div" class="text-center">
             <label for="log_inpUserName">USERNAME</label>
-            <input id="log_inpUserName" class="form-control" type="text"/>
+            <input id="log_inpUserName" class="form-control" type="text" placeholder="Choose your username"/>
             <label for="log_inpPass">PASSWORD</label>
-            <input id="log_inpPass" class="form-control" type="password"/>
+            <input id="log_inpPass" class="form-control pass" type="password" data-toggle="password" placeholder="Choose your password"/>
             <br>
             <div class="divButtons">
                 <button id="log_btnSignIn" class="btn btn-success" type="button">SING IN</button>
@@ -32,15 +34,15 @@ and open the template in the editor.
         <!-- Register div -->
         <div id="reg_div" class="text-center">
             <label for="reg_inpUserName">USERNAME</label>
-            <input id="reg_inpUserName" class="form-control" type="text"/>
+            <input id="reg_inpUserName" class="form-control" type="text" placeholder="Choose your username"/>
             <label for="reg_inpPass">PASSWORD</label>
-            <input id="reg_inpPass" class="form-control" type="password"/>
+            <input id="reg_inpPass" class="form-control pass" type="password" data-toggle="password" placeholder="Choose your password"/>
             <label for="reg_inpPass2">REPEAT PASSWORD</label>
-            <input id="reg_inpPass2" class="form-control" type="password"/>
+            <input id="reg_inpPass2" class="form-control pass" type="password" data-toggle="password" placeholder="Repeat your username"/>
             <label for="reg_inpName">NAME</label>
-            <input id="reg_inpName" class="form-control" type="text"/>
+            <input id="reg_inpName" class="form-control" type="text" placeholder="What is your name?"/>
             <label for="reg_inpEmail">E-MAIL</label>
-            <input id="reg_inpEmail" class="form-control" type="email"/>
+            <input id="reg_inpEmail" class="form-control" type="email" placeholder="Which is your E-Mail?"/>
             <br>
             <div class="divButtons">
                 <button id="reg_btnSignUp" class="btn btn-success" type="button">SING UP</button>

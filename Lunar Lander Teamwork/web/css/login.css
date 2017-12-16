@@ -42,6 +42,8 @@ label {
 input {
     margin-left: 10% !important;
     width: 80% !important;
+    text-align: center !important;
+    border-radius: 10px;
 }
 
 #reg_div {
@@ -60,5 +62,3 @@ button{
     margin: 3%;
     width: 40%;
 }
-
-
