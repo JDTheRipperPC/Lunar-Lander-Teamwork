@@ -1,0 +1,111 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 15-dic-2017, 20:00:49
+    Author     : admin
+*/
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: url(../img/space.jpg) no-repeat center center fixed;
+    font-family: 'Orbitron', sans-serif;
+}
+
+#titleBack {
+    position: absolute;
+    left: 550px;
+    width: calc(100% - 550px);
+    height: 100%; 
+    text-align:center; 
+    display:table;
+}
+
+#titleBack h1 {
+    color: white;
+    font-size: 7vw;
+    display:table-cell;
+    vertical-align:middle}
+
+label {
+    color: white;
+    margin-top: 2vh;
+    padding: 0;
+    font-size: 4vh;
+}
+
+#log_div, #reg_div {
+    position: absolute;
+    height: 100%;
+    width: 550px;
+    left:0;
+    background-color: rgba(50, 70, 151, 0.5);  /* blue with opacity */
+    border-right: 3px solid white;
+}
+
+input {
+    margin-left: 10% !important;
+    width: 80% !important;
+    text-align: center !important;
+    border-radius: 15px;
+}
+
+#reg_div {
+    display: none;
+}
+
+.divButtons {
+    width: 550px;
+    left: 0;
+    position: absolute;
+    bottom: 3vh !important;
+}
+
+button{
+    padding: 2vh !important;
+    margin: 3%;
+    width: 40%;
+}
+
+
+/************************************************
+VERTICAL
+*************************************************/
+@media screen and (max-width: 750px){
+
+    #titleBack {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 100%; 
+        text-align:center; 
+        display:table;
+        opacity: 0.2;
+    }
+
+
+    #log_div, #reg_div {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        left:0;
+        background-color: rgba(50, 70, 151, 0.5);  /* blue with opacity */
+        border-right: 0px solid;
+    }
+
+    .divButtons {
+        width: 100%;;
+        position: absolute;
+        left: 0;
+        bottom: 2vw;
+    }
+
+}
