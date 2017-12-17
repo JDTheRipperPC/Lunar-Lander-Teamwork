@@ -57,9 +57,10 @@ public class createUserServlet extends HttpServlet {
         try {
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
             UserJpaController uc = new UserJpaController(emf);
-            User u = uc.findUser(Integer.parseInt(request.getParameter("id")));
-            if (u.equals(null)) {
-                u = new User();
+            
+            if (!uc.ifUserExists(request.getParameter("userName"))) {
+                User u = new User();
+                
                 u.setName(request.getParameter("name"));
                 u.setUsername(request.getParameter("userName"));
                 u.setPassword(new Encriptacion(request.getParameter("password")).getPassEncrypt());
@@ -89,7 +90,7 @@ public class createUserServlet extends HttpServlet {
 
         } catch (Exception e) {
             Map<String, String> emess = new HashMap<String, String>();
-            emess.put("emess", e.toString());
+            emess.put("error", e.toString());
 
             Gson gson = new GsonBuilder().create();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

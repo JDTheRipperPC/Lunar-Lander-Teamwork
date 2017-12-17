@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 import model.exceptions.IllegalOrphanException;
 import model.exceptions.NonexistentEntityException;
 
@@ -202,6 +203,22 @@ public class UserJpaController implements Serializable {
             em.close();
         }
     }
+    /**
+     * Check if the username exists in the database.
+     * @param username
+     * @return If the user does not exist it returns false otherwise true.
+     */
+
+    public Boolean ifUserExists(String username) {
+        EntityManager em = getEntityManager();
+        try {
+            List<User> list = em.createNamedQuery("User.findByUsername").setParameter("username", username).getResultList();
+            return !list.isEmpty();
+
+        } finally {
+            em.close();
+        }
+    }
 
     public int getUserCount() {
         EntityManager em = getEntityManager();
@@ -215,5 +232,5 @@ public class UserJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }
