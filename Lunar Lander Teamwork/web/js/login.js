@@ -65,7 +65,7 @@ function checkSamePasswords() {
  * @returns {undefined}
  */
 function signInUser() {
-    var url = "loginServlet";
+    var url = "LoginServlet";
     var u = $("#log_inpUserName").val();
     var p = $("#log_inpPass").val();
     $.ajax({
