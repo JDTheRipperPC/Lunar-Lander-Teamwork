@@ -27,7 +27,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.EntityManagerFactory;
@@ -41,15 +40,21 @@ import model.User;
 import model.UserJpaController;
 
 /**
- * Add users in the database if they do not exist, if there is a message
- * returned as that user already exists, otherwise a message that has been made
- * correctly.
+ * Add a user if it does not exist.
  *
  * @author admin
  */
 @WebServlet(name = "createUserServlet", urlPatterns = {"/createUserServlet"})
-public class createUserServlet extends HttpServlet {
+public class CreateUserServlet extends HttpServlet {
 
+    /**
+     * Add a user if it does not exist.
+     * @param request name, userName, password and email of the user.
+     * @param response In all cases a JSON is returned with the result.
+     * @throws ServletException
+     * @throws IOException 
+     */
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -58,7 +63,7 @@ public class createUserServlet extends HttpServlet {
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
             UserJpaController uc = new UserJpaController(emf);
             
-            if (!uc.ifUserExists(request.getParameter("userName"))) {
+            if (!uc.existByUsername(request.getParameter("userName"))) {
                 User u = new User();
                 
                 u.setName(request.getParameter("name"));
@@ -67,7 +72,7 @@ public class createUserServlet extends HttpServlet {
                 u.setEmail(request.getParameter("email"));
                 uc.create(u);
 
-                Map<String, String> mess = new HashMap<String, String>();
+                Map<String, String> mess = new HashMap<>();
                 mess.put("mess", "User added");
 
                 Gson gson = new GsonBuilder().create();
@@ -77,7 +82,7 @@ public class createUserServlet extends HttpServlet {
                 pw.println(gson.toJson(mess));
 
             } else {
-                Map<String, String> mess = new HashMap<String, String>();
+                Map<String, String> mess = new HashMap<>();
                 mess.put("mess", "User already exists");
 
                 Gson gson = new GsonBuilder().create();
@@ -89,7 +94,7 @@ public class createUserServlet extends HttpServlet {
             }
 
         } catch (Exception e) {
-            Map<String, String> emess = new HashMap<String, String>();
+            Map<String, String> emess = new HashMap<>();
             emess.put("error", e.toString());
 
             Gson gson = new GsonBuilder().create();
