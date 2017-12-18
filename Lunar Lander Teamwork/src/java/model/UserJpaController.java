@@ -209,7 +209,7 @@ public class UserJpaController implements Serializable {
      * @return If the user does not exist it returns false otherwise true.
      */
 
-    public Boolean ifUserExists(String username) {
+    public Boolean existByUsername(String username) {
         EntityManager em = getEntityManager();
         try {
             List<User> list = em.createNamedQuery("User.findByUsername").setParameter("username", username).getResultList();
