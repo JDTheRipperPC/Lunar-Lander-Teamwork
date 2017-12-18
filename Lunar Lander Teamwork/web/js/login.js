@@ -164,7 +164,7 @@ function signInUser() {
  * @returns {undefined}
  */
 function signUpUser() {
-    var url = "createUserServlet";
+    var url = "CreateUserServlet";
     var u = $("#reg_inpUserName").val();
     var n = $("#reg_inpName").val();
     var p = $("#reg_inpPass").val();
