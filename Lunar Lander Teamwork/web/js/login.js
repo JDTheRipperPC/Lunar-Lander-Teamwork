@@ -11,7 +11,7 @@ $(document).ready(function () {
         signInUser();
         return false; //TRUE FOR RECHARGE THE WEB
     });
-    
+
     //Event Submit for register
     $("#formUp").submit(function () {
         if (checkSamePasswords()) {
@@ -31,11 +31,14 @@ $(document).ready(function () {
         $("#reg_div").fadeOut(700);
         $("#log_div").fadeIn(700);
     });
-    
+
     //Event that detects the inputs of the field "repeat password" and checked it
-    $("#reg_inpPass2").on('input',function(){
-        checkSamePasswords(); 
+    $("#reg_inpPass2").on('input', function () {
+        checkSamePasswords();
     });
+
+    //CheckLocalStorage
+    loadLocalStorage()
 });
 
 
@@ -73,8 +76,8 @@ function signInUser() {
         url: url,
         data: {userName: u, password: p},
         success: function (rsp) {
-            alert(rsp["mess"]);
             showToastSuccess(rsp["mess"], "");
+            saveLocalStorage(u, p);
             location.reload();
         },
         error: function (e) {
@@ -117,6 +120,24 @@ function signUpUser() {
                 showToast(e["responseJSON"]["error"], "Try it later", "error", "#D43721");
         }
     });
+}
+
+function saveLocalStorage(u, p) {
+    localStorage._userN = u;
+    localStorage._pass = p;
+}
+
+function loadLocalStorage() {
+    var u = localStorage._userN;
+    var p = localStorage._pass;
+    if ((localStorage.getItem("_userN") !== null) && (localStorage.getItem("_pass") !== null)) {
+        $("#log_inpUserName").val(u);
+        $("#log_inpPass").val(p);
+        showToast("Welcome back " + u, "User loaded succesfully", "success", "#36B62D");
+    } else {
+        showToast("Welcome to Lunar Lander", "No user data found", "info", "#5868D0");
+    }
+
 }
 
 /**
