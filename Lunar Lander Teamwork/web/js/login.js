@@ -6,120 +6,53 @@
 
 
 $(document).ready(function () {
-    $("#log_btnSignIn").click(function () {
-        if (checkSignInFields()) {
-            signInUser();
+    //Event Submit for login
+    $("#formIn").submit(function () {
+        signInUser();
+        return false; //TRUE FOR RECHARGE THE WEB
+    });
+    
+    //Event Submit for register
+    $("#formUp").submit(function () {
+        if (checkSamePasswords()) {
+            signUpUser();
         }
+        return false; //TRUE FOR RECHARGE THE WEB
     });
 
+    //Change to register mode
     $("#log_btnSignUp").click(function () {
         $("#reg_div").fadeIn(700);
         $("#log_div").fadeOut(700);
     });
 
-    $("#reg_btnSignUp").click(function () {
-        if (checkSignUpFields()) {
-            signUpUser();
-        }
-    });
-
+    //Change to login mode
     $("#reg_btnGoBack").click(function () {
         $("#reg_div").fadeOut(700);
         $("#log_div").fadeIn(700);
     });
+    
+    //Event that detects the inputs of the field "repeat password" and checked it
+    $("#reg_inpPass2").on('input',function(){
+        checkSamePasswords(); 
+    });
 });
 
-/**
- * Check values of the sign Up fields before send any information
- * @returns {Boolean}
- */
-function checkSignInFields() {
-    var userName = $("#log_inpUserName");
-    var pass = $("#log_inpPass");
-
-    if (userName.val() === "") {
-        showToast("INSERT A USERNAME", "Complete the field", "warning", "#D86405");
-        userName.focus();
-        return false;
-    }
-    if (userName.val().length < 4) {
-        showToast("INSERT A USERNAME", "Minimum 4 characters", "warning", "#D86405");
-        userName.focus();
-        return false;
-    }
-    if (pass.val() === "") {
-        showToast("INSERT A PASSWORD", "Complete the field", "warning", "#D86405");
-        pass.focus();
-        return false;
-    }
-    if (pass.val().length < 4) {
-        showToast("INSERT A PASSWORD", "Minumum 4 characters", "warning", "#D86405");
-        pass.focus();
-        return false;
-    }
-    return true;
-}
 
 /**
- * Check values of the sign Up fields before send any information
+ * Check values passwords creating a Custom Validity message if are different
  * @returns {Boolean}
  */
-function checkSignUpFields() {
-    var userName = $("#reg_inpUserName");
+function checkSamePasswords() {
     var pass1 = $("#reg_inpPass");
     var pass2 = $("#reg_inpPass2");
-    var name = $("#reg_inpName");
-    var email = $("#reg_inpEmail");
 
-    if (userName.val() === "") {
-        showToast("INSERT A USERNAME", "Complete the field", "warning", "#D86405");
-        userName.focus();
-        return false;
-    }
-    if (userName.val().length < 4) {
-        showToast("INSERT A USERNAME", "Minimum 4 characters", "warning", "#D86405");
-        userName.focus();
-        return false;
-    }
-    if (pass1.val() === "") {
-        showToast("INSERT A PASSWORD", "Complete the field", "warning", "#D86405");
-        pass1.focus();
-        return false;
-    }
-    if (pass1.val().length < 4) {
-        showToast("INSERT A PASSWORD", "Minimum 4 characters", "warning", "#D86405");
-        pass1.focus();
-        return false;
-    }
-    if (pass2.val() === "") {
-        showToast("REPEAT PASSWORD", "Complete the field", "warning", "#D86405");
-        pass2.focus();
-        return false;
-    }
     if (pass1.val() !== pass2.val()) {
-        showToast("PASSWORDS ARE DIFFERENT", "Write the same password", "warning", "#D86405");
         pass2.focus();
+        pass2[0].setCustomValidity("Passwords don't match");
         return false;
-    }
-    if (name.val() === "") {
-        showToast("INSERT A NAME", "Complete the field", "warning", "#D86405");
-        name.focus();
-        return false;
-    }
-    if (name.val().length < 3) {
-        showToast("INSERT A NAME", "Minimum 3 characters", "warning", "#D86405");
-        name.focus();
-        return false;
-    }
-    if (email.val() === "") {
-        showToast("INSERT A VALID E-MAIL", "Complete the field", "warning", "#D86405");
-        email.focus();
-        return false;
-    }
-    if (!(email.val().includes("@") && (email.val().includes(".com") || email.val().includes(".es")))) {
-        showToast("INSERT A VALID E-MAIL", "Check: @ / .com / .es", "warning", "#D86405");
-        email.focus();
-        return false;
+    } else {
+        pass2[0].setCustomValidity("");
     }
     return true;
 }
