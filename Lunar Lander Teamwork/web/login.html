@@ -4,11 +4,16 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html>
+<html lang="en">
     <head>
-        <title>TODO supply a title</title>
+        <title>LOGIN - Lunar Lander</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Welcome to Lunar Lander! Login is needed to
+              have access to the game! So Traveler, enjoy the experience!">
+        <meta name="keywords" content="Login, Lunar, Lander, Rocket, Space, Project, XGod">
+        <meta name="author" content="JDTheRipperPC (Version Control), arsg93 (Backend), SOSandreu1095 (Frontend)">
+        <link rel="icon" type="image/png" href="img/favicon.png" />
         <!-- GOOGLE FONTS-->
         <link href="https://fonts.googleapis.com/css?family=Orbitron:400,700" rel="stylesheet">
         <!--Jquery-->
@@ -26,33 +31,37 @@ and open the template in the editor.
             <h1 >LUNAR<br/>LANDER</h1>
         </div>
         <div id="log_div" class="text-center">
-            <label for="log_inpUserName">USERNAME</label>
-            <input id="log_inpUserName" class="form-control" type="text" placeholder="Choose your username"/>
-            <label for="log_inpPass">PASSWORD</label>
-            <input id="log_inpPass" class="form-control pass" type="password" data-toggle="password" placeholder="Choose your password"/>
-            <br>
-            <div class="divButtons">
-                <button id="log_btnSignIn" class="btn btn-success" type="button">SING IN</button>
-                <button id="log_btnSignUp" class="btn btn-warning" type="button">SIGN UP</button>
-            </div>
+            <form id="formIn">
+                <label for="log_inpUserName">USERNAME</label>
+                <input id="log_inpUserName" class="form-control" type="text" placeholder="Choose your username" maxlength="50" pattern=".{4,}" required title="Minimum 4 characters"/>
+                <label for="log_inpPass">PASSWORD</label>
+                <input id="log_inpPass" class="form-control pass" type="password" data-toggle="password" maxlength="256" placeholder="Choose your password" pattern=".{4,}" required title="Minimum 4 characters"/>
+                <br>
+                <div class="divButtons">
+                    <button id="log_btnSignIn" class="btn btn-success" type="submit">SING IN</button>
+                    <button id="log_btnSignUp" class="btn btn-warning" type="button">SIGN UP</button>
+                </div>
+            </form>
         </div>
         <!-- Register div -->
         <div id="reg_div" class="text-center">
-            <label for="reg_inpUserName">USERNAME</label>
-            <input id="reg_inpUserName" class="form-control" type="text" placeholder="Choose your username"/>
-            <label for="reg_inpPass">PASSWORD</label>
-            <input id="reg_inpPass" class="form-control pass" type="password" data-toggle="password" placeholder="Choose your password"/>
-            <label for="reg_inpPass2">REPEAT PASSWORD</label>
-            <input id="reg_inpPass2" class="form-control pass" type="password" data-toggle="password" placeholder="Repeat your username"/>
-            <label for="reg_inpName">NAME</label>
-            <input id="reg_inpName" class="form-control" type="text" placeholder="What is your name?"/>
-            <label for="reg_inpEmail">E-MAIL</label>
-            <input id="reg_inpEmail" class="form-control" type="email" placeholder="Which is your E-Mail?"/>
-            <br>
-            <div class="divButtons">
-                <button id="reg_btnSignUp" class="btn btn-success" type="button">SING UP</button>
-                <button id="reg_btnGoBack" class="btn btn-warning" type="button">GO BACK</button>
-            </div>
+            <form id="formUp">
+                <label for="reg_inpUserName">USERNAME</label>
+                <input id="reg_inpUserName" class="form-control" type="text" placeholder="Choose your username" maxlength="50" pattern=".{4,}" required title="Minimum 4 characters"/>
+                <label for="reg_inpPass">PASSWORD</label>
+                <input id="reg_inpPass" class="form-control pass" type="password" data-toggle="password" maxlength="256" placeholder="Choose your password" pattern=".{4,}" required title="Minimum 4 characters"/>
+                <label for="reg_inpPass2">REPEAT PASSWORD</label>
+                <input id="reg_inpPass2" class="form-control pass" type="password" data-toggle="password" maxlength="256" placeholder="Repeat your password" pattern=".{4,}" required title="Minimum 4 characters"/>
+                <label for="reg_inpName">NAME</label>
+                <input id="reg_inpName" class="form-control" type="text" maxlength="50" pattern=".{3,}" required title="Minimum 3 characters" placeholder="What is your name?"/>
+                <label for="reg_inpEmail">E-MAIL</label>
+                <input id="reg_inpEmail" class="form-control" type="email" maxlength="100" pattern=".{,}" required title="Minimum 4 characters" placeholder="Which is your E-Mail?"/>
+                <br>
+                <div class="divButtons">
+                    <button id="reg_btnSignUp" class="btn btn-success" type="submit">SING UP</button>
+                    <button id="reg_btnGoBack" class="btn btn-warning" type="button">GO BACK</button>
+                </div>
+            </form>
         </div>
     </body>
 </html>
