@@ -30,6 +30,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.EntityManagerFactory;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,59 +41,54 @@ import model.User;
 import model.UserJpaController;
 
 /**
- * Add a user if it does not exist.
  *
  * @author admin
  */
-@WebServlet(name = "CreateUserServlet", urlPatterns = {"/CreateUserServlet"})
-public class CreateUserServlet extends HttpServlet {
+@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
+public class LoginServlet extends HttpServlet {
 
     /**
-     * Add a user if it does not exist.
-     *
-     * @param request name, userName, password and email of the user.
-     * @param response In all cases a JSON is returned with the result.
+     * Check the user's credentials.
+     * 
+     * @param request userName and password of the user.
+     * @param response In case the credentials are correct a Dispacher is made
+     * to game.jsp otherwise a JSON is returned with the result.
      * @throws ServletException
-     * @throws IOException
+     * @throws IOException 
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         try {
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
             UserJpaController uc = new UserJpaController(emf);
-
-            if (!uc.existByUsername(request.getParameter("userName"))) {
-                User u = new User();
-
-                u.setName(request.getParameter("name"));
-                u.setUsername(request.getParameter("userName"));
-                u.setPassword(new Encriptacion(request.getParameter("password")).getPassEncrypt());
-                u.setEmail(request.getParameter("email"));
-                uc.create(u);
-
-                Map<String, String> mess = new HashMap<>();
-                mess.put("mess", "User added");
-
-                Gson gson = new GsonBuilder().create();
-
-                response.setContentType("application/json");
-                PrintWriter pw = response.getWriter();
-                pw.println(gson.toJson(mess));
-
-            } else {
-                Map<String, String> mess = new HashMap<>();
-                mess.put("error", "User already exists");
+            User u;
+            if (uc.findUserByUsername(request.getParameter("userName")) == null ) {
+                Map<String, String> emess = new HashMap<>();
+                emess.put("error", "User not found");
 
                 Gson gson = new GsonBuilder().create();
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 response.setContentType("application/json");
                 PrintWriter pw = response.getWriter();
-                pw.println(gson.toJson(mess));
+                pw.println(gson.toJson(emess));
+            } else {
+                u = uc.findUserByUsername(request.getParameter("userName"));
+                if (u.getPassword().equals(new Encriptacion(request.getParameter("password")).getPassEncrypt())) {
+                    request.setAttribute("User", u);
+                    RequestDispatcher rd = request.getRequestDispatcher("index.html");
+                    rd.forward(request, response);
+                } else {
+                    Map<String, String> emess = new HashMap<>();
+                    emess.put("error", "Password not found");
 
+                    Gson gson = new GsonBuilder().create();
+                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                    response.setContentType("application/json");
+                    PrintWriter pw = response.getWriter();
+                    pw.println(gson.toJson(emess));
+                }
             }
-
         } catch (Exception e) {
             Map<String, String> emess = new HashMap<>();
             emess.put("error", e.toString());
@@ -104,7 +100,5 @@ public class CreateUserServlet extends HttpServlet {
             pw.println(gson.toJson(emess));
 
         }
-
     }
-
 }
