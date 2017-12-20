@@ -76,16 +76,13 @@ function signInUser() {
         url: url,
         data: {userName: u, password: p},
         success: function (rsp) {
-            showToastSuccess(rsp["mess"], "");
             saveLocalStorage(u, p);
-            location.reload();
+            showToast(rsp["mess"], "Succesfull", "success", "#36B62D");
         },
         error: function (e) {
             if (e["responseJSON"] === undefined) {
-                //alert("Unknown error");
                 showToast("UNKNOWN ERROR", "Try it later", "error", "#D43721");
             } else {
-                //alert(e["responseJSON"]["error"]);
                 showToast(e["responseJSON"]["error"], "error", "#D43721");
             }
         }
@@ -110,8 +107,7 @@ function signUpUser() {
         url: url,
         data: {userName: u, name: n, password: p, email: e},
         success: function (rsp) {
-            //alert(rsp["mess"]);
-            showToastSuccess(rsp["mess"], "");
+            showToast(rsp["mess"], "Successfull", "success", "#36B62D");
         },
         error: function (e) {
             if (e["responseJSON"] === undefined)
@@ -123,8 +119,13 @@ function signUpUser() {
 }
 
 function saveLocalStorage(u, p) {
-    localStorage._userN = u;
-    localStorage._pass = p;
+    if ($("#chk").prop("checked")) {
+        localStorage._userN = u;
+        localStorage._pass = p;
+    } else {
+        localStorage.removeItem("_userN");
+        localStorage.removeItem("_pass");
+    }
 }
 
 function loadLocalStorage() {
