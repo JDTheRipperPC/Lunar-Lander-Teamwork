@@ -39,7 +39,7 @@ input {
     display:table-cell;
     vertical-align:middle}
 
-label {
+label:not(.divCheckBox) {
     color: white;
     margin-top: 2vh;
     padding: 0;
@@ -55,7 +55,7 @@ label {
     border-right: 3px solid white;
 }
 
-input {
+input:not(.divCheckBox){
     margin-left: 10% !important;
     width: 80% !important;
     text-align: center !important;
@@ -79,6 +79,15 @@ button{
     width: 40%;
 }
 
+.divCheckBox {
+    color: white;
+    font-size: 2vh;
+    padding: 15px;
+}
+
+#chk{
+    transform: scale(1.5);
+}
 
 /************************************************
 VERTICAL
