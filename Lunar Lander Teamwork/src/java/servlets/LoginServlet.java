@@ -76,7 +76,7 @@ public class LoginServlet extends HttpServlet {
                 u = uc.findUserByUsername(request.getParameter("userName"));
                 if (u.getPassword().equals(new Encriptacion(request.getParameter("password")).getPassEncrypt())) {
                     request.setAttribute("User", u);
-                    RequestDispatcher rd = request.getRequestDispatcher("index.html");
+                    RequestDispatcher rd = request.getRequestDispatcher("game.jsp");
                     rd.forward(request, response);
                 } else {
                     Map<String, String> emess = new HashMap<>();
