@@ -8,8 +8,7 @@
 $(document).ready(function () {
     //Event Submit for login
     $("#formIn").submit(function () {
-        signInUser();
-        return false; //TRUE FOR RECHARGE THE WEB
+        return signInUser();
     });
 
     //Event Submit for register
@@ -65,28 +64,32 @@ function checkSamePasswords() {
  * Name servlet: loginServlet
  * Parameters: userName, password
  * 
- * @returns {undefined}
+ * @returns {undefined} True of all correct
  */
 function signInUser() {
     var url = "LoginServlet";
     var u = $("#log_inpUserName").val();
     var p = $("#log_inpPass").val();
     saveLocalStorage(u, p);
+    var correct;
     $.ajax({
         method: "POST",
         url: url,
         data: {userName: u, password: p},
         success: function (rsp) {
-            showToast(rsp["mess"], "Succesfull", "success", "#36B62D");
+            showToast(rsp["mess"], "", "success", "#36B62D");
+            correct = true;
         },
         error: function (e) {
             if (e["responseJSON"] === undefined) {
                 showToast("UNKNOWN ERROR", "Try it later", "error", "#D43721");
             } else {
-                showToast(e["responseJSON"]["error"], "error", "#D43721");
+                showToast(e["responseJSON"]["error"], "", "error", "#D43721");
             }
+            correct = false;
         }
     });
+    return correct;
 }
 
 /**
@@ -107,13 +110,13 @@ function signUpUser() {
         url: url,
         data: {userName: u, name: n, password: p, email: e},
         success: function (rsp) {
-            showToast(rsp["mess"], "Successfull", "success", "#36B62D");
+            showToast("Successfull", rsp["mess"],"success", "#36B62D");
         },
         error: function (e) {
             if (e["responseJSON"] === undefined)
                 showToast("UNKNOWN ERROR", "Try it later", "error", "#D43721");
             else
-                showToast(e["responseJSON"]["error"], "Try it later", "error", "#D43721");
+                showToast(e["responseJSON"]["error"], "", "error", "#D43721");
         }
     });
 }
@@ -134,6 +137,7 @@ function loadLocalStorage() {
     if ((localStorage.getItem("_userN") !== null) && (localStorage.getItem("_pass") !== null)) {
         $("#log_inpUserName").val(u);
         $("#log_inpPass").val(p);
+        $("#chk").prop("checked", true);
         showToast("Welcome back " + u, "User loaded succesfully", "success", "#36B62D");
     } else {
         showToast("Welcome to Lunar Lander", "No user data found", "info", "#5868D0");
