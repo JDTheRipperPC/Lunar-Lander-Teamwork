@@ -75,9 +75,14 @@ public class LoginServlet extends HttpServlet {
             } else {
                 u = uc.findUserByUsername(request.getParameter("userName"));
                 if (u.getPassword().equals(new Encriptacion(request.getParameter("password")).getPassEncrypt())) {
-                    request.setAttribute("User", u);
-                    RequestDispatcher rd = request.getRequestDispatcher("game.jsp");
-                    rd.forward(request, response);
+                    Map<String, String> emess = new HashMap<>();
+                    emess.put("mess", "Succesfull");
+
+                    Gson gson = new GsonBuilder().create();
+                    
+                    response.setContentType("application/json");
+                    PrintWriter pw = response.getWriter();
+                    pw.println(gson.toJson(emess));
                 } else {
                     Map<String, String> emess = new HashMap<>();
                     emess.put("error", "Password not found");
