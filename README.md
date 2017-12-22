@@ -42,6 +42,8 @@ v0 - The repository has been created forked from the project base
      [lunar landing javascript](https://github.com/urbinapro/lunar-landing-javascript)
      by [urbinapro](https://github.com/urbinapro)
 
-v1 - Has been created the sign up process and works correctly
+v1 - Data base definition and JPA entities with controllers created
 
-v2 - Has been created the login process and works correctly
+v2 - Has been created the sign up process and works correctly
+
+v3 - Has been created the login process and works correctly
