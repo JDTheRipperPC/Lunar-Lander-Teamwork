@@ -30,42 +30,42 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.EntityManagerFactory;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Encriptacion;
-import model.User;
-import model.UserJpaController;
+import model.Configuration;
+import model.ConfigurationJpaController;
 
 /**
  *
  * @author admin
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
-public class LoginServlet extends HttpServlet {
-
+@WebServlet(name = "SetConfigurationUser", urlPatterns = {"/SetConfigurationUser"})
+public class SetConfigurationUser extends HttpServlet {
+    
     /**
-     * Check the user's credentials.
-     * 
-     * @param request userName and password of the user.
-     * @param response In case the credentials are correct a 
-     * JSON is returned with the result.
+     * Change of parameters of a configuration.
+     * @param request configurationId, diffId, naveId and planetId.
+     * @param response In case the change is made correctly a 
+     * JSON is returned with the result,in case of error or the configurationId
+     * does not exist the error will be returned.
      * @throws ServletException
      * @throws IOException 
      */
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-            UserJpaController uc = new UserJpaController(emf);
-            User u;
-            if (uc.findUserByUsername(request.getParameter("userName")) == null ) {
+            ConfigurationJpaController cc = new ConfigurationJpaController(emf);
+            Configuration c;
+
+            if (cc.findConfiguration(Integer.parseInt(request.getParameter("configurationId"))) == null) {
                 Map<String, String> emess = new HashMap<>();
-                emess.put("error", "User not found");
+                emess.put("error", "Configuration not found");
 
                 Gson gson = new GsonBuilder().create();
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -73,26 +73,20 @@ public class LoginServlet extends HttpServlet {
                 PrintWriter pw = response.getWriter();
                 pw.println(gson.toJson(emess));
             } else {
-                u = uc.findUserByUsername(request.getParameter("userName"));
-                if (u.getPassword().equals(new Encriptacion(request.getParameter("password")).getPassEncrypt())) {
-                    Map<String, String> emess = new HashMap<>();
-                    emess.put("mess", "Succesfull");
+                c = cc.findConfiguration(Integer.parseInt(request.getParameter("configurationId")));
+                c.setDiffId(Integer.parseInt(request.getParameter("diffId")));
+                c.setNaveId(Integer.parseInt(request.getParameter("naveId")));
+                c.setPlanetId(Integer.parseInt(request.getParameter("planetId")));
+                cc.edit(c);
 
-                    Gson gson = new GsonBuilder().create();
-                    
-                    response.setContentType("application/json");
-                    PrintWriter pw = response.getWriter();
-                    pw.println(gson.toJson(emess));
-                } else {
-                    Map<String, String> emess = new HashMap<>();
-                    emess.put("error", "Password not found");
+                Map<String, String> emess = new HashMap<>();
+                emess.put("mess", "Succesfull");
 
-                    Gson gson = new GsonBuilder().create();
-                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                    response.setContentType("application/json");
-                    PrintWriter pw = response.getWriter();
-                    pw.println(gson.toJson(emess));
-                }
+                Gson gson = new GsonBuilder().create();
+
+                response.setContentType("application/json");
+                PrintWriter pw = response.getWriter();
+                pw.println(gson.toJson(emess));
             }
         } catch (Exception e) {
             Map<String, String> emess = new HashMap<>();
@@ -106,4 +100,5 @@ public class LoginServlet extends HttpServlet {
 
         }
     }
+
 }
