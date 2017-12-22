@@ -207,6 +207,7 @@ public class UserJpaController implements Serializable {
 
     /**
      * Find a user.
+     *
      * @param username
      * @return Object User in case you find it, otherwise null.
      */
@@ -231,6 +232,22 @@ public class UserJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             List<User> list = em.createNamedQuery("User.findByUsername").setParameter("username", username).getResultList();
+            return !list.isEmpty();
+
+        } finally {
+            em.close();
+        }
+    }
+
+    /**
+     * Check if the email exists in the database.
+     * @param email
+     * @return  If the user does not exist it returns false otherwise true.
+     */
+    public Boolean existByEmail(String email) {
+        EntityManager em = getEntityManager();
+        try {
+            List<User> list = em.createNamedQuery("User.findByEmail").setParameter("email", email).getResultList();
             return !list.isEmpty();
 
         } finally {
