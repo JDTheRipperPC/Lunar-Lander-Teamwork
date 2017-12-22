@@ -1,58 +1,77 @@
-//ENTORNO
-var g = 1.622;
+//GAME
+var gravity = 1.622;
 var dt = 0.016683;
 var timer = null;
 var timerFuel = null;
-//NAVE
-var y = 10; // altura inicial y0=10%, debe leerse al iniciar si queremos que tenga alturas diferentes dependiendo del dispositivo
-var v = 0;
-var c = 100;
-var a = g; //la aceleración cambia cuando se enciende el motor de a=g a a=-g (simplificado)
-//MARCADORES
-var velocidad = null;
-var altura = null;
-var combustible = null;
 
-//al cargar por completo la página...
-window.onload = function () {
+//GAMESCORES
+var speedMK = null;
+var heightMK = null;
+var fuelMK = null;
 
-    velocidad = document.getElementById("velocidad");
-    altura = document.getElementById("altura");
-    combustible = document.getElementById("fuel");
+//ROCKET
+var rocket = {
+    height: 10,
+    speed: 0,
+    fuel: 100,
+    aceleration: gravity,
+    motorON: function () {
+        motorOn();
+    },
+    motorOFF: function () {
+        motorOff();
+    },
+    updateFuel: function () {
+        updateFuel();
+    }
+};
 
+//---------------------------------------------------
 
-    //definición de eventos
-    //mostrar menú móvil
-    document.getElementById("showm").onclick = function () {
+//ON READY
+$(document).ready(function () {
+
+    speedMK = $("#speed");
+    heightMK = $("#height");
+    fuelMK = $("#fuel");
+
+    //Show mobile menu
+    $("#showm").click(function () {
         document.getElementsByClassName("c")[0].style.display = "block";
         stop();
-    }
-    //ocultar menú móvil
-    document.getElementById("hidem").onclick = function () {
+    });
+    //Hide mobile menu
+    $("#hidem").click(function () {
         document.getElementsByClassName("c")[0].style.display = "none";
         start();
-    }
-    //encender/apagar el motor al hacer click en la pantalla
-    document.onclick = function () {
-        if (a == g) {
-            motorOn();
+    });
+    //ON/OFF motor on screen click
+    $(document).click(function () {
+        if (rocket.aceleration === gravity) {
+            rocket.motorON();
         } else {
-            motorOff();
+            rocket.motorOFF();
         }
-    }
-    //encender/apagar al apretar/soltar una tecla
-    document.onkeydown = motorOn;
-    document.onkeyup = motorOff;
+    });
+    //ON/OFF motor on key click
+    $(document).keydown(function () {
+        rocket.motorON();
+    });
+    $(document).keyup(function () {
+        rocket.motorOFF();
+    });
 
-    //Empezar a mover la nave justo después de cargar la página
+    //START FALLING THE ROCKET
     start();
-}
+});
 
-//Definición de funciones
+/**
+ * FUNCTION DEFINITION
+ */
 function start() {
-    //cada intervalo de tiempo mueve la nave
+    //Every interval timelap move the rocket
     timer = setInterval(function () {
-        moverNave();
+        moveRocket();
     }, dt * 1000);
 }
 
@@ -60,39 +79,39 @@ function stop() {
     clearInterval(timer);
 }
 
-function moverNave() {
-    //cambiar velocidad y posicion
-    v += a * dt;
-    y += v * dt;
-    //actualizar marcadores
-    velocidad.innerHTML = v;
-    altura.innerHTML = y;
+function moveRocket() {
+    //Changes the speed and the height
+    rocket.speed += rocket.aceleration * dt;
+    rocket.height += rocket.speed * dt;
+    //Update the scoreboard
+    speedMK.text(rocket.speed);
+    heightMK.text(rocket.height);
 
-    //mover hasta que top sea un 70% de la pantalla
-    if (y < 70) {
-        document.getElementById("nave").style.top = y + "%";
+    //It will move until a 70% of the screen
+    if (rocket.height < 70) {
+        document.getElementById("rocket").style.top = rocket.height + "%";
     } else {
         stop();
     }
 }
+
 function motorOn() {
-    //el motor da aceleración a la nave
-    a = -g;
-    //mientras el motor esté activado gasta combustible
-    if (timerFuel == null)
+    rocket.aceleration = -gravity;
+    if (timerFuel === null)
         timerFuel = setInterval(function () {
-            actualizarFuel();
+            rocket.updateFuel();
         }, 10);
 }
 function motorOff() {
-    a = g;
+    rocket.aceleration = gravity;
     clearInterval(timerFuel);
     timerFuel = null;
 }
-function actualizarFuel() {
-    //Restamos combustible hasta que se agota
-    c -= 0.1;
-    if (c < 0)
-        c = 0;
-    combustible.innerHTML = c;
+
+function updateFuel() {
+    //Decrement fuel until its 0
+    rocket.fuel -= 0.1;
+    if (rocket.fuel < 0)
+        rocket.fuel = 0;
+    fuelMK.text(rocket.fuel);
 }
