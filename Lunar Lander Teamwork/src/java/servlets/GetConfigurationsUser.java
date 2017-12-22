@@ -30,13 +30,11 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.EntityManagerFactory;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Encriptacion;
 import model.User;
 import model.UserJpaController;
 
@@ -44,18 +42,18 @@ import model.UserJpaController;
  *
  * @author admin
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "GetConfigurationsUser", urlPatterns = {"/GetConfigurationsUser"})
+public class GetConfigurationsUser extends HttpServlet {
 
     /**
-     * Check the user's credentials.
-     * 
-     * @param request userName and password of the user.
-     * @param response In case the credentials are correct a 
-     * JSON is returned with the result.
+     * Returns a JSON with all the settings of the desired username.
+     * @param request userName of the user.
+     * @param response JSON with the settings in case of finding the username,
+     * in case of error or the username does not exist the error will be returned.
      * @throws ServletException
      * @throws IOException 
      */
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -63,7 +61,8 @@ public class LoginServlet extends HttpServlet {
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
             UserJpaController uc = new UserJpaController(emf);
             User u;
-            if (uc.findUserByUsername(request.getParameter("userName")) == null ) {
+
+            if (uc.findUserByUsername(request.getParameter("userName")) == null) {
                 Map<String, String> emess = new HashMap<>();
                 emess.put("error", "User not found");
 
@@ -74,25 +73,11 @@ public class LoginServlet extends HttpServlet {
                 pw.println(gson.toJson(emess));
             } else {
                 u = uc.findUserByUsername(request.getParameter("userName"));
-                if (u.getPassword().equals(new Encriptacion(request.getParameter("password")).getPassEncrypt())) {
-                    Map<String, String> emess = new HashMap<>();
-                    emess.put("mess", "Succesfull");
+                Gson gson = new Gson();
+                response.setContentType("application/json");
+                PrintWriter pw = response.getWriter();
+                pw.println(gson.toJson(u.getConfigurationList()));
 
-                    Gson gson = new GsonBuilder().create();
-                    
-                    response.setContentType("application/json");
-                    PrintWriter pw = response.getWriter();
-                    pw.println(gson.toJson(emess));
-                } else {
-                    Map<String, String> emess = new HashMap<>();
-                    emess.put("error", "Password not found");
-
-                    Gson gson = new GsonBuilder().create();
-                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                    response.setContentType("application/json");
-                    PrintWriter pw = response.getWriter();
-                    pw.println(gson.toJson(emess));
-                }
             }
         } catch (Exception e) {
             Map<String, String> emess = new HashMap<>();
@@ -105,5 +90,7 @@ public class LoginServlet extends HttpServlet {
             pw.println(gson.toJson(emess));
 
         }
+
     }
+
 }
