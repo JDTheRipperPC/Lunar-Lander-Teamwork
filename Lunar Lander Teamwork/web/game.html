@@ -4,13 +4,12 @@
         <title>Lunar Lander</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel='stylesheet' media='screen and (min-width: 961px)' href='css/d.css'>
-        <link rel='stylesheet' media='screen and (max-width: 960px)' href='css/m.css'>
+        <link rel="stylesheet" type="text/css" href="css/game.css" />
         <!--JQUERY-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="js/js.js"></script>
+        <script src="js/game.js"></script>
     </head>
     <body>
         <div id="rocket">
@@ -23,12 +22,16 @@
                 <li>Fuel <span id="fuel">100</span> l</li>
                 <li>Height <span id="height">70</span> m</li>
             </ul>
-        </div><div class="b">b</div><div class="c">
+        </div>
+        <div class="b">b</div>
+        <div class="c">
             <div id="hidem">hide menu</div>
             <ul id="menu">
-                <li>Play</li>
-                <li>Instructions</li>
-                <li>About..</li>
+                <li id="btn_playPause"><img src="img/pause.png" alt="Play Pause Button"></li>
+                <li class="paused" id="btn_restart"><img src="img/restart.png" alt="Restart Button"></li>
+                <li class="paused" id="btn_settings"><img src="img/settings.png" alt="Settings Button"></li>
+                <li class="paused" id="btn_help"><img src="img/help.png" alt="Help Button"></li>
+                <li class="paused" id="btn_logout"><img src="img/logout.png" alt="Logout Button"></li>
             </ul>
         </div>
         <div class="d">d</div>

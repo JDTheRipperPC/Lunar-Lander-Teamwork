@@ -3,6 +3,7 @@ var gravity = 1.622;
 var dt = 0.016683;
 var timer = null;
 var timerFuel = null;
+var paused = false;
 
 //GAMESCORES
 var speedMK = null;
@@ -59,6 +60,17 @@ $(document).ready(function () {
     });
     $(document).keyup(function () {
         rocket.motorOFF();
+    });
+
+    $("#btn_playPause").click(function () {
+        if (!paused) {
+            $(".paused").fadeIn(400);
+            $("#btn_playPause > img").attr("src","img/play.png");
+        } else {
+            $(".paused").fadeOut(400);
+            $("#btn_playPause > img").attr("src","img/pause.png");
+        }
+        paused = !paused;
     });
 
     //START FALLING THE ROCKET
