@@ -37,7 +37,7 @@ $(document).ready(function () {
     });
 
     //CheckLocalStorage
-    loadLocalStorage()
+    loadLocalStorage();
 });
 
 
@@ -71,14 +71,14 @@ function signInUser() {
     var u = $("#log_inpUserName").val();
     var p = $("#log_inpPass").val();
     saveLocalStorage(u, p);
-    var correct;
+    var correct = false;
     $.ajax({
         method: "POST",
         url: url,
         data: {userName: u, password: p},
         success: function (rsp) {
-            showToast(rsp["mess"], "", "success", "#36B62D");
             correct = true;
+            showToast(rsp["mess"], "", "success", "#36B62D");
         },
         error: function (e) {
             if (e["responseJSON"] === undefined) {
@@ -86,7 +86,6 @@ function signInUser() {
             } else {
                 showToast(e["responseJSON"]["error"], "", "error", "#D43721");
             }
-            correct = false;
         }
     });
     return correct;
@@ -110,7 +109,7 @@ function signUpUser() {
         url: url,
         data: {userName: u, name: n, password: p, email: e},
         success: function (rsp) {
-            showToast("Successfull", rsp["mess"],"success", "#36B62D");
+            showToast("Successfull", rsp["mess"], "success", "#36B62D");
         },
         error: function (e) {
             if (e["responseJSON"] === undefined)
