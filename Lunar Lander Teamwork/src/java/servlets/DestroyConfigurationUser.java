@@ -60,9 +60,9 @@ public class DestroyConfigurationUser extends HttpServlet {
         try {
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
             ConfigurationJpaController cc = new ConfigurationJpaController(emf);
-            Configuration c;
+            Configuration c = cc.findConfiguration(Integer.parseInt(request.getParameter("configurationId")));
 
-            if (cc.findConfiguration(Integer.parseInt(request.getParameter("configurationId"))) == null) {
+            if (c == null) {
                 Map<String, String> emess = new HashMap<>();
                 emess.put("error", "Configuration not found");
 
