@@ -44,26 +44,26 @@ import model.ConfigurationJpaController;
  */
 @WebServlet(name = "SetConfigurationUser", urlPatterns = {"/SetConfigurationUser"})
 public class SetConfigurationUser extends HttpServlet {
-    
+
     /**
      * Change of parameters of a configuration.
+     *
      * @param request configurationId, diffId, naveId and planetId.
-     * @param response In case the change is made correctly a 
-     * JSON is returned with the result,in case of error or the configurationId
-     * does not exist the error will be returned.
+     * @param response In case the change is made correctly a JSON is returned
+     * with the result,in case of error or the configurationId does not exist
+     * the error will be returned.
      * @throws ServletException
-     * @throws IOException 
+     * @throws IOException
      */
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
             ConfigurationJpaController cc = new ConfigurationJpaController(emf);
-            Configuration c;
+            Configuration c = cc.findConfiguration(Integer.parseInt(request.getParameter("configurationId")));
 
-            if (cc.findConfiguration(Integer.parseInt(request.getParameter("configurationId"))) == null) {
+            if (c == null) {
                 Map<String, String> emess = new HashMap<>();
                 emess.put("error", "Configuration not found");
 
@@ -73,7 +73,6 @@ public class SetConfigurationUser extends HttpServlet {
                 PrintWriter pw = response.getWriter();
                 pw.println(gson.toJson(emess));
             } else {
-                c = cc.findConfiguration(Integer.parseInt(request.getParameter("configurationId")));
                 c.setDiffId(Integer.parseInt(request.getParameter("diffId")));
                 c.setNaveId(Integer.parseInt(request.getParameter("naveId")));
                 c.setPlanetId(Integer.parseInt(request.getParameter("planetId")));

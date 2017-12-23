@@ -60,9 +60,9 @@ public class GetConfigurationsUser extends HttpServlet {
         try {
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
             UserJpaController uc = new UserJpaController(emf);
-            User u;
+            User u = uc.findUserByUsername(request.getParameter("userName"));
 
-            if (uc.findUserByUsername(request.getParameter("userName")) == null) {
+            if (u == null) {
                 Map<String, String> emess = new HashMap<>();
                 emess.put("error", "User not found");
 
@@ -72,7 +72,6 @@ public class GetConfigurationsUser extends HttpServlet {
                 PrintWriter pw = response.getWriter();
                 pw.println(gson.toJson(emess));
             } else {
-                u = uc.findUserByUsername(request.getParameter("userName"));
                 Gson gson = new Gson();
                 response.setContentType("application/json");
                 PrintWriter pw = response.getWriter();

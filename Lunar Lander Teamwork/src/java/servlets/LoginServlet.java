@@ -30,7 +30,6 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.EntityManagerFactory;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -62,8 +61,8 @@ public class LoginServlet extends HttpServlet {
         try {
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
             UserJpaController uc = new UserJpaController(emf);
-            User u;
-            if (uc.findUserByUsername(request.getParameter("userName")) == null ) {
+            User u = uc.findUserByUsername(request.getParameter("userName"));
+            if (u == null ) {
                 Map<String, String> emess = new HashMap<>();
                 emess.put("error", "User not found");
 
@@ -72,8 +71,7 @@ public class LoginServlet extends HttpServlet {
                 response.setContentType("application/json");
                 PrintWriter pw = response.getWriter();
                 pw.println(gson.toJson(emess));
-            } else {
-                u = uc.findUserByUsername(request.getParameter("userName"));
+            } else { 
                 if (u.getPassword().equals(new Encriptacion(request.getParameter("password")).getPassEncrypt())) {
                     Map<String, String> emess = new HashMap<>();
                     emess.put("mess", "Succesfull");
