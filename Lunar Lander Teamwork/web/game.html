@@ -5,11 +5,16 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="css/game.css" />
+        <!-- GOOGLE FONTS-->
+        <link href="https://fonts.googleapis.com/css?family=Orbitron:400,700" rel="stylesheet">
         <!--JQUERY-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="js/game.js"></script>
+        <!--TOAST-->
+        <script src="js/jquery.toast.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/jquery.toast.min.css" />
     </head>
     <body>
         <div id="rocket">
@@ -17,11 +22,6 @@
         </div>
         <div class="a">
             <div id="showm">show menu</div>
-            <ul id="cpanel">
-                <li>Speed <span id="speed">100</span> m/s</li>
-                <li>Fuel <span id="fuel">100</span> l</li>
-                <li>Height <span id="height">70</span> m</li>
-            </ul>
         </div>
         <div class="b">b</div>
         <div class="c">
@@ -35,5 +35,17 @@
             </ul>
         </div>
         <div class="d">d</div>
+        <ul id="cpanel">
+            <li>
+                <div>
+                    <img src="img/fuel.png" alt="Fuel Icon" >
+                    <div id="fuelContainer">
+                        <div id="fuelContent"></div>
+                    </div>
+                </div>
+            </li>
+            <li><div><img src="img/speed.png" alt="Speed Icon" ><p><span id="speed">100</span> m/s</p></div></li>
+            <li><div><img src="img/height.png" alt="Height Icon" ><p><span id="height">70</span> m</p></div></li>
+        </ul>
     </body>
 </html>
