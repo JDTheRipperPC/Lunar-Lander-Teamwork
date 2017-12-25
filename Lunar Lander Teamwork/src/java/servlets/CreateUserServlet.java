@@ -64,26 +64,38 @@ public class CreateUserServlet extends HttpServlet {
             UserJpaController uc = new UserJpaController(emf);
 
             if (!uc.existByUsername(request.getParameter("userName"))) {
-                User u = new User();
+                if (!uc.existByEmail(request.getParameter("email"))) {
+                    User u = new User();
 
-                u.setName(request.getParameter("name"));
-                u.setUsername(request.getParameter("userName"));
-                u.setPassword(new Encriptacion(request.getParameter("password")).getPassEncrypt());
-                u.setEmail(request.getParameter("email"));
-                uc.create(u);
+                    u.setName(request.getParameter("name"));
+                    u.setUsername(request.getParameter("userName"));
+                    u.setPassword(new Encriptacion(request.getParameter("password")).getPassEncrypt());
+                    u.setEmail(request.getParameter("email"));
+                    uc.create(u);
 
-                Map<String, String> mess = new HashMap<>();
-                mess.put("mess", "User added");
+                    Map<String, String> mess = new HashMap<>();
+                    mess.put("mess", "User added");
 
-                Gson gson = new GsonBuilder().create();
+                    Gson gson = new GsonBuilder().create();
 
-                response.setContentType("application/json");
-                PrintWriter pw = response.getWriter();
-                pw.println(gson.toJson(mess));
+                    response.setContentType("application/json");
+                    PrintWriter pw = response.getWriter();
+                    pw.println(gson.toJson(mess));
+                    
+                } else {
+                    Map<String, String> mess = new HashMap<>();
+                    mess.put("error", "Email already exists");
+
+                    Gson gson = new GsonBuilder().create();
+                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                    response.setContentType("application/json");
+                    PrintWriter pw = response.getWriter();
+                    pw.println(gson.toJson(mess));
+                }
 
             } else {
                 Map<String, String> mess = new HashMap<>();
-                mess.put("error", "User already exists");
+                mess.put("error", "UserName already exists");
 
                 Gson gson = new GsonBuilder().create();
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
