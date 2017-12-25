@@ -28,21 +28,28 @@ body {
     top:0;
 }
 .d{
-    position:fixed;
-    background-color:pink;
-    height:10%;
+    position:absolute;
+    height:15%;
     width:100%;
     bottom:0;
 }
+
+#moon {
+    height: 100%;
+    width: 100%;
+}
+
 #rocket{
     text-align:center;
     position:fixed;
     top:10%;
     width:100%;
-    height:20%
+    height:20%;
+    z-index: 1;
 }
 #rocket img{
     height:100%;
+    z-index: 1;
 }
 
 #cpanel{
@@ -55,8 +62,8 @@ body {
 #cpanel li {
     background-color: white;
     position: relative;
-    border: 2px solid green;
-    border-radius: 20px;
+    border: 2px solid yellow;
+    border-radius: 5px 30px 30px 5px;
     width: 100%;
     height: 60px;
     margin-bottom: 4%;
@@ -76,24 +83,25 @@ body {
     height: 100%;
 }
 
-#cpanel li div p{
+#cpanel li div p{  
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+    font-size: 1.7vw;
     display: table-cell;
     vertical-align: middle;
     width: 100%;
-    margin: auto;
 }
 
 #fuelContainer {
     height: 100%;
     float: right;
-    border-radius: 20px;
 }
 
 #fuelContent {
-    background: green;
+    background: linear-gradient(to left, #33cc33 27%, #ff6600 100%);
     width: 100%;
     height: 100%;
-    border-radius: 15px;
+    border-radius: 5px 30px 30px 5px;
 }
 
 
@@ -117,9 +125,13 @@ ul {
     margin: 5px;
     max-width: 15%;
     float: right;
+    -webkit-transition: -webkit-transform .8s ease-in-out;
+    transition:         transform .8s ease-in-out;
 }
 #menu li img:hover{
     transform: scale(1.1);
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
 }
 
 .paused {

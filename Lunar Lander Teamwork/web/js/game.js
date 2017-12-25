@@ -5,10 +5,7 @@ var timer = null;
 var timerFuel = null;
 var paused = false;
 var ended = false;
-
-//GAMESCORES
-var speedMK = null;
-var heightMK = null;
+var heightGame = 70;
 
 //ROCKET
 var rocket = {
@@ -43,9 +40,6 @@ $(document).ready(function () {
 
     //CHECK LOCAL STORAGE FOR CHEATERS
     checkLocalStorage();
-
-    speedMK = $("#speed");
-    heightMK = $("#height");
 
     //Show mobile menu
     $("#showm").click(function () {
@@ -83,14 +77,16 @@ $(document).ready(function () {
     $("#btn_restart").click(function () {
         ended = false;
         rocket.restart();
-        //document.getElementById("naveImg").src = "img/rocketOff.png";
         stop();
         start();
         doPause();
+        updateFuel();
+        //document.getElementById("naveImg").src = "img/rocketOff.png";
     });
 
     $("#btn_logout").click(function () {
         window.location.replace("./login.html");
+        //Clear localstorage?
     });
 
     //START FALLING THE ROCKET
@@ -149,17 +145,23 @@ function moveRocket() {
         rocket.speed += rocket.aceleration * dt;
         rocket.height += rocket.speed * dt;
         //Update the scoreboard
-        speedMK.text(rocket.speed);
-        heightMK.text(rocket.height);
+        $("#speed").text(rocket.speed.toFixed(2));
+        $("#height").text((heightGame - rocket.height).toFixed(2));
 
-        //It will move until a 70% of the screen
-        if (rocket.height < 70) {
+        //It will move until a 70% of the screen and checks the top of the screen
+        if ((rocket.height < heightGame) && (rocket.height > 0)) {
             document.getElementById("rocket").style.top = rocket.height + "%";
         } else {
             doPause();
             ended = true;
             stop();
-
+            //Fast check if is in the top or bottom side
+            if (rocket.height > 65) {
+                $("#height").text("0.00");
+            } else {
+                h$("#height").text("70.00");
+            }
+            
         }
     }
 }
@@ -192,14 +194,16 @@ function updateFuel() {
 }
 
 function doPause() {
-    if (!paused) {
-        $(".paused").fadeIn(400);
-        $("#btn_playPause > img").attr("src", "img/play.png");
-    } else {
-        $(".paused").fadeOut(400);
-        $("#btn_playPause > img").attr("src", "img/pause.png");
+    if (!ended) {
+        if (!paused) {
+            $(".paused").fadeIn(400);
+            $("#btn_playPause > img").attr("src", "img/play.png");
+        } else {
+            $(".paused").fadeOut(400);
+            $("#btn_playPause > img").attr("src", "img/pause.png");
+        }
+        paused = !paused;
     }
-    paused = !paused;
 }
 
 
