@@ -70,13 +70,13 @@ function signInUser() {
     var url = "LoginServlet";
     var u = $("#log_inpUserName").val();
     var p = $("#log_inpPass").val();
-    saveLocalStorage(u, p);
     var correct = false;
     $.ajax({
         method: "POST",
         url: url,
         data: {userName: u, password: p},
         success: function (rsp) {
+            saveLocalStorage(u, p);
             correct = true;
             showToast(rsp["mess"], "", "success", "#36B62D");
         },

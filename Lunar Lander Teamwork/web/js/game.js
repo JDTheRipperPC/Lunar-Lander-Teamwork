@@ -33,6 +33,14 @@ var rocket = {
     }
 };
 
+//CONFIGURATION 
+var configuration = {
+    name: "Default",
+    difficulty: 1,
+    rocketModel: 1,
+    moonModel: 1
+};
+
 //---------------------------------------------------
 
 //ON READY
@@ -40,6 +48,45 @@ $(document).ready(function () {
 
     //CHECK LOCAL STORAGE FOR CHEATERS
     checkLocalStorage();
+
+    //START CLICKS NAV--------------------
+    $('.nav li').click(function (e) {
+        $('.nav li.active').removeClass('active');
+        var $this = $(this);
+        if (!$this.hasClass('active')) {
+            $this.addClass('active');
+        }
+        e.preventDefault();
+        hideContents();
+    });
+    $("#nav_configuration").click(function () {
+        $("#set_configuration").show();
+    });
+    $("#nav_scores").click(function () {
+        $("#set_scores").show();
+    });
+    $("#nav_players").click(function () {
+        $("#set_players").show();
+    });
+    $("#nav_instructions").click(function () {
+        $("#set_instructions").show();
+    });
+    $("#nav_about").click(function () {
+        $("#set_about").show();
+    });
+
+    $("#btn_newC").click(function () {
+        $("#load_configurationContainer").fadeOut(300, function () {
+            $("#new_configurationContainer").fadeIn(300);
+        });
+    });
+    $("#btn_cancelC").click(function () {
+        $("#new_configurationContainer").fadeOut(300, function () {
+            $("#load_configurationContainer").fadeIn(300);
+        });
+    });
+
+    //END OF CLICKS NAV-------------------
 
     //Show mobile menu
     $("#showm").click(function () {
@@ -82,6 +129,11 @@ $(document).ready(function () {
         doPause();
         updateFuel();
         //document.getElementById("naveImg").src = "img/rocketOff.png";
+    });
+
+    $("#btn_settings").click(function () {
+        $("#modal_Settings").modal()
+        $("#modal_Settings").modal("show");
     });
 
     $("#btn_logout").click(function () {
@@ -140,7 +192,7 @@ function stop() {
 }
 
 function moveRocket() {
-    if (!paused) {
+    if (!paused && !ended) {
         //Changes the speed and the height
         rocket.speed += rocket.aceleration * dt;
         rocket.height += rocket.speed * dt;
@@ -159,9 +211,8 @@ function moveRocket() {
             if (rocket.height > 65) {
                 $("#height").text("0.00");
             } else {
-                h$("#height").text("70.00");
+                $("#height").text("70.00");
             }
-            
         }
     }
 }
@@ -194,18 +245,23 @@ function updateFuel() {
 }
 
 function doPause() {
-    if (!ended) {
-        if (!paused) {
-            $(".paused").fadeIn(400);
-            $("#btn_playPause > img").attr("src", "img/play.png");
-        } else {
-            $(".paused").fadeOut(400);
-            $("#btn_playPause > img").attr("src", "img/pause.png");
-        }
-        paused = !paused;
+    if (!paused && !ended) {
+        $(".paused").fadeIn(400);
+        $("#btn_playPause > img").attr("src", "img/play.png");
+    } else {
+        $(".paused").fadeOut(400);
+        $("#btn_playPause > img").attr("src", "img/pause.png");
     }
+    paused = !paused;
 }
 
+function hideContents() {
+    $("#set_configuration").hide();
+    $("#set_scores").hide();
+    $("#set_players").hide();
+    $("#set_instructions").hide();
+    $("#set_about").hide();
+}
 
 function showToast(head, text, icon, bgColor) {
     $.toast({

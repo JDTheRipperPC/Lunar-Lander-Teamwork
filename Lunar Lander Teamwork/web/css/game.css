@@ -4,9 +4,49 @@ body,html {
     margin:0px;
 }
 
+* {
+    font-family: 'Orbitron', sans-serif;
+}
 body {
     background: url(../img/space.jpg) no-repeat center center fixed;
-    font-family: 'Orbitron', sans-serif;
+}
+
+.modal h3{
+    text-align: center;
+    padding: 10px;
+}
+
+.modal li a {
+    font-weight: bold;
+    font-size: 0.95em !important;
+}
+
+.active a{
+    background: whitesmoke !important;
+}
+
+#set_scores, #set_players, #set_instructions, #set_about {
+    display: none;
+}
+
+#set_configuration button{
+    width: 33%;
+    margin: 15px;
+    padding: 10px;
+}
+
+#new_configurationContainer label, #load_configurationContainer label {
+    margin-top: 25px;
+}
+#new_configurationContainer select, #load_configurationContainer select{
+    margin-top: 5px;
+}
+#new_configurationContainer {
+    display: none;
+}
+
+a {
+    text-decoration: none;
 }
 
 .a{
@@ -84,7 +124,6 @@ body {
 }
 
 #cpanel li div p{  
-    font-family: 'Orbitron', sans-serif;
     font-weight: bold;
     font-size: 1.7vw;
     display: table-cell;

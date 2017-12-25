@@ -9,14 +9,102 @@
         <link href="https://fonts.googleapis.com/css?family=Orbitron:400,700" rel="stylesheet">
         <!--JQUERY-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="js/game.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
         <!--TOAST-->
         <script src="js/jquery.toast.min.js"></script>
         <link rel="stylesheet" type="text/css" href="css/jquery.toast.min.css" />
     </head>
     <body>
+        <!-- Modal Settings-->
+        <!-- Modal -->
+        <div class="modal fade" id="modal_Settings" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">SETTINGS</h3>
+                        <ul class="nav nav-tabs">
+                            <li id="nav_configuration" class="active"><a href="#">Configuration</a></li>
+                            <li id="nav_scores"><a href="#">Scores</a></li>
+                            <li id="nav_players"><a href="#">Players Online</a></li>
+                            <li id="nav_instructions"><a href="#">Instructions</a></li>
+                            <li id="nav_about"><a href="#">About</a></li>
+                        </ul>
+                    </div>
+                    <div class="modal-body center-text">
+                        <div id="set_configuration">
+                            <div id="load_configurationContainer">
+                                <label for="sel_configurations">Choose a configuration</label>
+                                <select id="sel_configurations" class="form-control"></select>
+                                <div class="text-center">
+                                    <button type="button" id="btn_load" class="btn btn-primary">Load</button>
+                                    <button type="button" id="btn_newC" class="btn btn-primary">New</button>
+                                </div>
+                            </div>
+                            <div id="new_configurationContainer">
+                                <label for="sel_difficulty">Difficulty</label>
+                                <select id="sel_difficulty" class="form-control">
+                                    <option>Easy</option>
+                                    <option>Medium</option>
+                                    <option>Hard</option>
+                                </select>
+                                <label for="sel_rocket">Choose the rocket</label>
+                                <select id="sel_rocket" class="form-control">
+                                    <option>Standar</option>
+                                    <option>Proship</option>
+                                </select>
+                                <label for="sel_moon">Choose the moon</label>
+                                <select id="sel_moon" class="form-control">
+                                    <option>Gray</option>
+                                    <option>Yellow</option>
+                                </select>
+                                <div class="text-center">
+                                    <button type="button" id="btn_cancelC" class="btn btn-primary">Cancel</button>
+                                    <button type="button" id="btn_saveC" class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="set_scores">
+                            <table class="table table-hover" id="table_socres">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Configuration Name</th>
+                                        <th>Duration (sec)</th>
+                                        <th>Score</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="set_players">
+                            <table class="table table-hover" id="table_players">
+                                <thead>
+                                    <tr>
+                                        <th>Username</th>
+                                        <th>Online</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="set_instructions">Instruction content</div>
+                        <div id="set_about">About content</div>
+                    </div>
+                    <div class="modal-footer center-text">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
         <div id="rocket">
             <img src="img/rocket.png" alt="img rocket">
         </div>
