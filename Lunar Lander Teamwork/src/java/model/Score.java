@@ -1,7 +1,25 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * The MIT License
+ *
+ * Copyright 2017 admin.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package model;
 
@@ -33,7 +51,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Score.findAll", query = "SELECT s FROM Score s")
     , @NamedQuery(name = "Score.findById", query = "SELECT s FROM Score s WHERE s.id = :id")
-    , @NamedQuery(name = "Score.findBySpead", query = "SELECT s FROM Score s WHERE s.spead = :spead")
+    , @NamedQuery(name = "Score.findBySpeed", query = "SELECT s FROM Score s WHERE s.speed = :speed")
     , @NamedQuery(name = "Score.findByFuel", query = "SELECT s FROM Score s WHERE s.fuel = :fuel")
     , @NamedQuery(name = "Score.findByTrys", query = "SELECT s FROM Score s WHERE s.trys = :trys")
     , @NamedQuery(name = "Score.findByInittime", query = "SELECT s FROM Score s WHERE s.inittime = :inittime")
@@ -47,8 +65,8 @@ public class Score implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "spead")
-    private double spead;
+    @Column(name = "speed")
+    private double speed;
     @Basic(optional = false)
     @Column(name = "fuel")
     private double fuel;
@@ -74,9 +92,9 @@ public class Score implements Serializable {
         this.id = id;
     }
 
-    public Score(Integer id, double spead, double fuel, int trys, Date inittime, Date endtime) {
+    public Score(Integer id, double speed, double fuel, int trys, Date inittime, Date endtime) {
         this.id = id;
-        this.spead = spead;
+        this.speed = speed;
         this.fuel = fuel;
         this.trys = trys;
         this.inittime = inittime;
@@ -91,12 +109,12 @@ public class Score implements Serializable {
         this.id = id;
     }
 
-    public double getSpead() {
-        return spead;
+    public double getSpeed() {
+        return speed;
     }
 
-    public void setSpead(double spead) {
-        this.spead = spead;
+    public void setSpeed(double speed) {
+        this.speed = speed;
     }
 
     public double getFuel() {
@@ -161,7 +179,7 @@ public class Score implements Serializable {
 
     @Override
     public String toString() {
-        return "objects.Score[ id=" + id + " ]";
+        return "model.Score[ id=" + id + " ]";
     }
     
 }

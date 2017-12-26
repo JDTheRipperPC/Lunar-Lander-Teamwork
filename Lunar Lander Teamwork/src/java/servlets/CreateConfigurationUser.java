@@ -50,7 +50,7 @@ public class CreateConfigurationUser extends HttpServlet {
 
 /**
  * Add a configuration in User.
- * @param request userName, configname, diffId, naveId, planetId.
+ * @param request userName, configname, diffId, rocketId, planetId.
  * @param response In all cases a JSON is returned with the result.
  * @throws ServletException
  * @throws IOException 
@@ -76,7 +76,7 @@ public class CreateConfigurationUser extends HttpServlet {
                 Configuration conf = new Configuration();
                 conf.setConfigname(request.getParameter("configname"));
                 conf.setDiffId(Integer.parseInt(request.getParameter("diffId")));
-                conf.setNaveId(Integer.parseInt(request.getParameter("naveId")));
+                conf.setRocketId(Integer.parseInt(request.getParameter("rocketId")));
                 conf.setPlanetId(Integer.parseInt(request.getParameter("planetId")));
                 conf.setUserId(u);
                 cc.create(conf);

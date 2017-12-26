@@ -1,7 +1,25 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * The MIT License
+ *
+ * Copyright 2017 admin.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 package model;
 
@@ -36,7 +54,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Configuration.findById", query = "SELECT c FROM Configuration c WHERE c.id = :id")
     , @NamedQuery(name = "Configuration.findByConfigname", query = "SELECT c FROM Configuration c WHERE c.configname = :configname")
     , @NamedQuery(name = "Configuration.findByDiffId", query = "SELECT c FROM Configuration c WHERE c.diffId = :diffId")
-    , @NamedQuery(name = "Configuration.findByNaveId", query = "SELECT c FROM Configuration c WHERE c.naveId = :naveId")
+    , @NamedQuery(name = "Configuration.findByRocketId", query = "SELECT c FROM Configuration c WHERE c.rocketId = :rocketId")
     , @NamedQuery(name = "Configuration.findByPlanetId", query = "SELECT c FROM Configuration c WHERE c.planetId = :planetId")})
 public class Configuration implements Serializable {
 
@@ -53,8 +71,8 @@ public class Configuration implements Serializable {
     @Column(name = "diff_id")
     private int diffId;
     @Basic(optional = false)
-    @Column(name = "nave_id")
-    private int naveId;
+    @Column(name = "rocket_id")
+    private int rocketId;
     @Basic(optional = false)
     @Column(name = "planet_id")
     private int planetId;
@@ -71,11 +89,11 @@ public class Configuration implements Serializable {
         this.id = id;
     }
 
-    public Configuration(Integer id, String configname, int diffId, int naveId, int planetId) {
+    public Configuration(Integer id, String configname, int diffId, int rocketId, int planetId) {
         this.id = id;
         this.configname = configname;
         this.diffId = diffId;
-        this.naveId = naveId;
+        this.rocketId = rocketId;
         this.planetId = planetId;
     }
 
@@ -103,12 +121,12 @@ public class Configuration implements Serializable {
         this.diffId = diffId;
     }
 
-    public int getNaveId() {
-        return naveId;
+    public int getRocketId() {
+        return rocketId;
     }
 
-    public void setNaveId(int naveId) {
-        this.naveId = naveId;
+    public void setRocketId(int rocketId) {
+        this.rocketId = rocketId;
     }
 
     public int getPlanetId() {
@@ -158,7 +176,7 @@ public class Configuration implements Serializable {
 
     @Override
     public String toString() {
-        return "objects.Configuration[ id=" + id + " ]";
+        return "model.Configuration[ id=" + id + " ]";
     }
     
 }
