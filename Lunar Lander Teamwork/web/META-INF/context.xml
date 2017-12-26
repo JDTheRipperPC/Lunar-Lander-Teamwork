@@ -4,6 +4,6 @@
     <Resource name="jdbc/MysqlDB" auth="Container"
               type="javax.sql.DataSource" username="backend" password="qwerty"
               driverClassName="org.postgresql.Driver"
-              url="jdbc:postgresql://localhost:5432/lunarlander"
+              url="jdbc:postgresql://35.205.210.196:5432/lunarlander"
               maxActive="100" maxIdle="5"/>
 </Context>
