@@ -46,26 +46,30 @@
                                 </div>
                             </div>
                             <div id="new_configurationContainer">
-                                <label for="sel_difficulty">Difficulty</label>
-                                <select id="sel_difficulty" class="form-control">
-                                    <option>Easy</option>
-                                    <option>Medium</option>
-                                    <option>Hard</option>
-                                </select>
-                                <label for="sel_rocket">Choose the rocket</label>
-                                <select id="sel_rocket" class="form-control">
-                                    <option>Standar</option>
-                                    <option>Proship</option>
-                                </select>
-                                <label for="sel_moon">Choose the moon</label>
-                                <select id="sel_moon" class="form-control">
-                                    <option>Gray</option>
-                                    <option>Yellow</option>
-                                </select>
-                                <div class="text-center">
-                                    <button type="button" id="btn_cancelC" class="btn btn-primary">Cancel</button>
-                                    <button type="button" id="btn_saveC" class="btn btn-primary">Save</button>
-                                </div>
+                                <form id="formNewConf">
+                                    <label for="sel_difficulty">Difficulty</label>
+                                    <select id="sel_difficulty" class="form-control">
+                                        <option>Easy</option>
+                                        <option>Medium</option>
+                                        <option>Hard</option>
+                                    </select>
+                                    <label for="sel_rocket">Choose the rocket</label>
+                                    <select id="sel_rocket" class="form-control">
+                                        <option>Standar</option>
+                                        <option>Proship</option>
+                                    </select>
+                                    <label for="sel_moon">Choose the moon</label>
+                                    <select id="sel_moon" class="form-control">
+                                        <option>Gray</option>
+                                        <option>Yellow</option>
+                                    </select>
+                                    <label for="inp_confName">Configuration Name</label>
+                                    <input id="inp_confName" class="form-control" type="text" placeholder="Choose a configuration name" maxlength="50" pattern=".{4,}" required title="Minimum 4 characters"/>
+                                    <div class="text-center">
+                                        <button type="button" id="btn_cancelC" class="btn btn-primary">Cancel</button>
+                                        <button type="submit" id="btn_saveC" class="btn btn-primary">Save</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                         <div id="set_scores">
@@ -106,7 +110,7 @@
         </div>
 
         <div id="rocket">
-            <img src="img/rocket.png" alt="img rocket">
+            <img src="img/rocket1ON.png" alt="img rocket">
         </div>
         <div class="a">
             <div id="showm">show menu</div>
@@ -122,7 +126,7 @@
                 <li class="paused" id="btn_logout"><img src="img/logout.png" alt="Logout Button"></li>
             </ul>
         </div>
-        <div class="d text-center"><img src="img/moon.png" alt="Moon img" id="moon"></div>
+        <div class="d text-center"><img src="img/moonGray.png" alt="Moon img" id="moon"></div>
         <ul id="cpanel">
             <li>
                 <div>

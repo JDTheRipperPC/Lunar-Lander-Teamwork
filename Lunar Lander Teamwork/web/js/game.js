@@ -6,6 +6,11 @@ var timerFuel = null;
 var paused = false;
 var ended = false;
 var heightGame = 70;
+var imgRocketOFF = ["img/rocket1ON.png", "img/rocket2ON.gif"];
+var imgRocketON = ["img/rocket1ON.png", "img/rocket2ON.gif"];
+var imgRocketBreak = ["img/rocket1Break.gif", "img/rocket2Break.gif"];
+var imgMoon = ["img/moonGray.png", "img/moonYellow.png"];
+var configurations = [];
 
 //ROCKET
 var rocket = {
@@ -35,10 +40,11 @@ var rocket = {
 
 //CONFIGURATION 
 var configuration = {
+    id_conf: "-1",
     name: "Default",
-    difficulty: 1,
-    rocketModel: 1,
-    moonModel: 1
+    difficulty: 0,
+    rocketModel: 0,
+    moonModel: 0
 };
 
 //---------------------------------------------------
@@ -85,6 +91,20 @@ $(document).ready(function () {
             $("#load_configurationContainer").fadeIn(300);
         });
     });
+    
+    //Event for load a configuration
+    $("#btn_load").click(function (){
+        loadSelectedConfiguration(); 
+    });
+
+    //Event Submit for new configuration
+    $("#formNewConf").submit(function () {
+        saveNewConfiguration();
+        $("#new_configurationContainer").fadeOut(300, function () {
+            $("#load_configurationContainer").fadeIn(300);
+        });
+        return false;
+    });
 
     //END OF CLICKS NAV-------------------
 
@@ -122,17 +142,18 @@ $(document).ready(function () {
     });
 
     $("#btn_restart").click(function () {
-        ended = false;
-        rocket.restart();
-        stop();
-        start();
-        doPause();
-        updateFuel();
-        //document.getElementById("naveImg").src = "img/rocketOff.png";
+        restart();
+//        ended = false;
+//        rocket.restart();
+//        stop();
+//        start();
+//        doPause();
+//        updateFuel();
+//        $("#rocket > img").attr("src", imgRocketOFF[configuration.rocketModel]);
+//        //document.getElementById("naveImg").src = "img/rocketOff.png";
     });
 
     $("#btn_settings").click(function () {
-        $("#modal_Settings").modal()
         $("#modal_Settings").modal("show");
     });
 
@@ -191,6 +212,16 @@ function stop() {
     paused = true;
 }
 
+function restart() {
+    ended = false;
+    rocket.restart();
+    stop();
+    start();
+    doPause();
+    updateFuel();
+    changeRocketModel();
+}
+
 function moveRocket() {
     if (!paused && !ended) {
         //Changes the speed and the height
@@ -213,6 +244,8 @@ function moveRocket() {
             } else {
                 $("#height").text("70.00");
             }
+            //Change img of the rocket
+            $("#rocket > img").attr("src", imgRocketBreak[configuration.rocketModel]);
         }
     }
 }
@@ -263,6 +296,119 @@ function hideContents() {
     $("#set_about").hide();
 }
 
+function loadConfigurations() {
+    var url = "GetConfigurationsUser";
+    var u = localStorage._userN;
+
+    $.ajax({
+        method: "POST",
+        url: url,
+        data: {userName: u},
+        success: function (jsn) {
+            showToast("Succesfull", "", "success", "#36B62D");
+            //For each
+            $.each(jsn, function (i) {
+                var id = jsn[i].id;
+                var n = jsn[i].configname;
+                var d = jsn[i].diffId;
+                var r = jsn[i].naveId;
+                var m = jsn[i].planetId;
+                addConfiguration(id, n, d, r, m);
+            });
+        },
+        error: function (e) {
+            if (e["responseJSON"] === undefined) {
+                showToast("UNKNOWN ERROR", "Try it later", "error", "#D43721");
+            } else {
+                showToast(e["responseJSON"]["error"], "", "error", "#D43721");
+            }
+        }
+    });
+}
+
+function addConfiguration(id, name, diff, rocket, moon) {
+    var c = {
+        id_conf: id,
+        name: name,
+        difficulty: diff,
+        rocketModel: rocket,
+        moonModel: moon
+    };
+    configurations.push(c);
+
+    //Add this config to the select
+    var txt = name + " ----- (" + diff + " - " + rocket + " - " + moon + ")";
+    $('#sel_configurations').append($('<option>', {
+        value: configurations.length - 1,
+        text: txt
+    }));
+}
+
+function saveNewConfiguration() {
+    var n = $("#inp_confName").val();
+    var d = $("#sel_difficulty option:selected").index();
+    var r = $("#sel_rocket option:selected").index();
+    var m = $("#sel_moon option:selected").index();
+
+    var url = "AddConfiguration";
+    $("#sel_configurations").empty();
+    addConfiguration("0", n, d, r, m);
+//    $.ajax({
+//        method: "POST",
+//        url: url,
+//        data: {name: n, difficulty: d, rocket: r, moon: m},
+//        success: function (rsp) {
+//            showToast(rsp["mess"], "", "success", "#36B62D");
+//            $("#sel_configurations").empty();
+//            loadConfigurations();
+//        },
+//        error: function (e) {
+//            if (e["responseJSON"] === undefined) {
+//                showToast("UNKNOWN ERROR", "Try it later", "error", "#D43721");
+//            } else {
+//                showToast(e["responseJSON"]["error"], "", "error", "#D43721");
+//            }
+//        }
+//    });
+}
+
+function loadSelectedConfiguration() {
+    var i = $("#sel_configurations option:selected").index();
+    configuration.id_conf = configurations[i].id_conf;
+    configuration.name = configurations[i].name;
+    configuration.difficulty = configurations[i].difficulty;
+    configuration.rocketModel = configurations[i].rocketModel;
+    configuration.moonModel = configurations[i].moonModel;
+
+    changeDifficulty();
+    changeRocketModel();
+    changeLunarModel();
+    
+    $("#modal_Settings").modal("hide");
+    restart();
+}
+
+function changeDifficulty() {
+    switch (configuration.difficulty) {
+        case "1":
+            rocket.fuel = 50;
+            break;
+        case "2":
+            rocket.fuel = 30;
+            break;
+        case "0":
+            rocket.fuel = 100;
+            break;
+    }
+}
+
+function changeRocketModel() {
+    $("#rocket > img").attr("src", imgRocketOFF[configuration.rocketModel]);
+}
+
+function changeLunarModel() {
+    $(".d > img").attr("src", imgMoon[configuration.moonModel]);
+}
 function showToast(head, text, icon, bgColor) {
     $.toast({
         text: text, // Text that is to be shown in the toast
