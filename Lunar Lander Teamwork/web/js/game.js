@@ -61,7 +61,7 @@ var configuration = {
 $(document).ready(function () {
 
     //CHECK LOCAL STORAGE FOR CHEATERS
-    checkLocalStorage();
+    checkStorage();
 
     //loadConfigurations();
     //
@@ -193,13 +193,17 @@ $(document).ready(function () {
  * FUNCTION DEFINITION
  */
 
-function checkLocalStorage() {
+function checkStorage() {
     var url = "LoginServlet";
     var u = localStorage._userN;
     var p = localStorage._pass;
-    var correct = false;
+    var us = sessionStorage.getItem("_userN");
+    var ps = sessionStorage.getItem("_pass");
+    var correct;
+
     if ((localStorage.getItem("_userN") !== null) && (localStorage.getItem("_pass") !== null)) {
         $.ajax({
+            async: false,
             method: "POST",
             url: url,
             data: {userName: u, password: p},
@@ -208,6 +212,26 @@ function checkLocalStorage() {
                 showToast("Welcome back " + u, "", "success", "#36B62D");
             },
             error: function (e) {
+                correct = false;
+                if (e["responseJSON"] === undefined) {
+                    showToast("UNKNOWN ERROR", "Try it later", "error", "#D43721");
+                } else {
+                    showToast(e["responseJSON"]["error"], "", "error", "#D43721");
+                }
+            }
+        });
+    } else if ((sessionStorage.getItem("_userN") !== null) && (sessionStorage.getItem("_pass") !== null)) {
+        $.ajax({
+            async: false,
+            method: "POST",
+            url: url,
+            data: {userName: us, password: ps},
+            success: function (rsp) {
+                correct = true;
+                showToast("Welcome back " + us, "", "success", "#36B62D");
+            },
+            error: function (e) {
+                correct = false;
                 if (e["responseJSON"] === undefined) {
                     showToast("UNKNOWN ERROR", "Try it later", "error", "#D43721");
                 } else {
@@ -217,7 +241,7 @@ function checkLocalStorage() {
         });
     }
     if (!correct) {
-        //window.location.replace("./login.html"); //REMOVE COMENTARY FOR WORKING
+        window.location.replace("./login.html"); //REMOVE COMENTARY FOR WORKING
     }
 
 }

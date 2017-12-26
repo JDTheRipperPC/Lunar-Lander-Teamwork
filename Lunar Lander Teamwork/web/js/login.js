@@ -36,8 +36,7 @@ $(document).ready(function () {
         checkSamePasswords();
     });
 
-    //CheckLocalStorage
-    loadLocalStorage();
+    loadStorage();
 });
 
 
@@ -79,7 +78,7 @@ function signInUser() {
         data: {userName: u, password: p},
         success: function (rsp) {
             correct = true;
-            saveLocalStorage(u, p);
+            saveStorage(u, p);
             showToast(rsp["mess"], "", "success", "#36B62D");
 
         },
@@ -119,33 +118,46 @@ function signUpUser() {
             if (e["responseJSON"] === undefined)
                 showToast("UNKNOWN ERROR", "Try it later", "error", "#D43721");
             else
-                showToast(e["responseJSON"]["error"], "", "error", "#D43721");
+                showToast(e["responseJSON"]["error"], "Is your email correct?", "error", "#D43721");
         }
     });
 }
 
-function saveLocalStorage(u, p) {
+function saveStorage(u, p) {
+
+    //If remember me is cheched --> LocalStorage
     if ($("#chk").prop("checked")) {
         localStorage._userN = u;
         localStorage._pass = p;
     } else {
+        // Else.. delete localS and create SessionS
         localStorage.removeItem("_userN");
         localStorage.removeItem("_pass");
+
+        sessionStorage.setItem("_userN", u);
+        sessionStorage.setItem("_pass", p);
     }
 }
 
-function loadLocalStorage() {
+function loadStorage() {
     var u = localStorage._userN;
     var p = localStorage._pass;
+
+    var us = sessionStorage.getItem("_userN");
+    var ps = sessionStorage.getItem("_pass");
+
     if ((localStorage.getItem("_userN") !== null) && (localStorage.getItem("_pass") !== null)) {
         $("#log_inpUserName").val(u);
         $("#log_inpPass").val(p);
         $("#chk").prop("checked", true);
         showToast("Welcome back " + u, "User loaded succesfully", "success", "#36B62D");
+    } else if ((sessionStorage.getItem("_userN") !== null) && (sessionStorage.getItem("_pass") !== null)) {
+        $("#log_inpUserName").val(us);
+        $("#log_inpPass").val(ps);
+        showToast("Welcome back " + us, "User loaded succesfully", "success", "#36B62D");
     } else {
         showToast("Welcome to Lunar Lander", "No user data found", "info", "#5868D0");
     }
-
 }
 
 /**
