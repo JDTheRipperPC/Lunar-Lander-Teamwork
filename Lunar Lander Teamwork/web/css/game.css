@@ -1,50 +1,149 @@
-body,html{
+body,html {
     height:100%;
     padding:0px;
     margin:0px;
 }
 
+* {
+    font-family: 'Orbitron', sans-serif;
+}
 body {
     background: url(../img/space.jpg) no-repeat center center fixed;
-    font-family: 'Orbitron', sans-serif;
+}
+
+.modal h3{
+    text-align: center;
+    padding: 10px;
+}
+
+.modal li a {
+    font-weight: bold;
+    font-size: 0.95em !important;
+}
+
+.active a{
+    background: whitesmoke !important;
+}
+
+#set_scores, #set_players, #set_instructions, #set_about {
+    display: none;
+}
+
+#set_configuration button{
+    width: 33%;
+    margin: 15px;
+    padding: 10px;
+}
+
+#new_configurationContainer label, #load_configurationContainer label {
+    margin-top: 25px;
+}
+#new_configurationContainer select, #load_configurationContainer select{
+    margin-top: 5px;
+}
+#new_configurationContainer {
+    display: none;
+}
+
+a {
+    text-decoration: none;
 }
 
 .a{
-    background-color:#00bcd4;
+    /*background-color:#00bcd4;*/
+    left: 0;
 }
 .b{
-    /*background-color:yellow;*/
+    left: 33.33%;
 }
 .c{
-    background-color:#cddc39;
-    display:block; /*!important VISUAL BUG IF U REMOVE THAT - TRY TO FIX WITH */ 
+    /*background-color:#cddc39;*/
+    right:0;
+
 }
-.a,.b,.c{
-    display:inline-block;
+.a,.b,.c{    
+    position: absolute;
     width:33.33%;
     height:100%;
-    float:left;
+    top:0;
 }
 .d{
-    background-color:pink;
-    height:10%;
+    position:absolute;
+    height:15%;
     width:100%;
-    position:fixed;
-    bottom:0px;
+    bottom:0;
 }
+
+#moon {
+    height: 100%;
+    width: 100%;
+}
+
 #rocket{
     text-align:center;
     position:fixed;
     top:10%;
     width:100%;
-    height:20%
+    height:20%;
+    z-index: 1;
 }
 #rocket img{
     height:100%;
+    z-index: 1;
 }
-#cpanel{
 
+#cpanel{
+    top: 30px;
+    left: 30px;
+    position: absolute;
+    width: 30%;
 }
+
+#cpanel li {
+    background-color: white;
+    position: relative;
+    border: 2px solid yellow;
+    border-radius: 5px 30px 30px 5px;
+    width: 100%;
+    height: 60px;
+    margin-bottom: 4%;
+}
+
+#cpanel li img {
+    position: absolute;
+    height: 100%;
+    padding: 5px;
+    z-index: 1;
+}
+
+#cpanel li div{
+    display: table;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+#cpanel li div p{  
+    font-weight: bold;
+    font-size: 1.7vw;
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+}
+
+#fuelContainer {
+    height: 100%;
+    float: right;
+}
+
+#fuelContent {
+    background: linear-gradient(to left, #33cc33 27%, #ff6600 100%);
+    width: 100%;
+    height: 100%;
+    border-radius: 5px 30px 30px 5px;
+}
+
+
 #hidem,#showm{
     display:none
 }
@@ -57,15 +156,21 @@ ul {
 }
 
 #menu {
-    background-color: green;
+    background-color: white;
     top: 0;
 }
 
 #menu li img {
-    margin-top: 2.5%;
+    margin: 5px;
     max-width: 15%;
-    margin-right: 5%;
     float: right;
+    -webkit-transition: -webkit-transform .8s ease-in-out;
+    transition:         transform .8s ease-in-out;
+}
+#menu li img:hover{
+    transform: scale(1.1);
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
 }
 
 .paused {
