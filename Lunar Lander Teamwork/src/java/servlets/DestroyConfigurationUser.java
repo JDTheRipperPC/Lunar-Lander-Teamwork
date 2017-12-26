@@ -55,7 +55,7 @@ public class DestroyConfigurationUser extends HttpServlet {
      * @throws IOException 
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
@@ -72,6 +72,7 @@ public class DestroyConfigurationUser extends HttpServlet {
                 PrintWriter pw = response.getWriter();
                 pw.println(gson.toJson(emess));
             } else {
+                cc.destroyScoresInConfiguration(c);
                 cc.destroy(Integer.parseInt(request.getParameter("configurationId")));
 
                 Map<String, String> emess = new HashMap<>();

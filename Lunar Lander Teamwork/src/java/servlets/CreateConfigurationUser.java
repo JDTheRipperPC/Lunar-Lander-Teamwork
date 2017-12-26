@@ -37,7 +37,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Configuration;
 import model.ConfigurationJpaController;
-import model.Encriptacion;
 import model.User;
 import model.UserJpaController;
 

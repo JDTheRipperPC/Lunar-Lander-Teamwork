@@ -231,18 +231,36 @@ public class ConfigurationJpaController implements Serializable {
         }
     }
 
-   /**
-    * Check if the configname exists in user the database.
-    * @param configname
-    * @param user
-    * @return If the user does not exist it returns false otherwise true.
-    */
+    /**
+     * Check if the configname exists in user the database.
+     *
+     * @param configname
+     * @param user
+     * @return If the user does not exist it returns false otherwise true.
+     */
     public Boolean existByConfigName(String configname, User user) {
         EntityManager em = getEntityManager();
         try {
             List<User> list = em.createNamedQuery("Configuration.findByConfignameAndUserId").setParameter("configname", configname).setParameter("userId", user).getResultList();
             return !list.isEmpty();
 
+        } finally {
+            em.close();
+        }
+    }
+
+    /**
+     * Remove all Scores in a Configuration.
+     *
+     * @param conf
+     */
+    public void destroyScoresInConfiguration(Configuration conf) {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            Query query = em.createQuery("DELETE FROM Score c WHERE c.confId =:confId");
+            query.setParameter("confId", conf).executeUpdate();
+            em.getTransaction().commit();
         } finally {
             em.close();
         }

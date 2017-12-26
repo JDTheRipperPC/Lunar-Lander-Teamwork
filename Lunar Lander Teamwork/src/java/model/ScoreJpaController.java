@@ -180,5 +180,5 @@ public class ScoreJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }
