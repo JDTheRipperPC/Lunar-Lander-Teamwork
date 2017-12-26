@@ -48,7 +48,7 @@ public class SetConfigurationUser extends HttpServlet {
     /**
      * Change of parameters of a configuration.
      *
-     * @param request configurationId, diffId, naveId and planetId.
+     * @param request configurationId, diffId, rocketId and planetId.
      * @param response In case the change is made correctly a JSON is returned
      * with the result,in case of error or the configurationId does not exist
      * the error will be returned.
@@ -74,7 +74,7 @@ public class SetConfigurationUser extends HttpServlet {
                 pw.println(gson.toJson(emess));
             } else {
                 c.setDiffId(Integer.parseInt(request.getParameter("diffId")));
-                c.setNaveId(Integer.parseInt(request.getParameter("naveId")));
+                c.setRocketId(Integer.parseInt(request.getParameter("rocketId")));
                 c.setPlanetId(Integer.parseInt(request.getParameter("planetId")));
                 cc.edit(c);
 

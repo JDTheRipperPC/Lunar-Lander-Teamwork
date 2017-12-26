@@ -25,7 +25,6 @@ package servlets;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.graph.GraphAdapterBuilder;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -36,6 +35,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Configuration;
+import model.ConfigurationJpaController;
+import model.Encriptacion;
 import model.User;
 import model.UserJpaController;
 
@@ -43,16 +45,14 @@ import model.UserJpaController;
  *
  * @author admin
  */
-@WebServlet(name = "GetConfigurationsUser", urlPatterns = {"/GetConfigurationsUser"})
-public class GetConfigurationsUser extends HttpServlet {
+@WebServlet(name = "CreateConfigurationUser", urlPatterns = {"/CreateConfigurationUser"})
+public class CreateConfigurationUser extends HttpServlet {
 
     /**
-     * Returns a JSON with all the settings of the desired username.
+     * Add a configuration in User.
      *
-     * @param request userName of the user.
-     * @param response JSON with the settings in case of finding the username,
-     * in case of error or the username does not exist the error will be
-     * returned.
+     * @param request userName, configname, diffId, rocketId, planetId.
+     * @param response In all cases a JSON is returned with the result.
      * @throws ServletException
      * @throws IOException
      */
@@ -62,8 +62,8 @@ public class GetConfigurationsUser extends HttpServlet {
         try {
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
             UserJpaController uc = new UserJpaController(emf);
+            ConfigurationJpaController cc = new ConfigurationJpaController(emf);
             User u = uc.findUserByUsername(request.getParameter("userName"));
-
             if (u == null) {
                 Map<String, String> emess = new HashMap<>();
                 emess.put("error", "User not found");
@@ -74,16 +74,36 @@ public class GetConfigurationsUser extends HttpServlet {
                 PrintWriter pw = response.getWriter();
                 pw.println(gson.toJson(emess));
             } else {
-                GsonBuilder gsonBuilder = new GsonBuilder();
-                new GraphAdapterBuilder()
-                        .addType(User.class)
-                        .registerOn(gsonBuilder);
-                Gson gson = gsonBuilder.create();
-                response.setContentType("application/json");
-                PrintWriter pw = response.getWriter();
-                pw.println(gson.toJson(u.getConfigurationList()));
+                if (!cc.existByConfigName(request.getParameter("configname"), u)) {
 
+                    Configuration conf = new Configuration();
+                    conf.setConfigname(request.getParameter("configname"));
+                    conf.setDiffId(Integer.parseInt(request.getParameter("diffId")));
+                    conf.setRocketId(Integer.parseInt(request.getParameter("rocketId")));
+                    conf.setPlanetId(Integer.parseInt(request.getParameter("planetId")));
+                    conf.setUserId(u);
+                    cc.create(conf);
+
+                    Map<String, String> mess = new HashMap<>();
+                    mess.put("mess", "Configuration added");
+
+                    Gson gson = new GsonBuilder().create();
+
+                    response.setContentType("application/json");
+                    PrintWriter pw = response.getWriter();
+                    pw.println(gson.toJson(mess));
+                } else {
+                    Map<String, String> emess = new HashMap<>();
+                    emess.put("error", "Configuration name already exists");
+
+                    Gson gson = new GsonBuilder().create();
+                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                    response.setContentType("application/json");
+                    PrintWriter pw = response.getWriter();
+                    pw.println(gson.toJson(emess));
+                }
             }
+
         } catch (Exception e) {
             Map<String, String> emess = new HashMap<>();
             emess.put("error", e.toString());
@@ -95,7 +115,6 @@ public class GetConfigurationsUser extends HttpServlet {
             pw.println(gson.toJson(emess));
 
         }
-
     }
 
 }

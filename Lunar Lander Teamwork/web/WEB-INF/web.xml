@@ -4,6 +4,54 @@
         <description>ServletContextListener</description>
         <listener-class>listeners.PostgresqlListener</listener-class>
     </listener>
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>servlets.LoginServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateConfigurationUser</servlet-name>
+        <servlet-class>servlets.CreateConfigurationUser</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateUserServlet</servlet-name>
+        <servlet-class>servlets.CreateUserServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DestroyConfigurationUser</servlet-name>
+        <servlet-class>servlets.DestroyConfigurationUser</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetConfigurationsUser</servlet-name>
+        <servlet-class>servlets.GetConfigurationsUser</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SetConfigurationUser</servlet-name>
+        <servlet-class>servlets.SetConfigurationUser</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/LoginServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateConfigurationUser</servlet-name>
+        <url-pattern>/CreateConfigurationUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateUserServlet</servlet-name>
+        <url-pattern>/CreateUserServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DestroyConfigurationUser</servlet-name>
+        <url-pattern>/DestroyConfigurationUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetConfigurationsUser</servlet-name>
+        <url-pattern>/GetConfigurationsUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SetConfigurationUser</servlet-name>
+        <url-pattern>/SetConfigurationUser</url-pattern>
+    </servlet-mapping>
     <welcome-file-list>
         <welcome-file>login.html</welcome-file>
     </welcome-file-list>
