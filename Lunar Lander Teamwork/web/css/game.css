@@ -1,0 +1,101 @@
+body,html{
+    height:100%;
+    padding:0px;
+    margin:0px;
+}
+
+body {
+    background: url(../img/space.jpg) no-repeat center center fixed;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.a{
+    background-color:#00bcd4;
+}
+.b{
+    /*background-color:yellow;*/
+}
+.c{
+    background-color:#cddc39;
+    display:block; /*!important VISUAL BUG IF U REMOVE THAT - TRY TO FIX WITH */ 
+}
+.a,.b,.c{
+    display:inline-block;
+    width:33.33%;
+    height:100%;
+    float:left;
+}
+.d{
+    background-color:pink;
+    height:10%;
+    width:100%;
+    position:fixed;
+    bottom:0px;
+}
+#rocket{
+    text-align:center;
+    position:fixed;
+    top:10%;
+    width:100%;
+    height:20%
+}
+#rocket img{
+    height:100%;
+}
+#cpanel{
+
+}
+#hidem,#showm{
+    display:none
+}
+
+ul {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    overflow: hidden;
+}
+
+#menu {
+    background-color: green;
+    top: 0;
+}
+
+#menu li img {
+    margin-top: 2.5%;
+    max-width: 15%;
+    margin-right: 5%;
+    float: right;
+}
+
+.paused {
+    display: none;
+}
+
+/************************************************
+VERTICAL
+*************************************************/
+@media screen and (max-width: 750px){
+    body,html{height:100%;padding:0px;margin:0px;}
+    .a{background-color:#00bcd4;width:100%;height:90px;overflow:hidden;position:fixed;top:0px}
+    .b{background-color:red;width:100%;height:100%;overflow:hidden;}
+    .c{
+        background-color:#cddc39;
+        width: 100%;
+        position:fixed;
+        top:0px;
+        bottom:0px;
+        left:0px;
+        right:0px;
+        display:none;
+        z-index:1
+    }
+    .d{background-color:pink;position:fixed;bottom:0px;height:10%;width:100%;}
+    #rocket{text-align:center;position:fixed;top:10%;width:100%;height:20%}
+    #rocket img{height:100%;}
+    #cpanel{}
+    #hidem,#showm{
+        display:block;
+        float:right;
+    }
+}
