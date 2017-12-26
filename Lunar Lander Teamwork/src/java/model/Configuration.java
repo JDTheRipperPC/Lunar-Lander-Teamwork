@@ -55,7 +55,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Configuration.findByConfigname", query = "SELECT c FROM Configuration c WHERE c.configname = :configname")
     , @NamedQuery(name = "Configuration.findByDiffId", query = "SELECT c FROM Configuration c WHERE c.diffId = :diffId")
     , @NamedQuery(name = "Configuration.findByRocketId", query = "SELECT c FROM Configuration c WHERE c.rocketId = :rocketId")
-    , @NamedQuery(name = "Configuration.findByPlanetId", query = "SELECT c FROM Configuration c WHERE c.planetId = :planetId")})
+    , @NamedQuery(name = "Configuration.findByPlanetId", query = "SELECT c FROM Configuration c WHERE c.planetId = :planetId")
+    , @NamedQuery(name = "Configuration.findByConfignameAndUserId", query = "SELECT c FROM Configuration c WHERE c.configname = :configname AND c.userId = :userId" )})
 public class Configuration implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -178,5 +179,5 @@ public class Configuration implements Serializable {
     public String toString() {
         return "model.Configuration[ id=" + id + " ]";
     }
-    
+
 }

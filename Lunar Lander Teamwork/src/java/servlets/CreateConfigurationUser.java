@@ -48,19 +48,21 @@ import model.UserJpaController;
 @WebServlet(name = "CreateConfigurationUser", urlPatterns = {"/CreateConfigurationUser"})
 public class CreateConfigurationUser extends HttpServlet {
 
-/**
- * Add a configuration in User.
- * @param request userName, configname, diffId, rocketId, planetId.
- * @param response In all cases a JSON is returned with the result.
- * @throws ServletException
- * @throws IOException 
- */
+    /**
+     * Add a configuration in User.
+     *
+     * @param request userName, configname, diffId, rocketId, planetId.
+     * @param response In all cases a JSON is returned with the result.
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
             UserJpaController uc = new UserJpaController(emf);
+            ConfigurationJpaController cc = new ConfigurationJpaController(emf);
             User u = uc.findUserByUsername(request.getParameter("userName"));
             if (u == null) {
                 Map<String, String> emess = new HashMap<>();
@@ -72,24 +74,34 @@ public class CreateConfigurationUser extends HttpServlet {
                 PrintWriter pw = response.getWriter();
                 pw.println(gson.toJson(emess));
             } else {
-                ConfigurationJpaController cc = new ConfigurationJpaController(emf);
-                Configuration conf = new Configuration();
-                conf.setConfigname(request.getParameter("configname"));
-                conf.setDiffId(Integer.parseInt(request.getParameter("diffId")));
-                conf.setRocketId(Integer.parseInt(request.getParameter("rocketId")));
-                conf.setPlanetId(Integer.parseInt(request.getParameter("planetId")));
-                conf.setUserId(u);
-                cc.create(conf);
+                if (!cc.existByConfigName(request.getParameter("configname"), u)) {
 
-                Map<String, String> mess = new HashMap<>();
-                mess.put("mess", "Configuration added");
+                    Configuration conf = new Configuration();
+                    conf.setConfigname(request.getParameter("configname"));
+                    conf.setDiffId(Integer.parseInt(request.getParameter("diffId")));
+                    conf.setRocketId(Integer.parseInt(request.getParameter("rocketId")));
+                    conf.setPlanetId(Integer.parseInt(request.getParameter("planetId")));
+                    conf.setUserId(u);
+                    cc.create(conf);
 
-                Gson gson = new GsonBuilder().create();
+                    Map<String, String> mess = new HashMap<>();
+                    mess.put("mess", "Configuration added");
 
-                response.setContentType("application/json");
-                PrintWriter pw = response.getWriter();
-                pw.println(gson.toJson(mess));
+                    Gson gson = new GsonBuilder().create();
 
+                    response.setContentType("application/json");
+                    PrintWriter pw = response.getWriter();
+                    pw.println(gson.toJson(mess));
+                } else {
+                    Map<String, String> emess = new HashMap<>();
+                    emess.put("error", "Configuration name already exists");
+
+                    Gson gson = new GsonBuilder().create();
+                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                    response.setContentType("application/json");
+                    PrintWriter pw = response.getWriter();
+                    pw.println(gson.toJson(emess));
+                }
             }
 
         } catch (Exception e) {

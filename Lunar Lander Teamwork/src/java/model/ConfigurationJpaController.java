@@ -231,6 +231,23 @@ public class ConfigurationJpaController implements Serializable {
         }
     }
 
+   /**
+    * Check if the configname exists in user the database.
+    * @param configname
+    * @param user
+    * @return If the user does not exist it returns false otherwise true.
+    */
+    public Boolean existByConfigName(String configname, User user) {
+        EntityManager em = getEntityManager();
+        try {
+            List<User> list = em.createNamedQuery("Configuration.findByConfignameAndUserId").setParameter("configname", configname).setParameter("userId", user).getResultList();
+            return !list.isEmpty();
+
+        } finally {
+            em.close();
+        }
+    }
+
     public int getConfigurationCount() {
         EntityManager em = getEntityManager();
         try {
@@ -243,5 +260,5 @@ public class ConfigurationJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }
