@@ -70,17 +70,21 @@ function signInUser() {
     var url = "LoginServlet";
     var u = $("#log_inpUserName").val();
     var p = $("#log_inpPass").val();
-    var correct = false;
+    var correct;
+
     $.ajax({
+        async: false,
         method: "POST",
         url: url,
         data: {userName: u, password: p},
         success: function (rsp) {
-            saveLocalStorage(u, p);
             correct = true;
+            saveLocalStorage(u, p);
             showToast(rsp["mess"], "", "success", "#36B62D");
+
         },
         error: function (e) {
+            correct = false;
             if (e["responseJSON"] === undefined) {
                 showToast("UNKNOWN ERROR", "Try it later", "error", "#D43721");
             } else {
