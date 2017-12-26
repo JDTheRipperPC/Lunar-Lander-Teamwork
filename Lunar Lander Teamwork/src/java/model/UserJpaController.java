@@ -33,7 +33,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
 import model.exceptions.IllegalOrphanException;
 import model.exceptions.NonexistentEntityException;
 
@@ -254,7 +253,6 @@ public class UserJpaController implements Serializable {
             em.close();
         }
     }
-
     public int getUserCount() {
         EntityManager em = getEntityManager();
         try {
@@ -267,5 +265,5 @@ public class UserJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }
