@@ -32,6 +32,10 @@
         <servlet-name>CreateScoreUser</servlet-name>
         <servlet-class>servlets.CreateScoreUser</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SetScoreUser</servlet-name>
+        <servlet-class>servlets.SetScoreUser</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -59,6 +63,10 @@
     <servlet-mapping>
         <servlet-name>CreateScoreUser</servlet-name>
         <url-pattern>/CreateScoreUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SetScoreUser</servlet-name>
+        <url-pattern>/SetScoreUser</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>login.html</welcome-file>
