@@ -59,6 +59,7 @@ public class DestroyConfigurationUser extends HttpServlet {
             throws ServletException, IOException {
         try {
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+            emf.getCache().evictAll();
             ConfigurationJpaController cc = new ConfigurationJpaController(emf);
             Configuration c = cc.findConfiguration(Integer.parseInt(request.getParameter("configurationId")));
 
