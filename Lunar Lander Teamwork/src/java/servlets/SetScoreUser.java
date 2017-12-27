@@ -27,44 +27,42 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Configuration;
-import model.ConfigurationJpaController;
+import model.Score;
+import model.ScoreJpaController;
 
 /**
  *
  * @author admin
  */
-@WebServlet(name = "DestroyConfigurationUser", urlPatterns = {"/DestroyConfigurationUser"})
-public class DestroyConfigurationUser extends HttpServlet {
+public class SetScoreUser extends HttpServlet {
 
     /**
-     * Destroy a configuration.
-     * @param request configurationId.
-     * @param response IIn case it has been destroyed correctly a 
-     * JSON is returned with the result,in case of error or the configurationId
-     * does not exist the error will be returned.
+     * Edit the score by adding speed, fuel and EndTime
+     * @param request scoreId, fuel, speed
+     * @param response In all cases a JSON is returned with the result.
      * @throws ServletException
-     * @throws IOException 
+     * @throws IOException
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-            ConfigurationJpaController cc = new ConfigurationJpaController(emf);
-            Configuration c = cc.findConfiguration(Integer.parseInt(request.getParameter("configurationId")));
+            ScoreJpaController sc = new ScoreJpaController(emf);
+            Score s = sc.findScore(Integer.parseInt(request.getParameter("scoreId")));
 
-            if (c == null) {
+            if (s == null) {
                 Map<String, String> emess = new HashMap<>();
-                emess.put("error", "Configuration not found");
+                emess.put("error", "Score not found");
 
                 Gson gson = new GsonBuilder().create();
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -72,8 +70,10 @@ public class DestroyConfigurationUser extends HttpServlet {
                 PrintWriter pw = response.getWriter();
                 pw.println(gson.toJson(emess));
             } else {
-                cc.destroyScoresInConfiguration(c);
-                cc.destroy(Integer.parseInt(request.getParameter("configurationId")));
+                s.setFuel(Double.parseDouble(request.getParameter("fuel")));
+                s.setSpeed(Double.parseDouble(request.getParameter("speed")));
+                s.setEndtime(Timestamp.valueOf(LocalDateTime.now()));
+                sc.edit(s);
 
                 Map<String, String> emess = new HashMap<>();
                 emess.put("mess", "Succesfull");

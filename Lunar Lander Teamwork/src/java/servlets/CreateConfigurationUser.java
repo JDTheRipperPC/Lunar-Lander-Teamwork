@@ -37,7 +37,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Configuration;
 import model.ConfigurationJpaController;
-import model.Encriptacion;
 import model.User;
 import model.UserJpaController;
 
@@ -106,7 +105,7 @@ public class CreateConfigurationUser extends HttpServlet {
 
         } catch (Exception e) {
             Map<String, String> emess = new HashMap<>();
-            emess.put("error", e.toString());
+            emess.put("error", "Server error");
 
             Gson gson = new GsonBuilder().create();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

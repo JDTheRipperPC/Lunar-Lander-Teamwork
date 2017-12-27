@@ -31,37 +31,40 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Configuration;
 import model.ConfigurationJpaController;
+import model.Score;
+import model.ScoreJpaController;
 
 /**
  *
  * @author admin
  */
-@WebServlet(name = "DestroyConfigurationUser", urlPatterns = {"/DestroyConfigurationUser"})
-public class DestroyConfigurationUser extends HttpServlet {
-
+public class CreateScoreUser extends HttpServlet {
+    
     /**
-     * Destroy a configuration.
-     * @param request configurationId.
-     * @param response IIn case it has been destroyed correctly a 
-     * JSON is returned with the result,in case of error or the configurationId
-     * does not exist the error will be returned.
+     * Create a score with the desired settings, if the user has previous 
+     * unfinished scores they are eliminated.
+     * @param request configurationId
+     * @param response If the configuration does not exist or there was an error
+     * in the server, a JSON is returned with an error message, in case of 
+     * adding the score a JSON with scoreId is returned.
      * @throws ServletException
      * @throws IOException 
      */
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         try {
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+            ScoreJpaController sc = new ScoreJpaController(emf);
             ConfigurationJpaController cc = new ConfigurationJpaController(emf);
             Configuration c = cc.findConfiguration(Integer.parseInt(request.getParameter("configurationId")));
-
             if (c == null) {
                 Map<String, String> emess = new HashMap<>();
                 emess.put("error", "Configuration not found");
@@ -72,18 +75,23 @@ public class DestroyConfigurationUser extends HttpServlet {
                 PrintWriter pw = response.getWriter();
                 pw.println(gson.toJson(emess));
             } else {
-                cc.destroyScoresInConfiguration(c);
-                cc.destroy(Integer.parseInt(request.getParameter("configurationId")));
+                sc.destroyScoresUserEmpty(c.getUserId());
+                Score score = new Score();
+                score.setConfId(c);
 
-                Map<String, String> emess = new HashMap<>();
-                emess.put("mess", "Succesfull");
+                sc.create(score);
+
+                Map<String, String> mess = new HashMap<>();
+                mess.put("scoreId", Integer.toString(score.getId()));
 
                 Gson gson = new GsonBuilder().create();
 
                 response.setContentType("application/json");
                 PrintWriter pw = response.getWriter();
-                pw.println(gson.toJson(emess));
+                pw.println(gson.toJson(mess));
+
             }
+
         } catch (Exception e) {
             Map<String, String> emess = new HashMap<>();
             emess.put("error", "Server error");
@@ -95,6 +103,7 @@ public class DestroyConfigurationUser extends HttpServlet {
             pw.println(gson.toJson(emess));
 
         }
+
     }
 
 }

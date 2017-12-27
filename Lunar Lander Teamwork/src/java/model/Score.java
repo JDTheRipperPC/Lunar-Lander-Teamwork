@@ -46,7 +46,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author admin
  */
 @Entity
-@Table(name = "public.score")
+@Table(name = "score")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Score.findAll", query = "SELECT s FROM Score s")
@@ -64,20 +64,15 @@ public class Score implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
     @Column(name = "speed")
-    private double speed;
-    @Basic(optional = false)
+    private Double speed;
     @Column(name = "fuel")
-    private double fuel;
-    @Basic(optional = false)
+    private Double fuel;
     @Column(name = "trys")
-    private int trys;
-    @Basic(optional = false)
-    @Column(name = "inittime")
+    private Integer trys;
+    @Column(name = "inittime", insertable=false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date inittime;
-    @Basic(optional = false)
     @Column(name = "endtime")
     @Temporal(TemporalType.TIMESTAMP)
     private Date endtime;
@@ -92,13 +87,9 @@ public class Score implements Serializable {
         this.id = id;
     }
 
-    public Score(Integer id, double speed, double fuel, int trys, Date inittime, Date endtime) {
+    public Score(Integer id, Date inittime) {
         this.id = id;
-        this.speed = speed;
-        this.fuel = fuel;
-        this.trys = trys;
         this.inittime = inittime;
-        this.endtime = endtime;
     }
 
     public Integer getId() {
@@ -109,27 +100,27 @@ public class Score implements Serializable {
         this.id = id;
     }
 
-    public double getSpeed() {
+    public Double getSpeed() {
         return speed;
     }
 
-    public void setSpeed(double speed) {
+    public void setSpeed(Double speed) {
         this.speed = speed;
     }
 
-    public double getFuel() {
+    public Double getFuel() {
         return fuel;
     }
 
-    public void setFuel(double fuel) {
+    public void setFuel(Double fuel) {
         this.fuel = fuel;
     }
 
-    public int getTrys() {
+    public Integer getTrys() {
         return trys;
     }
 
-    public void setTrys(int trys) {
+    public void setTrys(Integer trys) {
         this.trys = trys;
     }
 
