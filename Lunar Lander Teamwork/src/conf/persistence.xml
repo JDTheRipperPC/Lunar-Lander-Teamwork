@@ -6,6 +6,8 @@
     <class>model.Score</class>
     <class>model.Configuration</class>
     <class>model.User</class>
+    <class>model.Configuration_1</class>
+    <class>model.User_1</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>

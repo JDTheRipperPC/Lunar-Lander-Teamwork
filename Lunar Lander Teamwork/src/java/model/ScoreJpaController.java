@@ -168,6 +168,26 @@ public class ScoreJpaController implements Serializable {
         }
     }
 
+    /**
+     * If that user has unfinished games, they are eliminated.
+     *
+     * @param user
+     */
+    public void destroyScoresUserEmpty(User user) {
+        EntityManager em = getEntityManager();
+        try {
+            for (Configuration conf : user.getConfigurationList()) {
+                em.getTransaction().begin();
+                Query query = em.createQuery("DELETE FROM Score c WHERE c.endtime IS NULL AND c.confId=:confId");
+                query.setParameter("confId", conf).executeUpdate();
+                em.getTransaction().commit();
+            }
+        } finally {
+            em.close();
+        }
+
+    }
+
     public int getScoreCount() {
         EntityManager em = getEntityManager();
         try {
