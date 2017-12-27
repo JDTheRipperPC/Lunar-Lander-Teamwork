@@ -11,12 +11,14 @@ var imgRocketON = ["img/rocket1ON.png", "img/rocket2ON.gif"];
 var imgRocketBreak = ["img/rocket1Break.gif", "img/rocket2Break.gif"];
 var imgMoon = ["img/moonGray.png", "img/moonYellow.png"];
 var configurations = [];
+var fuelLevel = 100;
+var userName;
 
 //ROCKET
 var rocket = {
     height: 10,
     speed: 0,
-    fuel: 100,
+    fuel: fuelLevel,
     aceleration: gravity,
     motorON: function () {
         motorOn();
@@ -34,7 +36,7 @@ var rocket = {
         this.height = 10;
         this.speed = 0;
         this.aceleration = -gravity;
-        this.fuel = 100;
+        this.fuel = fuelLevel;
     }
 };
 
@@ -63,7 +65,7 @@ $(document).ready(function () {
     //CHECK LOCAL STORAGE FOR CHEATERS
     checkStorage();
 
-    //loadConfigurations();
+    loadConfigurations();
     //
     //EVENTS RELATED WITH THE MODAL:
     //START CLICKS NAV--------------------
@@ -84,6 +86,9 @@ $(document).ready(function () {
     });
     $("#nav_players").click(function () {
         $("#set_players").show();
+    });
+    $("#nav_ranking").click(function () {
+        $("#set_ranking").show();
     });
     $("#nav_instructions").click(function () {
         $("#set_instructions").show();
@@ -110,6 +115,21 @@ $(document).ready(function () {
             $("#modal_Settings").modal("hide");
             restart();
         }
+    });
+
+    //Event for delete a configuration
+    $("#btn_deleteC").click(function () {
+        if ($("#sel_configurations option:selected").index() !== -1) {
+            $("#modal_confirmation").modal("show");
+        }
+    });
+    
+    $("#btn_acceptDelete").click(function (){
+        deleteSelectedConfiguration(); 
+        $("#modal_confirmation").modal("hide");
+    });
+    $("#btn_cancelDelete").click(function (){
+        $("#modal_confirmation").modal("hide");
     });
 
     //Event Submit for new configuration
@@ -317,6 +337,7 @@ function motorOff() {
 function updateFuel() {
     if (rocket.haveFuel() && (!paused) && (!ended)) {
         //Decrement fuel until its 0
+        alert(rocket.fuel);
         rocket.fuel -= 0.1;
         if (rocket.fuel < 0)
             rocket.fuel = 0;
@@ -339,47 +360,45 @@ function hideContents() {
     $("#set_configuration").hide();
     $("#set_scores").hide();
     $("#set_players").hide();
+    $("#set_ranking").hide();
     $("#set_instructions").hide();
     $("#set_about").hide();
 }
 
-function loadSelect() {
-    alert(configurations.length);
-    $.each(configurations, function (i, item) {
-        //console.log(data[i].expert_name);
-        $('#sel_configurations').append($('<option>', {
-            value: configurations[i].id,
-            text: data.menus[i].menu_title,
-        }));
-    });
-}
-
 function loadConfigurations() {
     var url = "GetConfigurationsUser";
-    var u = localStorage._userN;
+    var u = localStorage.getItem("_userN");
+
+    if (u === null) {
+        u = sessionStorage.getItem("_userN");
+    }
+
+    userName = u;
 
     $.ajax({
         method: "POST",
         url: url,
         data: {userName: u},
         success: function (jsn) {
-            showToast("Succesfull", "", "success", "#36B62D");
             //For each
             $.each(jsn, function (i) {
                 var id = jsn[i].id;
                 var n = jsn[i].configname;
                 var d = jsn[i].diffId;
-                var r = jsn[i].naveId;
+                var r = jsn[i].rocketId;
                 var m = jsn[i].planetId;
                 configurations.push(new ConfigurationClass(id, n, d, r, m));
+                $('#sel_configurations').append($('<option>', {
+                    value: n,
+                    text: n + " ---- (" + d + " / " + r + " / " + m + ")"
+                }));
             });
-            loadSelect();
         },
         error: function (e) {
             if (e["responseJSON"] === undefined) {
                 showToast("UNKNOWN ERROR", "Try it later", "error", "#D43721");
             } else {
-                showToast(e["responseJSON"]["error"], "", "error", "#D43721");
+                showToast(e["responseJSON"]["error"], "Error at load configurations", "error", "#D43721");
             }
         }
     });
@@ -391,27 +410,26 @@ function saveNewConfiguration() {
     var r = $("#sel_rocket option:selected").index();
     var m = $("#sel_moon option:selected").index();
 
-    var url = "AddConfiguration";
-    $("#sel_configurations").empty();
-    addConfiguration("0", n, d, r, m);
-//    $.ajax({
-//        method: "POST",
-//        url: url,
-//        data: {name: n, difficulty: d, rocket: r, moon: m},
-//        success: function (rsp) {
-//            showToast(rsp["mess"], "", "success", "#36B62D");
-//            configurations = [];
-//            $("#sel_configurations").empty();
-//            loadConfigurations();
-//        },
-//        error: function (e) {
-//            if (e["responseJSON"] === undefined) {
-//                showToast("UNKNOWN ERROR", "Try it later", "error", "#D43721");
-//            } else {
-//                showToast(e["responseJSON"]["error"], "", "error", "#D43721");
-//            }
-//        }
-//    });
+    var url = "CreateConfigurationUser";
+
+    $.ajax({
+        method: "POST",
+        url: url,
+        data: {userName: userName, configname: n, diffId: d, rocketId: r, planetId: m},
+        success: function (rsp) {
+            showToast(rsp["mess"], "", "success", "#36B62D");
+            configurations = [];
+            $("#sel_configurations").empty();
+            loadConfigurations();
+        },
+        error: function (e) {
+            if (e["responseJSON"] === undefined) {
+                showToast("UNKNOWN ERROR", "Try it later", "error", "#D43721");
+            } else {
+                showToast(e["responseJSON"]["error"], "", "error", "#D43721");
+            }
+        }
+    });
 }
 
 function loadSelectedConfiguration() {
@@ -427,16 +445,21 @@ function loadSelectedConfiguration() {
     changeLunarModel();
 }
 
+function deleteSelectedConfiguration() {
+    var i = $("#sel_configurations option:selected").index();
+    alert(i+" is eliminated");
+}
+
 function changeDifficulty() {
     switch (configuration.difficulty) {
         case "1":
-            rocket.fuel = 50;
+            fuelLevel = 50;
             break;
         case "2":
-            rocket.fuel = 30;
+            fuelLevel = 30;
             break;
         case "0":
-            rocket.fuel = 100;
+            fuelLevel = 100;
             break;
     }
 }
