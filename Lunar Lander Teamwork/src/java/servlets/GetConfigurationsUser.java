@@ -25,7 +25,6 @@ package servlets;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.graph.GraphAdapterBuilder;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -74,11 +73,7 @@ public class GetConfigurationsUser extends HttpServlet {
                 PrintWriter pw = response.getWriter();
                 pw.println(gson.toJson(emess));
             } else {
-                GsonBuilder gsonBuilder = new GsonBuilder();
-                new GraphAdapterBuilder()
-                        .addType(User.class)
-                        .registerOn(gsonBuilder);
-                Gson gson = gsonBuilder.create();
+                Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
                 response.setContentType("application/json");
                 PrintWriter pw = response.getWriter();
                 pw.println(gson.toJson(u.getConfigurationList()));

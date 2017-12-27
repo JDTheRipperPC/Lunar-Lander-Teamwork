@@ -23,6 +23,7 @@
  */
 package model;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -56,7 +57,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Configuration.findByDiffId", query = "SELECT c FROM Configuration c WHERE c.diffId = :diffId")
     , @NamedQuery(name = "Configuration.findByRocketId", query = "SELECT c FROM Configuration c WHERE c.rocketId = :rocketId")
     , @NamedQuery(name = "Configuration.findByPlanetId", query = "SELECT c FROM Configuration c WHERE c.planetId = :planetId")
-    , @NamedQuery(name = "Configuration.findByConfignameAndUserId", query = "SELECT c FROM Configuration c WHERE c.configname = :configname AND c.userId = :userId" )})
+    , @NamedQuery(name = "Configuration.findByConfignameAndUserId", query = "SELECT c FROM Configuration c WHERE c.configname = :configname AND c.userId = :userId")})
 public class Configuration implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -64,23 +65,30 @@ public class Configuration implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
+    @Expose
     private Integer id;
     @Basic(optional = false)
     @Column(name = "configname")
+    @Expose
     private String configname;
     @Basic(optional = false)
     @Column(name = "diff_id")
+    @Expose
     private int diffId;
     @Basic(optional = false)
     @Column(name = "rocket_id")
+    @Expose
     private int rocketId;
     @Basic(optional = false)
     @Column(name = "planet_id")
+    @Expose
     private int planetId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "confId", fetch = FetchType.LAZY)
+    @Expose (serialize = false)
     private List<Score> scoreList;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @Expose (serialize = false)
     private User userId;
 
     public Configuration() {
