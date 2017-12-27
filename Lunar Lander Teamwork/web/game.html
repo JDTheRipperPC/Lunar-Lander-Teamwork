@@ -5,6 +5,10 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="css/game.css" />
+        <meta name="description" content="Welcome to Lunar Lander! So Traveler, enjoy this game!">
+        <meta name="keywords" content="Game, Lunar, Lander, Rocket, Space, Project, XGod">
+        <meta name="author" content="JDTheRipperPC (Version Control), arsg93 (Backend), SOSandreu1095 (Frontend)">
+        <link rel="icon" type="image/png" href="img/favicon.png" />
         <!-- GOOGLE FONTS-->
         <link href="https://fonts.googleapis.com/css?family=Orbitron:400,700" rel="stylesheet">
         <!--JQUERY-->
@@ -21,7 +25,7 @@
         <!-- Modal Settings-->
         <!-- Modal -->
         <div class="modal fade" id="modal_Settings" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-lg" role="document">
 
                 <!-- Modal content-->
                 <div class="modal-content">
@@ -31,6 +35,7 @@
                             <li id="nav_configuration" class="active"><a href="#">Configuration</a></li>
                             <li id="nav_scores"><a href="#">Scores</a></li>
                             <li id="nav_players"><a href="#">Players Online</a></li>
+                            <li id="nav_ranking"><a href="#">Ranking</a></li>
                             <li id="nav_instructions"><a href="#">Instructions</a></li>
                             <li id="nav_about"><a href="#">About</a></li>
                         </ul>
@@ -41,8 +46,9 @@
                                 <label for="sel_configurations">Choose a configuration</label>
                                 <select id="sel_configurations" class="form-control"></select>
                                 <div class="text-center">
-                                    <button type="button" id="btn_load" class="btn btn-primary">Load</button>
+                                    <button type="button" id="btn_load" class="btn btn-success">Load</button>
                                     <button type="button" id="btn_newC" class="btn btn-primary">New</button>
+                                    <button type="button" id="btn_deleteC" class="btn btn-warning">Delete</button>
                                 </div>
                             </div>
                             <div id="new_configurationContainer">
@@ -98,14 +104,64 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div id="set_instructions">Instruction content</div>
-                        <div id="set_about">About content</div>
+                        <div id="set_ranking">
+                            <table class="table table-hover" id="table_ranking">
+                                <thead>
+                                    <tr>
+                                        <th>Username</th>
+                                        <th>Games Played</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="set_instructions">
+                            <p>Welcome traveler! Your mission here is to land the rocket on the planet without cause a disaster..</p>
+                            <span>HOW TO PLAY</span>
+                            <ul class="inst">
+                                <li><span>Move</span> -> Use the SPACE or click the screen to activate the propulsor</li>
+                                <li><span>Land</span> -> Land to the planet at with less taht 5 m/s to survive the collision</li>
+                            </ul>
+                            <br>
+                            <p>There are 3 things that you can change for cutom your experience, like:</p>
+                            <ul class="inst">
+                                <li><span>Difficulty</span> -> It will change the amount of fuel to complete the game</li>
+                                <li><span>Rocket model</span> -> Changes the rocket that you want to use</li>
+                                <li><span>Planet model</span> -> Changes the planet where you have to land</li>
+                            </ul>
+                        </div>
+                        <div id="set_about">
+                            <h4>Thanks for playing and supporting us!</h4>
+                            <br>
+                            <p>People like you make this world better!
+                                <br>
+                                <br>
+                                We are greateful of all of you, and we want to dedicate this section to mention all
+                                the thinks and persons that made this possible, so...
+                                If you are interested to know more things about this, just 
+                                <a href="./about.html" target="_blank">click here</a>
+                            </p>
+                        </div>
                     </div>
                     <div class="modal-footer center-text">
                         <button id="btnCloseModal" type="button" class="btn btn-secondary">Close</button>
                     </div>
                 </div>
 
+                <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="modal_confirmation">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myModalLabel">Are you sure?</h4>
+                            </div>
+                            <div class="modal-footer">
+                                <button id="btn_acceptDelete" type="button" class="btn btn-danger">Yes</button>
+                                <button id="btn_cancelDelete" type="button" class="btn btn-primary">No</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
