@@ -86,7 +86,7 @@ public class GetConfigurationsUser extends HttpServlet {
             }
         } catch (Exception e) {
             Map<String, String> emess = new HashMap<>();
-            emess.put("error", e.toString());
+            emess.put("error", "Server error");
 
             Gson gson = new GsonBuilder().create();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
