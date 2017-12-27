@@ -24,7 +24,11 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
@@ -182,6 +186,26 @@ public class ScoreJpaController implements Serializable {
                 query.setParameter("confId", conf).executeUpdate();
                 em.getTransaction().commit();
             }
+        } finally {
+            em.close();
+        }
+
+    }
+
+    /**
+     * Get all the scores finished by a user.
+     * @param user
+     * @return List with all the scores.
+     */
+    public List<Score> getScoresUser(User user) {
+        EntityManager em = getEntityManager();
+        try {
+            List<Score> scores = new ArrayList<>();
+            for (Configuration conf : user.getConfigurationList()) {
+                Query query = em.createQuery("Select c FROM Score c WHERE c.endtime IS NOT NULL AND c.confId=:confId");
+                scores.addAll(query.setParameter("confId", conf).getResultList());
+            }
+            return scores;
         } finally {
             em.close();
         }
