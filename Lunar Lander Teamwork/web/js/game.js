@@ -6,6 +6,7 @@ var timerFuel = null;
 var paused = true;
 var ended = false;
 var heightGame = 70;
+var maxSpeedImpact = 5;
 var imgRocketOFF = ["img/rocket1ON.png", "img/rocket2ON.gif"];
 var imgRocketON = ["img/rocket1ON.png", "img/rocket2ON.gif"];
 var imgRocketBreak = ["img/rocket1Break.gif", "img/rocket2Break.gif"];
@@ -13,6 +14,7 @@ var imgMoon = ["img/moonGray.png", "img/moonYellow.png"];
 var configurations = [];
 var fuelLevel = 100;
 var userName;
+var actualScoreId;
 
 //ROCKET
 var rocket = {
@@ -121,14 +123,16 @@ $(document).ready(function () {
     $("#btn_deleteC").click(function () {
         if ($("#sel_configurations option:selected").index() !== -1) {
             $("#modal_confirmation").modal("show");
+        } else {
+            showToast("No configuration detected", "Create one", "info", "#5868D0");
         }
     });
-    
-    $("#btn_acceptDelete").click(function (){
-        deleteSelectedConfiguration(); 
+
+    $("#btn_acceptDelete").click(function () {
+        deleteSelectedConfiguration();
         $("#modal_confirmation").modal("hide");
     });
-    $("#btn_cancelDelete").click(function (){
+    $("#btn_cancelDelete").click(function () {
         $("#modal_confirmation").modal("hide");
     });
 
@@ -186,14 +190,6 @@ $(document).ready(function () {
 
     $("#btn_restart").click(function () {
         restart();
-//        ended = false;
-//        rocket.restart();
-//        stop();
-//        start();
-//        doPause();
-//        updateFuel();
-//        $("#rocket > img").attr("src", imgRocketOFF[configuration.rocketModel]);
-//        //document.getElementById("naveImg").src = "img/rocketOff.png";
     });
 
     $("#btn_settings").click(function () {
@@ -205,8 +201,6 @@ $(document).ready(function () {
     });
 
     $("#modal_Settings").modal("show");
-
-    start();
 });
 
 /**
@@ -268,6 +262,8 @@ function checkStorage() {
 
 
 function start() {
+    //The  game starts, and we will start to create the score
+    initScore();
     //Every interval timelap move the rocket
     timer = setInterval(function () {
         moveRocket();
@@ -302,17 +298,28 @@ function moveRocket() {
         if ((rocket.height < heightGame) && (rocket.height > 0)) {
             document.getElementById("rocket").style.top = rocket.height + "%";
         } else {
+            //Game ended, save the score
             doPause();
             ended = true;
             stop();
             //Fast check if is in the top or bottom side
+
+            //If it hits in the ground.. check the speed
             if (rocket.height > 65) {
                 $("#height").text("0.00");
+                //See the impact speed
+                if (rocket.speed < maxSpeedImpact) {
+                    finishScore();
+                } else {
+                    //Change img of the rocket
+                    $("#rocket > img").attr("src", imgRocketBreak[configuration.rocketModel]);
+                }
             } else {
                 $("#height").text("70.00");
+                //Change img of the rocket
+                $("#rocket > img").attr("src", imgRocketBreak[configuration.rocketModel]);
             }
-            //Change img of the rocket
-            $("#rocket > img").attr("src", imgRocketBreak[configuration.rocketModel]);
+
         }
     }
 }
@@ -337,7 +344,6 @@ function motorOff() {
 function updateFuel() {
     if (rocket.haveFuel() && (!paused) && (!ended)) {
         //Decrement fuel until its 0
-        alert(rocket.fuel);
         rocket.fuel -= 0.1;
         if (rocket.fuel < 0)
             rocket.fuel = 0;
@@ -365,6 +371,51 @@ function hideContents() {
     $("#set_about").hide();
 }
 
+function initScore() {
+    var i = $("#sel_configurations option:selected").index();
+    var configurationId = configurations[i].id;
+    var url = "CreateScoreUser";
+
+    $.ajax({
+        method: "POST",
+        url: url,
+        data: {configurationId: configurationId},
+        success: function (rsp) {
+            actualScoreId = rsp.scoreId;
+        },
+        error: function (e) {
+            if (e["responseJSON"] === undefined) {
+                showToast("UNKNOWN ERROR", "Try it later", "error", "#D43721");
+            } else {
+                showToast(e["responseJSON"]["error"], "The score will be not saved", "error", "#D43721");
+            }
+        }
+    });
+}
+
+function finishScore() {
+    var scoreId = actualScoreId;
+    var fuel = rocket.fuel;
+    var speed = rocket.speed;
+    var url = "SetScoreUser";
+
+    $.ajax({
+        method: "POST",
+        url: url,
+        data: {scoreId: scoreId, fuel: fuel, speed: speed},
+        success: function (rsp) {
+            showToast(rsp["mess"], "Saved correctly", "success", "#36B62D");
+        },
+        error: function (e) {
+            if (e["responseJSON"] === undefined) {
+                showToast("UNKNOWN ERROR", "Try it later", "error", "#D43721");
+            } else {
+                showToast(e["responseJSON"]["error"], "The score will be not saved", "error", "#D43721");
+            }
+        }
+    });
+}
+
 function loadConfigurations() {
     var url = "GetConfigurationsUser";
     var u = localStorage.getItem("_userN");
@@ -372,7 +423,6 @@ function loadConfigurations() {
     if (u === null) {
         u = sessionStorage.getItem("_userN");
     }
-
     userName = u;
 
     $.ajax({
@@ -447,7 +497,27 @@ function loadSelectedConfiguration() {
 
 function deleteSelectedConfiguration() {
     var i = $("#sel_configurations option:selected").index();
-    alert(i+" is eliminated");
+    var idToDelete = configurations[i].id;
+    var nameToDelete = configurations[i].name;
+    var url = "DestroyConfigurationUser";
+
+    $.ajax({
+        method: "POST",
+        url: url,
+        data: {configurationId: idToDelete},
+        success: function (rsp) {
+            showToast(rsp["mess"], "", "success", "#36B62D");
+            $("#sel_configurations option[value='" + nameToDelete + "']").remove();
+            configurations.splice(i, 1);
+        },
+        error: function (e) {
+            if (e["responseJSON"] === undefined) {
+                showToast("UNKNOWN ERROR", "Try it later", "error", "#D43721");
+            } else {
+                showToast(e["responseJSON"]["error"], "", "error", "#D43721");
+            }
+        }
+    });
 }
 
 function changeDifficulty() {
