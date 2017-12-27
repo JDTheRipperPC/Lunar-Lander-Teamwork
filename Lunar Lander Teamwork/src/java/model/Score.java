@@ -23,6 +23,7 @@
  */
 package model;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -63,21 +64,28 @@ public class Score implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
+    @Expose
     private Integer id;
     @Column(name = "speed")
+    @Expose
     private Double speed;
     @Column(name = "fuel")
+    @Expose
     private Double fuel;
     @Column(name = "trys")
+    @Expose (serialize = false)
     private Integer trys;
-    @Column(name = "inittime", insertable=false)
+    @Column(name = "inittime", insertable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @Expose (serialize = false)
     private Date inittime;
     @Column(name = "endtime")
     @Temporal(TemporalType.TIMESTAMP)
+    @Expose (serialize = false)
     private Date endtime;
     @JoinColumn(name = "conf_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @Expose 
     private Configuration confId;
 
     public Score() {
@@ -172,5 +180,5 @@ public class Score implements Serializable {
     public String toString() {
         return "model.Score[ id=" + id + " ]";
     }
-    
+
 }

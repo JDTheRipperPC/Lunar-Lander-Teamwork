@@ -31,10 +31,10 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.ScoreJpaController;
 import model.User;
 import model.UserJpaController;
 
@@ -42,16 +42,14 @@ import model.UserJpaController;
  *
  * @author admin
  */
-@WebServlet(name = "GetConfigurationsUser", urlPatterns = {"/GetConfigurationsUser"})
-public class GetConfigurationsUser extends HttpServlet {
+public class GetScoresUser extends HttpServlet {
 
     /**
-     * Returns a JSON with all the settings of the desired username.
-     *
-     * @param request userName of the user.
-     * @param response JSON with the settings in case of finding the username,
-     * in case of error or the username does not exist the error will be
-     * returned.
+     * Find all the finished scores of a user.
+     * @param request userName
+     * @param response JSON with the Scores and its Configurtaion in case 
+     * of finding the username,in case of error or the username does not 
+     * exist the error will be returned.
      * @throws ServletException
      * @throws IOException
      */
@@ -61,6 +59,7 @@ public class GetConfigurationsUser extends HttpServlet {
         try {
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
             UserJpaController uc = new UserJpaController(emf);
+            ScoreJpaController sc = new ScoreJpaController(emf);
             User u = uc.findUserByUsername(request.getParameter("userName"));
 
             if (u == null) {
@@ -76,7 +75,7 @@ public class GetConfigurationsUser extends HttpServlet {
                 Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
                 response.setContentType("application/json");
                 PrintWriter pw = response.getWriter();
-                pw.println(gson.toJson(u.getConfigurationList()));
+                pw.println(gson.toJson(sc.getScoresUser(u)));
 
             }
         } catch (Exception e) {
@@ -90,7 +89,6 @@ public class GetConfigurationsUser extends HttpServlet {
             pw.println(gson.toJson(emess));
 
         }
-
     }
 
 }
