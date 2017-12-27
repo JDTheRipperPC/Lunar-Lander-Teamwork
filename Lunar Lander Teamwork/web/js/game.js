@@ -337,6 +337,7 @@ function motorOff() {
 function updateFuel() {
     if (rocket.haveFuel() && (!paused) && (!ended)) {
         //Decrement fuel until its 0
+        alert(rocket.fuel);
         rocket.fuel -= 0.1;
         if (rocket.fuel < 0)
             rocket.fuel = 0;

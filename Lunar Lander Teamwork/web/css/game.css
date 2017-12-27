@@ -153,11 +153,15 @@ a {
     display:none
 }
 
-ul {
+ul:not(.inst){
     list-style: none;
     padding: 0px;
     margin: 0px;
     overflow: hidden;
+}
+
+#set_instructions span {
+    font-weight: bold;
 }
 
 #menu {
