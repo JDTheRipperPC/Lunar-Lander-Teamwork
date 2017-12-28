@@ -23,6 +23,7 @@
  */
 package model;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -67,6 +68,7 @@ public class User implements Serializable {
     private String name;
     @Basic(optional = false)
     @Column(name = "username")
+    @Expose
     private String username;
     @Basic(optional = false)
     @Column(name = "password")
