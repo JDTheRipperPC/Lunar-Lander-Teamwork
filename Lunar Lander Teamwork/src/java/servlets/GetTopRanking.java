@@ -28,63 +28,42 @@ import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Configuration;
-import model.ConfigurationJpaController;
+import model.User;
+import model.UserJpaController;
 
 /**
  *
  * @author admin
  */
-@WebServlet(name = "DestroyConfigurationUser", urlPatterns = {"/DestroyConfigurationUser"})
-public class DestroyConfigurationUser extends HttpServlet {
-
-    /**
-     * Destroy a configuration.
-     * @param request configurationId.
-     * @param response IIn case it has been destroyed correctly a 
-     * JSON is returned with the result,in case of error or the configurationId
-     * does not exist the error will be returned.
-     * @throws ServletException
-     * @throws IOException 
-     */
+public class GetTopRanking extends HttpServlet {
+    
+/**
+ * Get the 10 users with the most attempts.
+ * @param request
+ * @param response Json with username and attempts.
+ * @throws ServletException
+ * @throws IOException 
+ */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
-            emf.getCache().evictAll();
-            ConfigurationJpaController cc = new ConfigurationJpaController(emf);
-            Configuration c = cc.findConfiguration(Integer.parseInt(request.getParameter("configurationId")));
+            UserJpaController uc = new UserJpaController(emf);
+            List<User> users = uc.findUserEntities();
 
-            if (c == null) {
-                Map<String, String> emess = new HashMap<>();
-                emess.put("error", "Configuration not found");
+            Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
+            response.setContentType("application/json");
+            PrintWriter pw = response.getWriter();
+            pw.println(gson.toJson(uc.getScoresUserCount()));
 
-                Gson gson = new GsonBuilder().create();
-                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                response.setContentType("application/json");
-                PrintWriter pw = response.getWriter();
-                pw.println(gson.toJson(emess));
-            } else {
-                cc.destroyScoresInConfiguration(c);
-                cc.destroy(Integer.parseInt(request.getParameter("configurationId")));
-
-                Map<String, String> emess = new HashMap<>();
-                emess.put("mess", "Succesfull");
-
-                Gson gson = new GsonBuilder().create();
-
-                response.setContentType("application/json");
-                PrintWriter pw = response.getWriter();
-                pw.println(gson.toJson(emess));
-            }
         } catch (Exception e) {
             Map<String, String> emess = new HashMap<>();
             emess.put("error", "Server error");
@@ -96,6 +75,7 @@ public class DestroyConfigurationUser extends HttpServlet {
             pw.println(gson.toJson(emess));
 
         }
+
     }
 
 }

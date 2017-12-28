@@ -240,8 +240,9 @@ public class UserJpaController implements Serializable {
 
     /**
      * Check if the email exists in the database.
+     *
      * @param email
-     * @return  If the user does not exist it returns false otherwise true.
+     * @return If the user does not exist it returns false otherwise true.
      */
     public Boolean existByEmail(String email) {
         EntityManager em = getEntityManager();
@@ -253,6 +254,29 @@ public class UserJpaController implements Serializable {
             em.close();
         }
     }
+
+    /**
+     * Get the 10 users with the most attempts.
+     *
+     * @return List with username and attempts.
+     */
+    public List getScoresUserCount() {
+        EntityManager em = getEntityManager();
+        try {
+            Query query = em.createQuery(
+                    "select u.username, count(s.id) from User u "
+                    + "left join u.configurationList p "
+                    + "left join p.scoreList s "
+                    + "group by u.username "
+                    + "HAVING count(s.id) > 0 "
+                    + "ORDER BY count(s.id) DESC");
+            return query.setMaxResults(10).getResultList();
+
+        } finally {
+            em.close();
+        }
+    }
+
     public int getUserCount() {
         EntityManager em = getEntityManager();
         try {
@@ -265,5 +289,5 @@ public class UserJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }
