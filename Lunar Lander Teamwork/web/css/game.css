@@ -16,6 +16,10 @@ body {
     padding: 10px;
 }
 
+#modal_End span {
+    font-weight: bold;
+}
+
 .modal li a {
     font-weight: bold;
     font-size: 1.05em !important;
@@ -45,6 +49,12 @@ body {
 }
 #new_configurationContainer {
     display: none;
+}
+
+#table_players span {
+    font-style: italic;
+    font-weight: bold;
+    color: green;
 }
 
 a {

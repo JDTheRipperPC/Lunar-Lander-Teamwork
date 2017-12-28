@@ -84,12 +84,15 @@ $(document).ready(function () {
         $("#set_configuration").show();
     });
     $("#nav_scores").click(function () {
+        loadScores();
         $("#set_scores").show();
     });
     $("#nav_players").click(function () {
+        loadPlayersOnline();
         $("#set_players").show();
     });
     $("#nav_ranking").click(function () {
+        loadRanking();
         $("#set_ranking").show();
     });
     $("#nav_instructions").click(function () {
@@ -122,7 +125,7 @@ $(document).ready(function () {
     //Event for delete a configuration
     $("#btn_deleteC").click(function () {
         if ($("#sel_configurations option:selected").index() !== -1) {
-            $("#modal_confirmation").modal("show");
+            $("#modal_delete").modal("show");
         } else {
             showToast("No configuration detected", "Create one", "info", "#5868D0");
         }
@@ -130,10 +133,10 @@ $(document).ready(function () {
 
     $("#btn_acceptDelete").click(function () {
         deleteSelectedConfiguration();
-        $("#modal_confirmation").modal("hide");
+        $("#modal_delete").modal("hide");
     });
     $("#btn_cancelDelete").click(function () {
-        $("#modal_confirmation").modal("hide");
+        $("#modal_delete").modal("hide");
     });
 
     //Event Submit for new configuration
@@ -151,6 +154,11 @@ $(document).ready(function () {
             $("#modal_Settings").modal("hide");
             restart();
         }
+    });
+
+    //Modal of exit
+    $("#btn_acceptExit").click(function () {
+        window.location.replace("./login.html");
     });
 
     //END OF CLICKS NAV-------------------
@@ -197,7 +205,11 @@ $(document).ready(function () {
     });
 
     $("#btn_logout").click(function () {
-        window.location.replace("./login.html");
+        $("#modal_Exit").modal("show");
+    });
+
+    $("#btn_PlayAgain").click(function () {
+        restart();
     });
 
     $("#modal_Settings").modal("show");
@@ -310,16 +322,18 @@ function moveRocket() {
                 //See the impact speed
                 if (rocket.speed < maxSpeedImpact) {
                     finishScore();
+                    showModalEnd("WELL DONE!", "You are amazing, good job!", calculateScore(rocket.fuel, rocket.speed, configuration.difficulty));
                 } else {
+                    showModalEnd("MISSION FAILED", "Ohh, it hurts! Remember that the maximum impact speed is 5m/s!", 0);
                     //Change img of the rocket
                     $("#rocket > img").attr("src", imgRocketBreak[configuration.rocketModel]);
                 }
             } else {
+                showModalEnd("MISSION FAILED", "Whoops.. Are you trying to get out of the screen?", 0);
                 $("#height").text("70.00");
                 //Change img of the rocket
                 $("#rocket > img").attr("src", imgRocketBreak[configuration.rocketModel]);
             }
-
         }
     }
 }
@@ -369,6 +383,111 @@ function hideContents() {
     $("#set_ranking").hide();
     $("#set_instructions").hide();
     $("#set_about").hide();
+}
+
+function loadRanking() {
+    var url = "";
+    $("#table_ranking > tbody").empty();
+    for (var i = 0; i < 10; i++) {
+        var row = "<tr><td>" + (i + 1) + "</td><td>" + "Andreu" + "</td><td>" + (i + 1) * 5 + "</td></tr>";
+        $("#table_ranking > tbody").append(row);
+    }
+//    $.ajax({
+//        method: "GET",
+//        url: url,
+//        data: {},
+//        success: function (jsn) {
+//            //Clear the table:
+//            $("#table_ranking > tbody").empty();
+//            //Put the rankings
+//            $.each(jsn, function (i, item) {
+//                var name = item[0];
+//                var games = item[1];
+//                var row = "<tr><td>" + (i + 1) + "</td><td>" + name + "</td><td>" + games + "</td></tr>";
+//                $("#table_ranking > tbody").append(row);
+//            });
+//        },
+//        error: function (e) {
+//            if (e["responseJSON"] === undefined) {
+//                showToast("UNKNOWN ERROR", "Try it later", "error", "#D43721");
+//            } else {
+//                showToast(e["responseJSON"]["error"], "Whoops, some error ocurred", "error", "#D43721");
+//            }
+//        }
+//    });
+}
+
+function loadPlayersOnline() {
+    var url = "";
+    $("#table_players > tbody").empty();
+    for (var i = 0; i < 10; i++) {
+        var row = "<tr><td>" + "name" + "</td><td><span>Online</span></td></tr>";
+        $("#table_players > tbody").append(row);
+    }
+//    $.ajax({
+//        method: "GET",
+//        url: url,
+//        data: {},
+//        success: function (jsn) {
+//            //Clear the table:
+//            $("#table_players > tbody").empty();
+//            //Put the rankings
+//            $.each(jsn, function (i, item) {
+//                var name = item[0];
+//                var row = "<tr><td>" + (i + 1) + "</td><td>" + name + "</td><td><span>" + games + "</span></td></tr>";
+//                $("#table_players > tbody").append(row);
+//            });
+//        },
+//        error: function (e) {
+//            if (e["responseJSON"] === undefined) {
+//                showToast("UNKNOWN ERROR", "Try it later", "error", "#D43721");
+//            } else {
+//                showToast(e["responseJSON"]["error"], "Whoops, some error ocurred", "error", "#D43721");
+//            }
+//        }
+//    });
+}
+
+function loadScores() {
+    var url = "GetScoresUser";
+    $.ajax({
+        method: "POST",
+        url: url,
+        data: {userName: userName},
+        success: function (jsn) {
+            //Clear the table:
+            $("#table_scores > tbody").empty();
+            //Put the scores
+            $.each(jsn, function (i, item) {
+                var name = item.confId.configname;
+                var d = item.confId.diffId;
+                var dif;
+                switch (d) {
+                    case 0:
+                        dif = "Easy";
+                        break;
+                    case 1:
+                        dif = "Medium"
+                        break;
+                    case 2:
+                        dif = "Hard";
+                        break;
+                }
+                var speed = (item.speed).toFixed(2);
+                var fuel = (item.fuel).toFixed(2);
+                var score = calculateScore(fuel, speed, d);
+                var row = "<tr><td>" + (i + 1) + "</td><td>" + name + "</td><td>" + dif + "</td><td>" + fuel + "</td><td>" + speed + "</td><td>" + score + "</td></tr>";
+                $("#table_scores > tbody").append(row);
+            });
+        },
+        error: function (e) {
+            if (e["responseJSON"] === undefined) {
+                showToast("UNKNOWN ERROR", "Try it later", "error", "#D43721");
+            } else {
+                showToast(e["responseJSON"]["error"], "The score will be not saved", "error", "#D43721");
+            }
+        }
+    });
 }
 
 function initScore() {
@@ -543,6 +662,17 @@ function checkThereAreConfigurations() {
         return false;
     }
     return true;
+}
+
+function calculateScore(fuel, speed, dif) {
+    return ((10 - speed) * fuel * (dif + 1)).toFixed(2);
+}
+
+function showModalEnd(title, body, score) {
+    $("#modal_End h3").text(title);
+    $("#gameFinishedConent").text(body);
+    $("#modal_End span").text(score);
+    $("#modal_End").modal("show");
 }
 
 function changeRocketModel() {
