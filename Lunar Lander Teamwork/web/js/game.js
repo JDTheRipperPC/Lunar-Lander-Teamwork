@@ -386,35 +386,31 @@ function hideContents() {
 }
 
 function loadRanking() {
-    var url = "";
-    $("#table_ranking > tbody").empty();
-    for (var i = 0; i < 10; i++) {
-        var row = "<tr><td>" + (i + 1) + "</td><td>" + "Andreu" + "</td><td>" + (i + 1) * 5 + "</td></tr>";
-        $("#table_ranking > tbody").append(row);
-    }
-//    $.ajax({
-//        method: "GET",
-//        url: url,
-//        data: {},
-//        success: function (jsn) {
-//            //Clear the table:
-//            $("#table_ranking > tbody").empty();
-//            //Put the rankings
-//            $.each(jsn, function (i, item) {
-//                var name = item[0];
-//                var games = item[1];
-//                var row = "<tr><td>" + (i + 1) + "</td><td>" + name + "</td><td>" + games + "</td></tr>";
-//                $("#table_ranking > tbody").append(row);
-//            });
-//        },
-//        error: function (e) {
-//            if (e["responseJSON"] === undefined) {
-//                showToast("UNKNOWN ERROR", "Try it later", "error", "#D43721");
-//            } else {
-//                showToast(e["responseJSON"]["error"], "Whoops, some error ocurred", "error", "#D43721");
-//            }
-//        }
-//    });
+    var url = "GetTopRanking";
+
+    $.ajax({
+        method: "GET",
+        url: url,
+        data: {},
+        success: function (jsn) {
+            //Clear the table:
+            $("#table_ranking > tbody").empty();
+            //Put the rankings
+            $.each(jsn, function (i, item) {
+                var name = item[0];
+                var games = item[1];
+                var row = "<tr><td>" + (i + 1) + "</td><td>" + name + "</td><td>" + games + "</td></tr>";
+                $("#table_ranking > tbody").append(row);
+            });
+        },
+        error: function (e) {
+            if (e["responseJSON"] === undefined) {
+                showToast("UNKNOWN ERROR", "Try it later", "error", "#D43721");
+            } else {
+                showToast(e["responseJSON"]["error"], "Whoops, some error ocurred", "error", "#D43721");
+            }
+        }
+    });
 }
 
 function loadPlayersOnline() {
