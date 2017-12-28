@@ -88,9 +88,11 @@ $(document).ready(function () {
         $("#set_scores").show();
     });
     $("#nav_players").click(function () {
+        loadPlayersOnline();
         $("#set_players").show();
     });
     $("#nav_ranking").click(function () {
+        loadRanking();
         $("#set_ranking").show();
     });
     $("#nav_instructions").click(function () {
@@ -383,6 +385,69 @@ function hideContents() {
     $("#set_about").hide();
 }
 
+function loadRanking() {
+    var url = "";
+    $("#table_ranking > tbody").empty();
+    for (var i = 0; i < 10; i++) {
+        var row = "<tr><td>" + (i + 1) + "</td><td>" + "Andreu" + "</td><td>" + (i + 1) * 5 + "</td></tr>";
+        $("#table_ranking > tbody").append(row);
+    }
+//    $.ajax({
+//        method: "GET",
+//        url: url,
+//        data: {},
+//        success: function (jsn) {
+//            //Clear the table:
+//            $("#table_ranking > tbody").empty();
+//            //Put the rankings
+//            $.each(jsn, function (i, item) {
+//                var name = item[0];
+//                var games = item[1];
+//                var row = "<tr><td>" + (i + 1) + "</td><td>" + name + "</td><td>" + games + "</td></tr>";
+//                $("#table_ranking > tbody").append(row);
+//            });
+//        },
+//        error: function (e) {
+//            if (e["responseJSON"] === undefined) {
+//                showToast("UNKNOWN ERROR", "Try it later", "error", "#D43721");
+//            } else {
+//                showToast(e["responseJSON"]["error"], "Whoops, some error ocurred", "error", "#D43721");
+//            }
+//        }
+//    });
+}
+
+function loadPlayersOnline() {
+    var url = "";
+    $("#table_players > tbody").empty();
+    for (var i = 0; i < 10; i++) {
+        var row = "<tr><td>" + "name" + "</td><td><span>Online</span></td></tr>";
+        $("#table_players > tbody").append(row);
+    }
+//    $.ajax({
+//        method: "GET",
+//        url: url,
+//        data: {},
+//        success: function (jsn) {
+//            //Clear the table:
+//            $("#table_players > tbody").empty();
+//            //Put the rankings
+//            $.each(jsn, function (i, item) {
+//                var name = item[0];
+//                var row = "<tr><td>" + (i + 1) + "</td><td>" + name + "</td><td><span>" + games + "</span></td></tr>";
+//                $("#table_players > tbody").append(row);
+//            });
+//        },
+//        error: function (e) {
+//            if (e["responseJSON"] === undefined) {
+//                showToast("UNKNOWN ERROR", "Try it later", "error", "#D43721");
+//            } else {
+//                showToast(e["responseJSON"]["error"], "Whoops, some error ocurred", "error", "#D43721");
+//            }
+//        }
+//    });
+}
+
 function loadScores() {
     var url = "GetScoresUser";
     $.ajax({
@@ -423,7 +488,6 @@ function loadScores() {
             }
         }
     });
-
 }
 
 function initScore() {

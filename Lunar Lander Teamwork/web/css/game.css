@@ -51,6 +51,12 @@ body {
     display: none;
 }
 
+#table_players span {
+    font-style: italic;
+    font-weight: bold;
+    color: green;
+}
+
 a {
     text-decoration: none;
 }
