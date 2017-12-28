@@ -40,6 +40,10 @@
         <servlet-name>GetScoresUser</servlet-name>
         <servlet-class>servlets.GetScoresUser</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GetTopRanking</servlet-name>
+        <servlet-class>servlets.GetTopRanking</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -75,6 +79,10 @@
     <servlet-mapping>
         <servlet-name>GetScoresUser</servlet-name>
         <url-pattern>/GetScoresUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetTopRanking</servlet-name>
+        <url-pattern>/GetTopRanking</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>login.html</welcome-file>
