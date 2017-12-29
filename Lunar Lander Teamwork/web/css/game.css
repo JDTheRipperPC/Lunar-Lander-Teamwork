@@ -105,57 +105,87 @@ a {
     z-index: 1;
 }
 
+/*ControlPanel*/
 #cpanel{
-    top: 30px;
-    left: 30px;
     position: absolute;
-    width: 30%;
+    top: 7.5%;
+    left: 5%;
+    height: 85%;
+    width: 25%;
     z-index: 2;
 }
 
-#cpanel li {
-    background-color: white;
+#liFuel{
+    height: 75%;
+    width: 75px;
+}
+
+#liFuel div {
     position: relative;
-    border: 2px solid yellow;
-    border-radius: 5px 30px 30px 5px;
+    height: 100%;
     width: 100%;
-    height: 60px;
-    margin-bottom: 4%;
-    z-index: 2;
 }
 
-#cpanel li img {
+#liFuel img {
     position: absolute;
-    height: 100%;
-    padding: 5px;
+    width: 90%;
+    margin-left: 5%;
+    bottom: 10px;
     z-index: 1;
 }
 
-#cpanel li div{
+#fuelContainer {
+    height: 100%;
+    overflow: hidden;
+    border-bottom: solid white 1px;
+    border-radius: 35px 35px 5px 5px;
+}
+
+#fuelContent {
+    background-image: -ms-linear-gradient(bottom, #1EBA28 0%, #B3CA1A 50%, #ED8F24 75%, #C40000 100%);
+    background-image: -moz-linear-gradient(bottom, #1EBA28 0%, #B3CA1A 50%, #ED8F24 75%, #C40000 100%);
+    background-image: -o-linear-gradient(bottom, #1EBA28 0%, #B3CA1A 50%, #ED8F24 75%, #C40000 100%);
+    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #1EBA28), color-stop(50, #B3CA1A), color-stop(75, #ED8F24), color-stop(100, #C40000));
+    background-image: -webkit-linear-gradient(bottom, #1EBA28 0%, #B3CA1A 50%, #ED8F24 75%, #C40000 100%);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: white solid 1px;
+    border-radius: 35px 35px 5px 5px;
+}
+
+#cpanel li:not(#liFuel) {
+    position: relative;
+    background-color: rgba(38, 66, 144, 0.7);
+    margin-top: 2vh;
+    width: 100%;
+    height: 10%;
+    border: solid white 1px;
+    border-radius: 5px 25px 25px 5px;
+}
+
+#cpanel li:not(#liFuel) img {
+    position: absolute;
+    height: 75%;
+    top: 12.5%;
+    left: 5px;
+}
+
+
+#cpanel li:not(#liFuel) div{
     display: table;
     position: absolute;
     width: 100%;
     height: 100%;
 }
 
-#cpanel li div p{  
+#cpanel li p {
+    color: white;
     font-weight: bold;
     font-size: 1.7vw;
+    padding-left: 20%;
     display: table-cell;
     vertical-align: middle;
-    width: 100%;
-}
-
-#fuelContainer {
-    height: 100%;
-    float: right;
-}
-
-#fuelContent {
-    background: linear-gradient(to left, #33cc33 27%, #ff6600 100%);
-    width: 100%;
-    height: 100%;
-    border-radius: 5px 30px 30px 5px;
 }
 
 

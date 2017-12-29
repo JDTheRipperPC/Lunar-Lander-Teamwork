@@ -12,7 +12,7 @@ var imgRocketON = ["img/rocket1ON.png", "img/rocket2ON.gif"];
 var imgRocketBreak = ["img/rocket1Break.gif", "img/rocket2Break.gif"];
 var imgMoon = ["img/moonGray.png", "img/moonYellow.png"];
 var configurations = [];
-var fuelLevel = 100;
+var maxFuelLevel = 100;
 var userName;
 var actualScoreId;
 
@@ -20,7 +20,7 @@ var actualScoreId;
 var rocket = {
     height: 10,
     speed: 0,
-    fuel: fuelLevel,
+    fuel: maxFuelLevel,
     aceleration: gravity,
     motorON: function () {
         motorOn();
@@ -38,13 +38,13 @@ var rocket = {
         this.height = 10;
         this.speed = 0;
         this.aceleration = -gravity;
-        this.fuel = fuelLevel;
+        this.fuel = maxFuelLevel;
     }
 };
 
 //CONFIGURATION 
 function ConfigurationClass(id_conf, name, diff, rocket, moon) {
-    this.id = id_conf;
+    this.id_conf = id_conf;
     this.name = name;
     this.difficulty = diff;
     this.rocketModel = rocket;
@@ -68,7 +68,7 @@ $(document).ready(function () {
     checkStorage();
 
     loadConfigurations();
-    //
+    
     //EVENTS RELATED WITH THE MODAL:
     //START CLICKS NAV--------------------
     $('.nav li').click(function (e) {
@@ -308,7 +308,7 @@ function moveRocket() {
 
         //It will move until a 70% of the screen and checks the top of the screen
         if ((rocket.height < heightGame) && (rocket.height > 0)) {
-            document.getElementById("rocket").style.top = rocket.height + "%";
+            $("#rocket")[0].style.top = rocket.height + "%";
         } else {
             //Game ended, save the score
             doPause();
@@ -361,7 +361,7 @@ function updateFuel() {
         rocket.fuel -= 0.1;
         if (rocket.fuel < 0)
             rocket.fuel = 0;
-        $("#fuelContent")[0].style.width = rocket.fuel + "%";
+        $("#fuelContent")[0].style.top = (100 - rocket.fuel) + "%";
     }
 }
 
@@ -487,8 +487,7 @@ function loadScores() {
 }
 
 function initScore() {
-    var i = $("#sel_configurations option:selected").index();
-    var configurationId = configurations[i].id;
+    var configurationId = configuration.id_conf;
     var url = "CreateScoreUser";
 
     $.ajax({
@@ -604,7 +603,7 @@ function loadSelectedConfiguration() {
     configuration.difficulty = configurations[i].difficulty;
     configuration.rocketModel = configurations[i].rocketModel;
     configuration.moonModel = configurations[i].moonModel;
-
+    
     changeDifficulty();
     changeRocketModel();
     changeLunarModel();
@@ -637,14 +636,14 @@ function deleteSelectedConfiguration() {
 
 function changeDifficulty() {
     switch (configuration.difficulty) {
-        case "1":
-            fuelLevel = 50;
+        case 1:
+            maxFuelLevel = 60;
             break;
-        case "2":
-            fuelLevel = 30;
+        case 2:
+            maxFuelLevel = 40;
             break;
-        case "0":
-            fuelLevel = 100;
+        case 0:
+            maxFuelLevel = 100;
             break;
     }
 }
@@ -661,7 +660,7 @@ function checkThereAreConfigurations() {
 }
 
 function calculateScore(fuel, speed, dif) {
-    return ((10 - speed) * fuel * (dif + 1)).toFixed(2);
+    return ((10 - speed) * (100 - maxFuelLevel + fuel) * (dif + 1)).toFixed(2);
 }
 
 function showModalEnd(title, body, score) {
