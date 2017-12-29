@@ -29,6 +29,8 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -41,6 +43,8 @@ import model.exceptions.NonexistentEntityException;
  * @author admin
  */
 public class UserJpaController implements Serializable {
+
+    static final long ONE_MINUTE_IN_MILLIS = 60000;//millisecs
 
     public UserJpaController(EntityManagerFactory emf) {
         this.emf = emf;
@@ -277,11 +281,39 @@ public class UserJpaController implements Serializable {
         }
     }
 
+    /**
+     * Obtain the users that of its last game without having spent more than 5 minutes.
+     * @return List of users.
+     */
+    public List<User> getUsersEndTime() {
+        EntityManager em = getEntityManager();
+        try {
+            List<User> list = em.createNamedQuery("User.findAll").getResultList();
+            List<User> users = new ArrayList<>();
+            Calendar date = Calendar.getInstance();
+            long t = date.getTimeInMillis();
+            Date now = new Date(t - (2 * ONE_MINUTE_IN_MILLIS));
+            for (User user : list) {
+                for (Configuration conf : user.getConfigurationList()) {
+                    for (Score score : conf.getScoreList()) {
+                        if (score.getInittime().after(now)) {
+                            users.add(user);
+                        }
+                    }
+                }
+            }
+            return users;
+        } finally {
+            em.close();
+        }
+    }
+
     public int getUserCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<User> rt = cq.from(User.class);
+            Root<User> rt = cq.from(User.class
+            );
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
