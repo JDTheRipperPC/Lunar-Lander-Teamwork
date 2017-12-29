@@ -24,7 +24,6 @@
 package model;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
@@ -293,7 +292,7 @@ public class UserJpaController implements Serializable {
             List<User> users = new ArrayList<>();
             Calendar date = Calendar.getInstance();
             long t = date.getTimeInMillis();
-            Date now = new Date(t - (5 * ONE_MINUTE_IN_MILLIS));
+            Date now = new Date(t - (2 * ONE_MINUTE_IN_MILLIS));
             for (User user : list) {
                 for (Configuration conf : user.getConfigurationList()) {
                     for (Score score : conf.getScoreList()) {
