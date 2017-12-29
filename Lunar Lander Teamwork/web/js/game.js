@@ -7,12 +7,12 @@ var paused = true;
 var ended = false;
 var heightGame = 70;
 var maxSpeedImpact = 5;
-var imgRocketOFF = ["img/rocket1ON.png", "img/rocket2ON.gif"];
-var imgRocketON = ["img/rocket1ON.png", "img/rocket2ON.gif"];
+var imgRocketOFF = ["img/rocket1OFF.png", "img/rocket2OFF.png"];
+var imgRocketON = ["img/rocket1ON.png", "img/rocket2ON.png"];
 var imgRocketBreak = ["img/rocket1Break.gif", "img/rocket2Break.gif"];
-var imgMoon = ["img/moonGray.png", "img/moonYellow.png"];
+var imgMoon = ["img/moon1.png", "img/moon3.png", "img/moon5.png"];
 var configurations = [];
-var fuelLevel = 100;
+var maxFuelLevel = 100;
 var userName;
 var actualScoreId;
 
@@ -20,7 +20,7 @@ var actualScoreId;
 var rocket = {
     height: 10,
     speed: 0,
-    fuel: fuelLevel,
+    fuel: maxFuelLevel,
     aceleration: gravity,
     motorON: function () {
         motorOn();
@@ -38,13 +38,13 @@ var rocket = {
         this.height = 10;
         this.speed = 0;
         this.aceleration = -gravity;
-        this.fuel = fuelLevel;
+        this.fuel = maxFuelLevel;
     }
 };
 
 //CONFIGURATION 
 function ConfigurationClass(id_conf, name, diff, rocket, moon) {
-    this.id = id_conf;
+    this.id_conf = id_conf;
     this.name = name;
     this.difficulty = diff;
     this.rocketModel = rocket;
@@ -68,7 +68,7 @@ $(document).ready(function () {
     checkStorage();
 
     loadConfigurations();
-    //
+    
     //EVENTS RELATED WITH THE MODAL:
     //START CLICKS NAV--------------------
     $('.nav li').click(function (e) {
@@ -308,7 +308,7 @@ function moveRocket() {
 
         //It will move until a 70% of the screen and checks the top of the screen
         if ((rocket.height < heightGame) && (rocket.height > 0)) {
-            document.getElementById("rocket").style.top = rocket.height + "%";
+            $("#rocket")[0].style.top = rocket.height + "%";
         } else {
             //Game ended, save the score
             doPause();
@@ -340,6 +340,7 @@ function moveRocket() {
 
 function motorOn() {
     if (rocket.haveFuel() && (!paused) && (!ended)) {
+        $("#rocket > img").attr("src", imgRocketON[configuration.rocketModel]);
         rocket.aceleration = -gravity;
         if (timerFuel === null)
             timerFuel = setInterval(function () {
@@ -349,6 +350,7 @@ function motorOn() {
 }
 function motorOff() {
     if ((!paused) && (!ended)) {
+        $("#rocket > img").attr("src", imgRocketOFF[configuration.rocketModel]);
         rocket.aceleration = gravity;
         clearInterval(timerFuel);
         timerFuel = null;
@@ -361,7 +363,7 @@ function updateFuel() {
         rocket.fuel -= 0.1;
         if (rocket.fuel < 0)
             rocket.fuel = 0;
-        $("#fuelContent")[0].style.width = rocket.fuel + "%";
+        $("#fuelContent")[0].style.top = (100 - rocket.fuel) + "%";
     }
 }
 
@@ -386,35 +388,31 @@ function hideContents() {
 }
 
 function loadRanking() {
-    var url = "";
-    $("#table_ranking > tbody").empty();
-    for (var i = 0; i < 10; i++) {
-        var row = "<tr><td>" + (i + 1) + "</td><td>" + "Andreu" + "</td><td>" + (i + 1) * 5 + "</td></tr>";
-        $("#table_ranking > tbody").append(row);
-    }
-//    $.ajax({
-//        method: "GET",
-//        url: url,
-//        data: {},
-//        success: function (jsn) {
-//            //Clear the table:
-//            $("#table_ranking > tbody").empty();
-//            //Put the rankings
-//            $.each(jsn, function (i, item) {
-//                var name = item[0];
-//                var games = item[1];
-//                var row = "<tr><td>" + (i + 1) + "</td><td>" + name + "</td><td>" + games + "</td></tr>";
-//                $("#table_ranking > tbody").append(row);
-//            });
-//        },
-//        error: function (e) {
-//            if (e["responseJSON"] === undefined) {
-//                showToast("UNKNOWN ERROR", "Try it later", "error", "#D43721");
-//            } else {
-//                showToast(e["responseJSON"]["error"], "Whoops, some error ocurred", "error", "#D43721");
-//            }
-//        }
-//    });
+    var url = "GetTopRanking";
+
+    $.ajax({
+        method: "GET",
+        url: url,
+        data: {},
+        success: function (jsn) {
+            //Clear the table:
+            $("#table_ranking > tbody").empty();
+            //Put the rankings
+            $.each(jsn, function (i, item) {
+                var name = item[0];
+                var games = item[1];
+                var row = "<tr><td>" + (i + 1) + "</td><td>" + name + "</td><td>" + (games) + "</td></tr>";
+                $("#table_ranking > tbody").append(row);
+            });
+        },
+        error: function (e) {
+            if (e["responseJSON"] === undefined) {
+                showToast("UNKNOWN ERROR", "Try it later", "error", "#D43721");
+            } else {
+                showToast(e["responseJSON"]["error"], "Whoops, some error ocurred", "error", "#D43721");
+            }
+        }
+    });
 }
 
 function loadPlayersOnline() {
@@ -491,8 +489,7 @@ function loadScores() {
 }
 
 function initScore() {
-    var i = $("#sel_configurations option:selected").index();
-    var configurationId = configurations[i].id;
+    var configurationId = configuration.id_conf;
     var url = "CreateScoreUser";
 
     $.ajax({
@@ -608,7 +605,7 @@ function loadSelectedConfiguration() {
     configuration.difficulty = configurations[i].difficulty;
     configuration.rocketModel = configurations[i].rocketModel;
     configuration.moonModel = configurations[i].moonModel;
-
+    
     changeDifficulty();
     changeRocketModel();
     changeLunarModel();
@@ -641,14 +638,14 @@ function deleteSelectedConfiguration() {
 
 function changeDifficulty() {
     switch (configuration.difficulty) {
-        case "1":
-            fuelLevel = 50;
+        case 1:
+            maxFuelLevel = 60;
             break;
-        case "2":
-            fuelLevel = 30;
+        case 2:
+            maxFuelLevel = 40;
             break;
-        case "0":
-            fuelLevel = 100;
+        case 0:
+            maxFuelLevel = 100;
             break;
     }
 }
@@ -665,7 +662,7 @@ function checkThereAreConfigurations() {
 }
 
 function calculateScore(fuel, speed, dif) {
-    return ((10 - speed) * fuel * (dif + 1)).toFixed(2);
+    return ((10 - speed) * (100 - maxFuelLevel + fuel) * (dif + 1)).toFixed(2);
 }
 
 function showModalEnd(title, body, score) {
