@@ -7,10 +7,10 @@ var paused = true;
 var ended = false;
 var heightGame = 70;
 var maxSpeedImpact = 5;
-var imgRocketOFF = ["img/rocket1ON.png", "img/rocket2ON.gif"];
-var imgRocketON = ["img/rocket1ON.png", "img/rocket2ON.gif"];
+var imgRocketOFF = ["img/rocket1OFF.png", "img/rocket2OFF.png"];
+var imgRocketON = ["img/rocket1ON.png", "img/rocket2ON.png"];
 var imgRocketBreak = ["img/rocket1Break.gif", "img/rocket2Break.gif"];
-var imgMoon = ["img/moonGray.png", "img/moonYellow.png"];
+var imgMoon = ["img/moon1.png", "img/moon3.png", "img/moon5.png"];
 var configurations = [];
 var maxFuelLevel = 100;
 var userName;
@@ -340,6 +340,7 @@ function moveRocket() {
 
 function motorOn() {
     if (rocket.haveFuel() && (!paused) && (!ended)) {
+        $("#rocket > img").attr("src", imgRocketON[configuration.rocketModel]);
         rocket.aceleration = -gravity;
         if (timerFuel === null)
             timerFuel = setInterval(function () {
@@ -349,6 +350,7 @@ function motorOn() {
 }
 function motorOff() {
     if ((!paused) && (!ended)) {
+        $("#rocket > img").attr("src", imgRocketOFF[configuration.rocketModel]);
         rocket.aceleration = gravity;
         clearInterval(timerFuel);
         timerFuel = null;
@@ -399,7 +401,7 @@ function loadRanking() {
             $.each(jsn, function (i, item) {
                 var name = item[0];
                 var games = item[1];
-                var row = "<tr><td>" + (i + 1) + "</td><td>" + name + "</td><td>" + games + "</td></tr>";
+                var row = "<tr><td>" + (i + 1) + "</td><td>" + name + "</td><td>" + (games) + "</td></tr>";
                 $("#table_ranking > tbody").append(row);
             });
         },
