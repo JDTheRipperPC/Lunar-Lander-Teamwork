@@ -1,3 +1,5 @@
+/*VARIABLES*/
+
 //GAME
 var gravity = 1.622;
 var dt = 0.016683;
@@ -15,6 +17,7 @@ var configurations = [];
 var maxFuelLevel = 100;
 var userName;
 var actualScoreId;
+var someModalOpened = true;
 
 //ROCKET
 var rocket = {
@@ -59,18 +62,19 @@ var configuration = {
     moonModel: 0
 };
 
-//---------------------------------------------------
+/*--------------- END OF VARIABLES ---------------*/
 
-//ON READY
+/*--------------- METHODS ---------------*/
+
+//DOCUMENT READY
 $(document).ready(function () {
 
     //CHECK LOCAL STORAGE FOR CHEATERS
     checkStorage();
-
     loadConfigurations();
-    
+
     //EVENTS RELATED WITH THE MODAL:
-    //START CLICKS NAV--------------------
+    //START CLICKS NAV -> It changes the active item of the nave
     $('.nav li').click(function (e) {
         $('.nav li.active').removeClass('active');
         var $this = $(this);
@@ -78,8 +82,9 @@ $(document).ready(function () {
             $this.addClass('active');
         }
         e.preventDefault();
-        hideContents();
+        hideContents(); //Hide the contents div of the items for the new selected
     });
+
     $("#nav_configuration").click(function () {
         $("#set_configuration").show();
     });
@@ -118,6 +123,7 @@ $(document).ready(function () {
         if (checkThereAreConfigurations()) {
             loadSelectedConfiguration();
             $("#modal_Settings").modal("hide");
+            someModalOpened = false;
             restart();
         }
     });
@@ -126,6 +132,7 @@ $(document).ready(function () {
     $("#btn_deleteC").click(function () {
         if ($("#sel_configurations option:selected").index() !== -1) {
             $("#modal_delete").modal("show");
+            someModalOpened = true;
         } else {
             showToast("No configuration detected", "Create one", "info", "#5868D0");
         }
@@ -152,6 +159,7 @@ $(document).ready(function () {
         if (checkThereAreConfigurations()) {
             loadSelectedConfiguration();
             $("#modal_Settings").modal("hide");
+            someModalOpened = false;
             restart();
         }
     });
@@ -161,37 +169,13 @@ $(document).ready(function () {
         window.location.replace("./login.html");
     });
 
+    $("#btn_cancelExit").click(function () {
+        someModalOpened = false;
+    });
+
     //END OF CLICKS NAV-------------------
 
-    //Show mobile menu
-    $("#showm").click(function () {
-        document.getElementsByClassName("c")[0].style.display = "block";
-        stop();
-    });
-    //Hide mobile menu
-    $("#hidem").click(function () {
-        document.getElementsByClassName("c")[0].style.display = "none";
-        start();
-    });
-
-
-    //ON/OFF motor on screen click
-    $(document).click(function () {
-        if (rocket.aceleration === gravity) {
-            rocket.motorON();
-        } else {
-            rocket.motorOFF();
-        }
-    });
-    //ON/OFF motor on key click
-    $(document).keydown(function () {
-        rocket.motorON();
-    });
-    $(document).keyup(function () {
-        rocket.motorOFF();
-    });
-
-    //Buttons
+    //OTHER BUTTONS EVENTS
     $("#btn_playPause").click(function () {
         doPause();
     });
@@ -202,17 +186,39 @@ $(document).ready(function () {
 
     $("#btn_settings").click(function () {
         $("#modal_Settings").modal("show");
+        someModalOpened = true;
     });
 
     $("#btn_logout").click(function () {
         $("#modal_Exit").modal("show");
+        someModalOpened = true;
     });
 
     $("#btn_PlayAgain").click(function () {
         restart();
+        someModalOpened = false;
     });
 
     $("#modal_Settings").modal("show");
+
+    /*--------- EVENTS TO PLAY THE GAME ---------*/
+    //ON/OFF motor on screen click
+    $(document).click(function () {
+        if (rocket.aceleration === gravity) {
+            rocket.motorON();
+        } else {
+            rocket.motorOFF();
+        }
+    });
+    //ON/OFF motor on key click
+    $(document).keydown(function () {
+        checkKeyPressed();
+        //rocket.motorON();
+    });
+    $(document).keyup(function () {
+        rocket.motorOFF();
+    });
+
 });
 
 /**
@@ -361,19 +367,29 @@ function updateFuel() {
     if (rocket.haveFuel() && (!paused) && (!ended)) {
         //Decrement fuel until its 0
         rocket.fuel -= 0.1;
-        if (rocket.fuel < 0)
+        if (!rocket.haveFuel()) {
             rocket.fuel = 0;
+            rocket.motorOFF();
+        }
         $("#fuelContent")[0].style.top = (100 - rocket.fuel) + "%";
     }
 }
 
 function doPause() {
     if (!paused && !ended) {
-        $(".paused").fadeIn(400);
+        //Visual fadeIn on cascade
+        $("#btn_restart").fadeIn(100);
+        $("#btn_settings").fadeIn(400);
+        $("#btn_logout").fadeIn(800);
         $("#btn_playPause > img").attr("src", "img/play.png");
+        $("#divGamePaused").fadeIn(300);
     } else {
-        $(".paused").fadeOut(400);
+        //Visual fadeOut on cascade
+        $("#btn_restart").fadeOut(800);
+        $("#btn_settings").fadeOut(400);
+        $("#btn_logout").fadeOut(100);
         $("#btn_playPause > img").attr("src", "img/pause.png");
+        $("#divGamePaused").fadeOut(300);
     }
     paused = !paused;
 }
@@ -399,9 +415,24 @@ function loadRanking() {
             $("#table_ranking > tbody").empty();
             //Put the rankings
             $.each(jsn, function (i, item) {
+                var clas;
                 var name = item[0];
                 var games = item[1];
-                var row = "<tr><td>" + (i + 1) + "</td><td>" + name + "</td><td>" + (games) + "</td></tr>";
+                switch (i) {
+                    case 0:
+                        clas = "success";
+                        break;
+                    case 1:
+                        clas = "info";
+                        break;
+                    case 2:
+                        clas = "danger";
+                        break;
+                    default:
+                        clas = "default";
+
+                }
+                var row = "<tr class="+clas+"><td>" + (i + 1) + "</td><td>" + name + "</td><td>" + (games) + "</td></tr>";
                 $("#table_ranking > tbody").append(row);
             });
         },
@@ -416,34 +447,29 @@ function loadRanking() {
 }
 
 function loadPlayersOnline() {
-    var url = "";
-    $("#table_players > tbody").empty();
-    for (var i = 0; i < 10; i++) {
-        var row = "<tr><td>" + "name" + "</td><td><span>Online</span></td></tr>";
-        $("#table_players > tbody").append(row);
-    }
-//    $.ajax({
-//        method: "GET",
-//        url: url,
-//        data: {},
-//        success: function (jsn) {
-//            //Clear the table:
-//            $("#table_players > tbody").empty();
-//            //Put the rankings
-//            $.each(jsn, function (i, item) {
-//                var name = item[0];
-//                var row = "<tr><td>" + (i + 1) + "</td><td>" + name + "</td><td><span>" + games + "</span></td></tr>";
-//                $("#table_players > tbody").append(row);
-//            });
-//        },
-//        error: function (e) {
-//            if (e["responseJSON"] === undefined) {
-//                showToast("UNKNOWN ERROR", "Try it later", "error", "#D43721");
-//            } else {
-//                showToast(e["responseJSON"]["error"], "Whoops, some error ocurred", "error", "#D43721");
-//            }
-//        }
-//    });
+    var url = "UsersOnline";
+    $.ajax({
+        method: "GET",
+        url: url,
+        data: {},
+        success: function (jsn) {
+            //Clear the table:
+            $("#table_players > tbody").empty();
+            //Put the rankings
+            $.each(jsn, function (i, item) {
+                var name = item.username;
+                var row = "<tr><td>" + name + "</td><td><span>Online</span></td></tr>";
+                $("#table_players > tbody").append(row);
+            });
+        },
+        error: function (e) {
+            if (e["responseJSON"] === undefined) {
+                showToast("UNKNOWN ERROR", "Try it later", "error", "#D43721");
+            } else {
+                showToast(e["responseJSON"]["error"], "Whoops, some error ocurred", "error", "#D43721");
+            }
+        }
+    });
 }
 
 function loadScores() {
@@ -605,7 +631,7 @@ function loadSelectedConfiguration() {
     configuration.difficulty = configurations[i].difficulty;
     configuration.rocketModel = configurations[i].rocketModel;
     configuration.moonModel = configurations[i].moonModel;
-    
+
     changeDifficulty();
     changeRocketModel();
     changeLunarModel();
@@ -613,7 +639,7 @@ function loadSelectedConfiguration() {
 
 function deleteSelectedConfiguration() {
     var i = $("#sel_configurations option:selected").index();
-    var idToDelete = configurations[i].id;
+    var idToDelete = configurations[i].id_conf;
     var nameToDelete = configurations[i].name;
     var url = "DestroyConfigurationUser";
 
@@ -665,11 +691,29 @@ function calculateScore(fuel, speed, dif) {
     return ((10 - speed) * (100 - maxFuelLevel + fuel) * (dif + 1)).toFixed(2);
 }
 
+function checkKeyPressed() {
+    if (!someModalOpened) {
+        var key = event.which || event.keyCode;
+        switch (key) {
+            case 82: //R --> RESTART 
+                restart();
+                break;
+            case 80: //P --> PAUSE / PLAY
+                doPause();
+                break;
+            case 32: //SPACE --> motorOn
+                rocket.motorON();
+                break;
+        }
+    }
+}
+
 function showModalEnd(title, body, score) {
     $("#modal_End h3").text(title);
     $("#gameFinishedConent").text(body);
     $("#modal_End span").text(score);
     $("#modal_End").modal("show");
+    someModalOpened = true;
 }
 
 function changeRocketModel() {
@@ -677,6 +721,12 @@ function changeRocketModel() {
 }
 
 function changeLunarModel() {
+    //StarWars rocket, have a distinct bot, so the ground will be changed for a nice aspect in the game
+    if (configuration.rocketModel === 1){
+        $(".d")[0].style.height = 14.5 + "%";
+    } else {
+        $(".d")[0].style.height = 10 + "%";
+    }
     $(".d > img").attr("src", imgMoon[configuration.moonModel]);
 }
 function showToast(head, text, icon, bgColor) {

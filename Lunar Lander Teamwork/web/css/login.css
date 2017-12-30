@@ -37,7 +37,8 @@ input {
     color: white;
     font-size: 5vw;
     display:table-cell;
-    vertical-align:middle}
+    vertical-align:middle
+}
 
 label:not(.divCheckBox) {
     color: white;

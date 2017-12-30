@@ -118,7 +118,7 @@ function signUpUser() {
             if (e["responseJSON"] === undefined)
                 showToast("UNKNOWN ERROR", "Try it later", "error", "#D43721");
             else
-                showToast(e["responseJSON"]["error"], "Is your email correct?", "error", "#D43721");
+                showToast(e["responseJSON"]["error"], "Whoops!", "error", "#D43721");
         }
     });
 }
