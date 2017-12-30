@@ -211,9 +211,8 @@ $(document).ready(function () {
         }
     });
     //ON/OFF motor on key click
-    $(document).keydown(function () {
-        checkKeyPressed();
-        //rocket.motorON();
+    $(document).keydown(function (e) {
+        checkKeyPressed(e);
     });
     $(document).keyup(function () {
         rocket.motorOFF();
@@ -613,6 +612,8 @@ function saveNewConfiguration() {
             configurations = [];
             $("#sel_configurations").empty();
             loadConfigurations();
+            //And clear the field name of the config
+            $("#inp_confName").val("");
         },
         error: function (e) {
             if (e["responseJSON"] === undefined) {
@@ -691,7 +692,7 @@ function calculateScore(fuel, speed, dif) {
     return ((10 - speed) * (100 - maxFuelLevel + fuel) * (dif + 1)).toFixed(2);
 }
 
-function checkKeyPressed() {
+function checkKeyPressed(event) {
     if (!someModalOpened) {
         var key = event.which || event.keyCode;
         switch (key) {

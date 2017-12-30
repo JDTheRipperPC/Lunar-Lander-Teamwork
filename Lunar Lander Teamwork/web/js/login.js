@@ -21,14 +21,12 @@ $(document).ready(function () {
 
     //Change to register mode
     $("#log_btnSignUp").click(function () {
-        $("#reg_div").fadeIn(700);
-        $("#log_div").fadeOut(700);
+        goToRegister();
     });
 
     //Change to login mode
     $("#reg_btnGoBack").click(function () {
-        $("#reg_div").fadeOut(700);
-        $("#log_div").fadeIn(700);
+        goToLogin();
     });
 
     //Event that detects the inputs of the field "repeat password" and checked it
@@ -113,6 +111,8 @@ function signUpUser() {
         data: {userName: u, name: n, password: p, email: e},
         success: function (rsp) {
             showToast("Successfull", rsp["mess"], "success", "#36B62D");
+            clearSignUpFields();
+            goToLogin()
         },
         error: function (e) {
             if (e["responseJSON"] === undefined)
@@ -158,6 +158,24 @@ function loadStorage() {
     } else {
         showToast("Welcome to Lunar Lander", "No user data found", "info", "#5868D0");
     }
+}
+
+function clearSignUpFields() {
+    $("#reg_inpUserName").val("");
+    $("#reg_inpName").val("");
+    $("#reg_inpPass").val("");
+    $("#reg_inpPass2").val("");
+    $("#reg_inpEmail").val("");
+}
+
+function goToRegister() {
+    $("#reg_div").fadeIn(700);
+    $("#log_div").fadeOut(700);
+}
+
+function goToLogin() {
+    $("#reg_div").fadeOut(700);
+    $("#log_div").fadeIn(700);
 }
 
 /**
