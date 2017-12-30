@@ -725,7 +725,7 @@ function changeLunarModel() {
     if (configuration.rocketModel === 1){
         $(".d")[0].style.height = 14.5 + "%";
     } else {
-        $(".d")[0].style.height = 10 + "%";
+        $(".d")[0].style.height = 10.5 + "%";
     }
     $(".d > img").attr("src", imgMoon[configuration.moonModel]);
 }
