@@ -431,7 +431,7 @@ function loadRanking() {
                         clas = "default";
 
                 }
-                var row = "<tr class="+clas+"><td>" + (i + 1) + "</td><td>" + name + "</td><td>" + (games) + "</td></tr>";
+                var row = "<tr class=" + clas + "><td>" + (i + 1) + "</td><td>" + name + "</td><td>" + (games) + "</td></tr>";
                 $("#table_ranking > tbody").append(row);
             });
         },
@@ -490,7 +490,7 @@ function loadScores() {
                         dif = "Easy";
                         break;
                     case 1:
-                        dif = "Medium"
+                        dif = "Medium";
                         break;
                     case 2:
                         dif = "Hard";
@@ -723,7 +723,7 @@ function changeRocketModel() {
 
 function changeLunarModel() {
     //StarWars rocket, have a distinct bot, so the ground will be changed for a nice aspect in the game
-    if (configuration.rocketModel === 1){
+    if (configuration.rocketModel === 1) {
         $(".d")[0].style.height = 14.5 + "%";
     } else {
         $(".d")[0].style.height = 10.5 + "%";
