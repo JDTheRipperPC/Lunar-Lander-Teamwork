@@ -5,6 +5,7 @@ var gravity = 1.622;
 var dt = 0.016683;
 var timer = null;
 var timerFuel = null;
+var timerBG = null;
 var paused = true;
 var ended = false;
 var heightGame = 70;
@@ -12,7 +13,8 @@ var maxSpeedImpact = 5;
 var imgRocketOFF = ["img/rocket1OFF.png", "img/rocket2OFF.png"];
 var imgRocketON = ["img/rocket1ON.png", "img/rocket2ON.png"];
 var imgRocketBreak = ["img/rocket1Break.gif", "img/rocket2Break.gif"];
-var imgMoon = ["img/moon1.png", "img/moon3.png", "img/moon5.png"];
+var imgMoon = ["img/moon1.png", "img/moon2.png", "img/moon3.png"];
+var imgSpace = ["img/space1.jpg", "img/space2.jpg", "img/space3.jpg", "img/space4.jpg"];
 var configurations = [];
 var maxFuelLevel = 100;
 var userName;
@@ -70,7 +72,8 @@ var configuration = {
 $(document).ready(function () {
 
     //CHECK LOCAL STORAGE FOR CHEATERS
-    checkStorage();
+    checkStorage();    
+    loadChangingBackground();
     loadConfigurations();
 
     //EVENTS RELATED WITH THE MODAL:
@@ -300,6 +303,7 @@ function restart() {
     doPause();
     updateFuel();
     changeRocketModel();
+    loadChangingBackground();
 }
 
 function moveRocket() {
@@ -581,7 +585,7 @@ function loadConfigurations() {
                 configurations.push(new ConfigurationClass(id, n, d, r, m));
                 $('#sel_configurations').append($('<option>', {
                     value: n,
-                    text: n + " ---- (" + d + " / " + r + " / " + m + ")"
+                    text: parseSelectConfigName(n, d, r ,m)
                 }));
             });
         },
@@ -729,6 +733,53 @@ function changeLunarModel() {
         $(".d")[0].style.height = 10.5 + "%";
     }
     $(".d > img").attr("src", imgMoon[configuration.moonModel]);
+}
+
+function loadChangingBackground(){
+    var i = new Date().getMinutes() % imgSpace.length;
+    $('body').css("background-image", "url("+imgSpace[i]+"");  
+}
+
+/**
+ * Parse the number information to a String text
+ * @param {type} n Name of the configuration
+ * @param {type} d Difficulty
+ * @param {type} r Rocket model
+ * @param {type} m Moon Model
+ * @returns {undefined} String with the text
+ */
+function parseSelectConfigName(n, d, r, m) {
+    switch (d) {
+        case 0:
+            d = "Easy";
+            break;
+        case 1:
+            d = "Medium";
+            break;
+        case 2:
+            d = "Hard";
+            break;
+    }
+    switch (r) {
+        case 0:
+            r = "Standar";
+            break;
+        case 1:
+            r = "StarWars";
+            break;
+    }
+    switch (m) {
+        case 0:
+            m = "Fire";
+            break;
+        case 1:
+            m = "Water";
+            break;
+        case 2:
+            m = "Earth";
+            break;
+    }
+    return (n+" ---- ("+d+" / "+r+" / "+m+")");
 }
 function showToast(head, text, icon, bgColor) {
     $.toast({

@@ -8,7 +8,13 @@ body,html {
     font-family: 'Orbitron', sans-serif;
 }
 body {
-    background: url(../img/space.jpg) no-repeat center center fixed;
+    background: url(../img/space2.jpg) fixed;
+    background-repeat:no-repeat;
+    -webkit-background-size:cover;
+    -moz-background-size:cover;
+    -o-background-size:cover;
+    background-size:cover;
+    background-position:center;
 }
 
 .modal h3{
@@ -270,7 +276,7 @@ VERTICAL
         height: 75%;
         top: 12.5%;
         opacity: 0.3;
-        
+
     }
 
     #cpanel li p {
