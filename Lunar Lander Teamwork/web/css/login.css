@@ -16,7 +16,13 @@ html, body {
 }
 
 body {
-    background: url(../img/space.jpg) no-repeat center center fixed;
+    background: url(../img/space2.jpg) fixed;
+    background-repeat:no-repeat;
+    -webkit-background-size:cover;
+    -moz-background-size:cover;
+    -o-background-size:cover;
+    background-size:cover;
+    background-position:center;
     font-family: 'Orbitron', sans-serif;
 }
 
@@ -37,7 +43,8 @@ input {
     color: white;
     font-size: 5vw;
     display:table-cell;
-    vertical-align:middle}
+    vertical-align:middle
+}
 
 label:not(.divCheckBox) {
     color: white;
@@ -51,7 +58,7 @@ label:not(.divCheckBox) {
     height: 100%;
     width: 550px;
     left:0;
-    background-color: rgba(50, 70, 151, 0.5);  /* blue with opacity */
+    background-color: rgba(0, 25, 51, 0.70);
     border-right: 3px solid white;
 }
 
@@ -77,6 +84,7 @@ button{
     padding: 2vh !important;
     margin: 3%;
     width: 40%;
+    font-weight: bold !important;
 }
 
 .divCheckBox {
