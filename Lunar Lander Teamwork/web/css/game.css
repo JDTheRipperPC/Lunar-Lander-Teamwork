@@ -250,7 +250,7 @@ ul:not(.inst){
 /************************************************
 VERTICAL
 *************************************************/
-@media screen and (max-width: 768px){
+@media screen and (max-width: 767.5px){
     #menu {
         height: 100%;
     }
@@ -258,7 +258,7 @@ VERTICAL
         float: none;
         margin: 15px;
         padding: 0;
-        width: 100px;
+        width: 75px;
     }
     #menu li img:hover{
         transform: scale(1.1);
@@ -286,5 +286,15 @@ VERTICAL
         padding-left:0;
         display: table-cell;
         vertical-align: middle;
+    }
+
+    .butonsConfig button{
+        font-size: 3.5vw;
+        width: 28% !important;
+    }
+    
+    .butonsSaveConfig button{
+        font-size: 3.7vw;
+        width: 33% !important;
     }
 }

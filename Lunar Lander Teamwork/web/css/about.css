@@ -45,6 +45,9 @@ body {
     -o-background-size:cover;
     background-size:cover;
     background-position:center;
+    /*This tries to avoid the white bar at scolling down with chrome at mobile*/
+    min-height:100%;
+    height:auto;
 }
 
 h1 {
@@ -53,7 +56,7 @@ h1 {
     font-family: 'Orbitron', sans-serif;
 }
 
-h3 {
+.tyTo {
     text-align: justify;
     color: white;
     font-size: 1em;
