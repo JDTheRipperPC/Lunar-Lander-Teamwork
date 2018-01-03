@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <title>Lunar Lander</title>
-        <meta name="description" content="">
+        <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="css/game.css" />
         <meta name="description" content="Welcome to Lunar Lander! So Traveler, enjoy this game!">
@@ -78,7 +78,7 @@
                                 </form>
                             </div>
                         </div>
-                        <div id="set_scores">
+                        <div id="set_scores" class="table-responsive">
                             <table class="table table-hover" id="table_scores">
                                 <thead>
                                     <tr>
@@ -120,30 +120,33 @@
                             </table>
                         </div>
                         <div id="set_instructions">
-                            <p>Welcome traveler! Your mission here is to land the rocket on the planet without cause a disaster..</p>
-                            <span>HOW TO PLAY</span>
+                            <p class="text-justify">Welcome traveler! Your mission here is to land the rocket on the planet without cause a disaster..</p>
+                            <strong>HOW TO PLAY</strong>
                             <ul class="inst">
-                                <li><span>Move</span> -> Use the SPACE or click the screen to activate the propulsor</li>
-                                <li><span>Land</span> -> Land to the planet at with less taht 5 m/s to survive the collision</li>
+                                <li><strong>PROPULSION</strong> -> <kbd>SPACE</kbd> or press the <kbd>SCREEN</kbd></li>
+                                <li><strong>RESTART</strong> -> <kbd>R</kbd></li>
+                                <li><strong>PAUSE / PLAY</strong> -> <kbd>P</kbd></li>
                             </ul>
+                            <p class="text-justify"><strong>Land</strong> to the planet at with less that <strong>5 m/s</strong> to survive the collision</p>
                             <br>
-                            <p>There are 3 things that you can change for cutom your experience, like:</p>
+                            <strong>CUSTOM YOUR EXPERIENCE</strong>
                             <ul class="inst">
-                                <li><span>Difficulty</span> -> It will change the amount of fuel to complete the game</li>
-                                <li><span>Rocket model</span> -> Changes the rocket that you want to use</li>
-                                <li><span>Planet model</span> -> Changes the planet where you have to land</li>
+                                <li><strong>Difficulty</strong> -> It will change the amount of fuel to complete the game</li>
+                                <li><strong>Rocket model</strong> -> Changes the rocket to use</li>
+                                <li><strong>Planet model</strong> -> Changes the planet to land</li>
                             </ul>
+                            <p>The game will change the background every minute, if a new game is started</p>
                         </div>
                         <div id="set_about">
                             <h4>Thanks for playing and supporting us!</h4>
                             <br>
-                            <p>People like you make this world better!
+                            <p class="text-justify">People like you make this world better!
                                 <br>
                                 <br>
                                 We are greateful of all of you, and we want to dedicate this section to mention all
                                 the thinks and persons that made this possible, so...
                                 If you are interested to know more things about this, just 
-                                <a href="./about.html" target="_blank">click here</a>
+                                <a href="./about.html" target="_blank">CLICK HERE</a>
                             </p>
                         </div>
                     </div>
@@ -171,7 +174,7 @@
             </div>
         </div>
         <!-- Modal ask exit-->
-        <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="modal_Exit">
+        <div class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="true" id="modal_Exit">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -182,7 +185,7 @@
                     </div>
                     <div class="modal-footer">
                         <button id="btn_acceptExit" type="button" class="btn btn-danger">Yes</button>
-                        <button type="button" data-dismiss="modal" class="btn btn-primary">No</button>
+                        <button id="btn_cancelExit" type="button" data-dismiss="modal" class="btn btn-primary">No</button>
                     </div>
                 </div>
             </div>
@@ -206,23 +209,10 @@
             </div>
         </div>
 
+        <!-- GAME CONTENT -->
         <div id="rocket">
             <img src="img/rocket1OFF.png" alt="img rocket">
         </div>
-        <div class="a">
-            <div id="showm">show menu</div>
-        </div>
-        <div class="b"></div>
-        <div class="c">
-            <div id="hidem">hide menu</div>
-            <ul id="menu">
-                <li id="btn_playPause"><img src="img/pause.png" alt="Play Pause Button"></li>
-                <li class="paused" id="btn_restart"><img src="img/restart.png" alt="Restart Button"></li>
-                <li class="paused" id="btn_settings"><img src="img/settings.png" alt="Settings Button"></li>
-                <li class="paused" id="btn_logout"><img src="img/logout.png" alt="Logout Button"></li>
-            </ul>
-        </div>
-        <div class="d text-center"><img src="img/moon1.png" alt="Moon img" id="moon"></div>
         <ul id="cpanel">
             <li id="liFuel">
                 <div id="divFuel">
@@ -235,5 +225,17 @@
             <li><div><img src="img/speed.png" alt="Speed Icon" ><p class="text-center"><span id="speed">100</span> m/s</p></div></li>
             <li><div><img src="img/height.png" alt="Height Icon" ><p class="text-center"><span id="height">70</span> m</p></div></li>
         </ul>
+        <ul id="menu">
+            <li id="btn_playPause"><img src="img/pause.png" alt="Play Pause Button"></li>
+            <li class="paused" id="btn_restart"><img src="img/restart.png" alt="Restart Button"></li>
+            <li class="paused" id="btn_settings"><img src="img/settings.png" alt="Settings Button"></li>
+            <li class="paused" id="btn_logout"><img src="img/logout.png" alt="Logout Button"></li>
+        </ul>
+        <div class="d text-center"><img src="img/moon1.png" alt="Moon img" id="moon"></div>
+        <div id="divGamePaused">
+            <div id="containerGamePaused">
+            <h1>PAUSE</h1>
+            </div>
+        </div>
     </body>
 </html>
