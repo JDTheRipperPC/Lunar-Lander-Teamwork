@@ -42,7 +42,7 @@ var rocket = {
     restart: function () {
         this.height = 10;
         this.speed = 0;
-        this.aceleration = -gravity;
+        this.aceleration = gravity;
         this.fuel = maxFuelLevel;
     }
 };
@@ -206,13 +206,17 @@ $(document).ready(function () {
 
     /*--------- EVENTS TO PLAY THE GAME ---------*/
     //ON/OFF motor on screen click
-    $(document).click(function () {
-        if (rocket.aceleration === gravity) {
-            rocket.motorON();
-        } else {
-            rocket.motorOFF();
-        }
-    });
+    /*$(document).click(function () {
+     if (rocket.aceleration === gravity) {
+     rocket.motorON();
+     } else {
+     rocket.motorOFF();
+     }
+     });
+     */
+    document.body.addEventListener("touchstart", motorOn(), false);
+    document.body.addEventListener("touchend", motorOff(), false);
+
     //ON/OFF motor on key click
     $(document).keydown(function (e) {
         checkKeyPressed(e);
