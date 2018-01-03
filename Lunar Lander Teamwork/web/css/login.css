@@ -73,6 +73,11 @@ input:not(.divCheckBox){
     display: none;
 }
 
+form {
+    position: relative;
+    height: 100%;
+}
+
 .divButtons {
     width: 550px;
     left: 0;
@@ -100,7 +105,7 @@ button{
 /************************************************
 VERTICAL
 *************************************************/
-@media screen and (max-width: 750px){
+@media screen and (max-width: 767.5px){
 
     #titleBack {
         position: absolute;
@@ -109,7 +114,11 @@ VERTICAL
         height: 100%; 
         text-align:center; 
         display:table;
-        opacity: 0.2;
+        opacity: 0.7;
+    }
+
+    #titleBack h1 {
+        font-size: 10vw;
     }
 
 
@@ -118,7 +127,7 @@ VERTICAL
         height: 100%;
         width: 100%;
         left:0;
-        background-color: rgba(50, 70, 151, 0.5);  /* blue with opacity */
+        background-color: rgba(0, 25, 51, 0.6);
         border-right: 0px solid;
     }
 
@@ -127,6 +136,15 @@ VERTICAL
         position: absolute;
         left: 0;
         bottom: 2vw;
+    }
+
+    .buttons2 {
+        margin-top: 15vh;
+        position: relative;
+    }
+
+    label:not(.divCheckBox) {
+        font-size: 8vw;
     }
 
 }
