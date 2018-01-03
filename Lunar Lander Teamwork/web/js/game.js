@@ -214,8 +214,11 @@ $(document).ready(function () {
      }
      });
      */
-    document.body.addEventListener("touchstart", motorOn(), false);
-    document.body.addEventListener("touchend", motorOff(), false);
+    window.addEventListener('load', function(){
+        
+    });
+    document.body.addEventListener("touchstart", motorOn, false);
+    document.body.addEventListener("touchend", motorOff, false);
 
     //ON/OFF motor on key click
     $(document).keydown(function (e) {
