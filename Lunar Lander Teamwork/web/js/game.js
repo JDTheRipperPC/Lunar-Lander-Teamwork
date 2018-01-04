@@ -42,7 +42,7 @@ var rocket = {
     restart: function () {
         this.height = 10;
         this.speed = 0;
-        this.aceleration = -gravity;
+        this.aceleration = gravity;
         this.fuel = maxFuelLevel;
     }
 };
@@ -72,7 +72,7 @@ var configuration = {
 $(document).ready(function () {
 
     //CHECK LOCAL STORAGE FOR CHEATERS
-    checkStorage();    
+    checkStorage();
     loadChangingBackground();
     loadConfigurations();
 
@@ -206,13 +206,20 @@ $(document).ready(function () {
 
     /*--------- EVENTS TO PLAY THE GAME ---------*/
     //ON/OFF motor on screen click
-    $(document).click(function () {
-        if (rocket.aceleration === gravity) {
-            rocket.motorON();
-        } else {
-            rocket.motorOFF();
-        }
+    /*$(document).click(function () {
+     if (rocket.aceleration === gravity) {
+     rocket.motorON();
+     } else {
+     rocket.motorOFF();
+     }
+     });
+     */
+    window.addEventListener('load', function(){
+        
     });
+    document.body.addEventListener("touchstart", motorOn, false);
+    document.body.addEventListener("touchend", motorOff, false);
+
     //ON/OFF motor on key click
     $(document).keydown(function (e) {
         checkKeyPressed(e);
@@ -332,6 +339,7 @@ function moveRocket() {
                 if (rocket.speed < maxSpeedImpact) {
                     finishScore();
                     showModalEnd("WELL DONE!", "You are amazing, good job!", calculateScore(rocket.fuel, rocket.speed, configuration.difficulty));
+
                 } else {
                     showModalEnd("MISSION FAILED", "Ohh, it hurts! Remember that the maximum impact speed is 5m/s!", 0);
                     //Change img of the rocket
@@ -585,7 +593,7 @@ function loadConfigurations() {
                 configurations.push(new ConfigurationClass(id, n, d, r, m));
                 $('#sel_configurations').append($('<option>', {
                     value: n,
-                    text: parseSelectConfigName(n, d, r ,m)
+                    text: parseSelectConfigName(n, d, r, m)
                 }));
             });
         },
@@ -735,9 +743,9 @@ function changeLunarModel() {
     $(".d > img").attr("src", imgMoon[configuration.moonModel]);
 }
 
-function loadChangingBackground(){
+function loadChangingBackground() {
     var i = new Date().getMinutes() % imgSpace.length;
-    $('body').css("background-image", "url("+imgSpace[i]+"");  
+    $('body').css("background-image", "url(" + imgSpace[i] + "");
 }
 
 /**
@@ -779,7 +787,7 @@ function parseSelectConfigName(n, d, r, m) {
             m = "Earth";
             break;
     }
-    return (n+" ---- ("+d+" / "+r+" / "+m+")");
+    return (n + " ---- (" + d + " / " + r + " / " + m + ")");
 }
 function showToast(head, text, icon, bgColor) {
     $.toast({
