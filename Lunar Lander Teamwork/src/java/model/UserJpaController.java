@@ -282,7 +282,9 @@ public class UserJpaController implements Serializable {
     }
 
     /**
-     * Obtain the users that of its last game without having spent more than 5 minutes.
+     * Obtain the users that of its last game without having spent more than 2
+     * minutes.
+     *
      * @return List of users.
      */
     public List<User> getUsersEndTime() {
@@ -297,7 +299,9 @@ public class UserJpaController implements Serializable {
                 for (Configuration conf : user.getConfigurationList()) {
                     for (Score score : conf.getScoreList()) {
                         if (score.getInittime().after(now)) {
-                            users.add(user);
+                            if (!users.contains(user)) {
+                                users.add(user);
+                            }
                         }
                     }
                 }
