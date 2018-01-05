@@ -1,5 +1,3 @@
-/*VARIABLES*/
-
 //GAME
 var gravity = 1.622;
 var dt = 0.016683;
@@ -191,6 +189,10 @@ $(document).ready(function () {
         $("#modal_Settings").modal("show");
         someModalOpened = true;
     });
+    
+    $("#btn_goToSettings").click(function (){
+        $("#modal_Settings").modal("show");
+    });
 
     $("#btn_logout").click(function () {
         $("#modal_Exit").modal("show");
@@ -214,8 +216,8 @@ $(document).ready(function () {
      }
      });
      */
-    window.addEventListener('load', function(){
-        
+    window.addEventListener('load', function () {
+
     });
     document.body.addEventListener("touchstart", motorOn, false);
     document.body.addEventListener("touchend", motorOff, false);
@@ -326,6 +328,7 @@ function moveRocket() {
         if ((rocket.height < heightGame) && (rocket.height > 0)) {
             $("#rocket")[0].style.top = rocket.height + "%";
         } else {
+            rocket.motorOFF();
             //Game ended, save the score
             doPause();
             ended = true;
