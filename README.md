@@ -10,6 +10,10 @@ Project base: https://github.com/urbinapro/lunar-landing-javascript by [urbinapr
 
 PLAY OUR GAME [HERE](http://35.205.210.196/Lunar%5FLander%5FTeamwork/) FOR FREE
 
+Read the documentation [here](https://github.com/JDTheRipperPC/Lunar-Lander-Teamwork/blob/master/Doc.%20descripci%C3%B3n%20de%20la%20aplicaci%C3%B3n.pdf).
+
+Read the technical documentation [here](https://github.com/JDTheRipperPC/Lunar-Lander-Teamwork/blob/master/Doc.%20informaci%C3%B3n%20t%C3%A9cnica%20de%20la%20aplicaci%C3%B3n.pdf).
+
 ## Description
 
 Lunar Lander web project using html/css and javascript on frontend side and java on backend side.
@@ -39,6 +43,8 @@ Optional ideas:
 </ul>
 
 ## Changelog
+
+Read the [complete changelog](https://github.com/JDTheRipperPC/Lunar-Lander-Teamwork/blob/master/Doc.%20changelog.pdf).
 
 v0 - The repository has been created forked from the project base 
      [lunar landing javascript](https://github.com/urbinapro/lunar-landing-javascript)
