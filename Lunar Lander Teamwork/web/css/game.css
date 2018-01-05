@@ -35,6 +35,10 @@ body {
     background: whitesmoke !important;
 }
 
+nav-tabs li a {
+    width: 12px !important;
+}
+
 #set_scores, #set_players, #set_instructions, #set_about, #set_ranking{
     display: none;
 }
@@ -72,11 +76,10 @@ a {
     height: 10%;
     width:100%;
     bottom:0;
-}
-
-#moon {
-    height: 100%;
-    width: 100%;
+    background-image: url(../img/moon1.png);
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position:center 0%;
 }
 
 #rocket{
@@ -292,7 +295,7 @@ VERTICAL
         font-size: 3.5vw;
         width: 28% !important;
     }
-    
+
     .butonsSaveConfig button{
         font-size: 3.7vw;
         width: 33% !important;
