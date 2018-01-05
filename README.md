@@ -8,6 +8,8 @@ Project base: https://github.com/urbinapro/lunar-landing-javascript by [urbinapr
 
 <strong>JDTheRipperPC - version control</strong>
 
+PLAY OUR GAME [HERE](http://35.205.210.196/Lunar%5FLander%5FTeamwork/) FOR FREE
+
 ## Description
 
 Lunar Lander web project using html/css and javascript on frontend side and java on backend side.
@@ -47,3 +49,13 @@ v1 - Data base definition and JPA entities with controllers created
 v2 - Has been created the sign up process and works correctly
 
 v3 - Has been created the login process and works correctly
+
+v4 - The game has been refactored. New javascript, html and css
+
+v5 - Added configuration options: load, new and delete
+
+v6 - Added scores when the game end, the user can see their scores on the settings window
+
+v7 - Online players list and Top 10 players list has been added on the settings window
+
+v8 - Lasts updates on the project: new images, html/css fixed, bugs fixed and some bit improvement.
