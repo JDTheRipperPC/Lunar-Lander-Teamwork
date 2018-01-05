@@ -392,18 +392,18 @@ function updateFuel() {
 function doPause() {
     if (!paused && !ended) {
         //Visual fadeIn on cascade
-        $("#btn_restart").fadeIn(100);
-        $("#btn_settings").fadeIn(400);
-        $("#btn_logout").fadeIn(800);
+        $("#btn_restart").stop().fadeIn(100);
+        $("#btn_settings").stop().fadeIn(400);
+        $("#btn_logout").stop().fadeIn(800);
         $("#btn_playPause > img").attr("src", "img/play.png");
-        $("#divGamePaused").fadeIn(300);
+        $("#divGamePaused").stop().fadeIn(300);
     } else {
         //Visual fadeOut on cascade
-        $("#btn_restart").fadeOut(800);
-        $("#btn_settings").fadeOut(400);
-        $("#btn_logout").fadeOut(100);
+        $("#btn_restart").stop().fadeOut(800);
+        $("#btn_settings").stop().fadeOut(400);
+        $("#btn_logout").stop().fadeOut(100);
         $("#btn_playPause > img").attr("src", "img/pause.png");
-        $("#divGamePaused").fadeOut(300);
+        $("#divGamePaused").stop().fadeOut(300);
     }
     paused = !paused;
 }
@@ -739,11 +739,11 @@ function changeRocketModel() {
 function changeLunarModel() {
     //StarWars rocket, have a distinct bot, so the ground will be changed for a nice aspect in the game
     if (configuration.rocketModel === 1) {
-        $(".d")[0].style.height = 14.5 + "%";
+        $(".d")[0].style.height = 14 + "%";
     } else {
         $(".d")[0].style.height = 10.5 + "%";
     }
-    $(".d > img").attr("src", imgMoon[configuration.moonModel]);
+    $(".d").css("background-image", "url(" + imgMoon[configuration.moonModel] + "");
 }
 
 function loadChangingBackground() {
