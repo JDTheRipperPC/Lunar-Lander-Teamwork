@@ -10,6 +10,13 @@ Project base: https://github.com/urbinapro/lunar-landing-javascript by [urbinapr
 
 PLAY OUR GAME [HERE](http://35.205.210.196/Lunar%5FLander%5FTeamwork/) FOR FREE
 
+```diff
+- ******************************************************
+- ATTENTION - IMPORTANT
+- ******************************************************
+```
+At 06:08AM of 06/01/2018 we received an email of Google. Our application has been suspended of the paas. Google wrote us that they suspended our application because of "cryptocurrency mining". We are trying to solve this problem, may be someone is using the server for that reason. Sorry for that, will be fixed soon!
+
 Read the documentation [here](https://github.com/JDTheRipperPC/Lunar-Lander-Teamwork/blob/master/Doc.%20descripci%C3%B3n%20de%20la%20aplicaci%C3%B3n.pdf).
 
 Read the technical documentation [here](https://github.com/JDTheRipperPC/Lunar-Lander-Teamwork/blob/master/Doc.%20informaci%C3%B3n%20t%C3%A9cnica%20de%20la%20aplicaci%C3%B3n.pdf).
