@@ -2,11 +2,11 @@
 
 Project base: https://github.com/urbinapro/lunar-landing-javascript by [urbinapro](https://github.com/urbinapro)
 
-<strong>arsg93 - backend</strong>
+<strong>arsg93 - backend - Andrés Rodríguez González</strong>
 
-<strong>SOSandreu1095 - frontend</strong>
+<strong>SOSandreu1095 - frontend - Andreu Juan Ferrá</strong>
 
-<strong>JDTheRipperPC - version control</strong>
+<strong>JDTheRipperPC - version control - Jose David Pérez Cañellas</strong>
 
 PLAY OUR GAME [HERE](http://35.202.24.9/Lunar_Lander_Teamwork/) FOR FREE
 
