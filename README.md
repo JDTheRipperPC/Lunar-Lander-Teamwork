@@ -8,8 +8,6 @@ Project base: https://github.com/urbinapro/lunar-landing-javascript by [urbinapr
 
 <strong>JDTheRipperPC - version control - Jose David Pérez Cañellas</strong>
 
-PLAY OUR GAME [HERE](http://35.205.133.159/Lunar_Lander_Teamwork/) FOR FREE
-
 Read the documentation [here](https://github.com/JDTheRipperPC/Lunar-Lander-Teamwork/blob/master/Doc.%20descripci%C3%B3n%20de%20la%20aplicaci%C3%B3n.pdf).
 
 Read the technical documentation [here](https://github.com/JDTheRipperPC/Lunar-Lander-Teamwork/blob/master/Doc.%20informaci%C3%B3n%20t%C3%A9cnica%20de%20la%20aplicaci%C3%B3n.pdf).
